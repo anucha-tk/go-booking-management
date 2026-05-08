@@ -1,21 +1,20 @@
-# Binaries
-bin/
+# Binaries for programs and plugins
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
 
-# Test binaries
+# Test binary, built with "go test -c"
 *.test
 
-# Output of the go coverage tool
+# Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-# Dependency directories
-vendor/
+# Dependency directories (remove the comment below to include it)
+# vendor/
 
-# Go workspace
+# Go workspace file
 go.work
 go.work.sum
 
@@ -24,9 +23,17 @@ _bmad/config.user.toml
 _bmad/custom/config.user.toml
 _bmad-output/
 
-# IDEs
-.idea/
-.vscode/
+# IDE specific files
+.vscode
+.idea
 
-# OS
+# .env file
+.env
+
+# Project build
+main
+*templ.go
+
+# OS X generated file
 .DS_Store
+
