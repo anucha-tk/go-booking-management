@@ -12,4 +12,4 @@ pre-commit:
 commit-msg:
   commands:
     "conventional-commits":
-      run: npx --yes commitlint --edit {1}
+      run: npx --yes --package @commitlint/cli --package @commitlint/config-conventional commitlint --edit {1}
