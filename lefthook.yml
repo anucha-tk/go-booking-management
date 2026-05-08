@@ -1,0 +1,15 @@
+# Lefthook configuration
+# https://github.com/evilmartians/lefthook
+
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      run: task lint
+    test:
+      run: task test
+
+commit-msg:
+  commands:
+    "conventional-commits":
+      run: npx --yes commitlint --edit {1}

@@ -1,0 +1,84 @@
+version: '3'
+
+tasks:
+  default:
+    desc: Build and test the application
+    deps: [build, test]
+
+  build:
+    desc: Build the binary
+    cmds:
+      - echo "Building..."
+      - go build -o main cmd/api/main.go
+
+  run:
+    env:
+      GIN_MODE: release
+    desc: Run the application
+    cmds:
+      - go run cmd/api/main.go
+
+  docker:up:
+    desc: Start DB container in background
+    cmds:
+      - docker compose up -d --build
+
+  docker:down:
+    desc: Shutdown and remove DB container
+    cmds:
+      - docker compose down
+
+  docker:stop:
+    desc: Stop DB container
+    cmds:
+      - docker compose stop
+
+  docker:restart:
+    desc: Restart DB container
+    cmds:
+      - docker compose restart
+
+  test:
+    desc: Run unit tests
+    cmds:
+      - echo "Testing..."
+      - go test ./... -v
+
+  itest:
+    desc: Run integration tests
+    cmds:
+      - echo "Running integration tests..."
+      - go test ./internal/database -v
+
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - echo "Cleaning..."
+      - rm -f main
+
+  watch:
+    env:
+      GIN_MODE: release
+    desc: Live reload with air
+    cmds:
+      - air
+
+  lint:
+    desc: Run golangci-lint
+    cmds:
+      - golangci-lint run ./...
+
+  sqlc:generate:
+    desc: Generate Go code from SQL
+    cmds:
+      - sqlc generate
+
+  swagger:install:
+    desc: Install swag CLI
+    cmds:
+      - go install github.com/swaggo/swag/cmd/swag@latest
+
+  swagger:generate:
+    desc: Generate OpenAPI documentation
+    cmds:
+      - swag init -g cmd/api/main.go -o api
