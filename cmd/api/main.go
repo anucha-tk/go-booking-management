@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	adapterHttp "go-booking-management-init/internal/adapter/http"
 	"go-booking-management-init/internal/server"
 	"go-booking-management-init/pkg/api"
 	"go-booking-management-init/pkg/logger"
@@ -42,20 +43,46 @@ func gracefulShutdown(apiServer *http.Server, done chan bool) {
 }
 
 func main() {
+	listRoutes := false
+	exportPath := ""
+	for i, arg := range os.Args {
+		if arg == "--list-routes" {
+			listRoutes = true
+		}
+		if arg == "--export-routes" && i+1 < len(os.Args) {
+			exportPath = os.Args[i+1]
+		}
+	}
 
 	logger.Init(os.Getenv("APP_ENV"))
 	api.InitValidator()
-	slog.Info("Starting server", "port", os.Getenv("PORT"), "env", os.Getenv("APP_ENV"))
 
-	server := server.NewServer()
+	httpServer, router := server.NewServer()
+
+	if listRoutes {
+		adapterHttp.InspectRoutes(router.Engine().Routes(), "")
+		os.Exit(0)
+	}
+
+	if exportPath != "" {
+		err := adapterHttp.ExportRoutes(router.Engine().Routes(), exportPath)
+		if err != nil {
+			slog.Error("failed to export routes", "error", err)
+			os.Exit(1)
+		}
+		fmt.Printf("✅ Routes exported to %s\n", exportPath)
+		os.Exit(0)
+	}
+
+	slog.Info("Starting server", "port", os.Getenv("PORT"), "env", os.Getenv("APP_ENV"))
 
 	// Create a done channel to signal when the shutdown is complete
 	done := make(chan bool, 1)
 
 	// Run graceful shutdown in a separate goroutine
-	go gracefulShutdown(server, done)
+	go gracefulShutdown(httpServer, done)
 
-	err := server.ListenAndServe()
+	err := httpServer.ListenAndServe()
 	if err != nil && err != http.ErrServerClosed {
 		panic(fmt.Sprintf("http server error: %s", err))
 	}

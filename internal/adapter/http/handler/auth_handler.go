@@ -18,7 +18,20 @@ func NewAuthHandler(authService auth.Service) *AuthHandler {
 	}
 }
 
+// Register godoc
+// @Summary Register a new user
+// @Description create a new user account with email, password, and role
+// @Tags auth
+// @Accept  json
+// @Produce  json
+// @Param   request body dto.RegisterRequest true "Registration details"
+// @Success 201 {object} api.Response{data=dto.RegisterResponse}
+// @Failure 400 {object} api.Response
+// @Failure 409 {object} api.Response
+// @Failure 500 {object} api.Response
+// @Router /v1/auth/register [post]
 func (h *AuthHandler) Register(c *gin.Context) {
+
 	var req dto.RegisterRequest
 	if !api.BindAndValidate(c, &req) {
 		return

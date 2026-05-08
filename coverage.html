@@ -168,7 +168,7 @@ p {
 	<body>
 		<div id="doctitle">Coverage Report</div>
         
-        <div id="about">Generated on Fri, 08 May 2026 15:41:51 +07 with <a href="https://github.com/matm/gocov-html">gocov-html</a></div>
+        <div id="about">Generated on Fri, 08 May 2026 16:11:44 +07 with <a href="https://github.com/matm/gocov-html">gocov-html</a></div>
         
         
         <div class="funcname">Report Overview</div>
@@ -183,7 +183,7 @@ p {
             <tr id="s_pkg_go-booking-management-init/cmd/api">
                 <td><code><a href="#pkg_go-booking-management-init/cmd/api">go-booking-management-init/cmd/api</a></code></td>
                 <td class="percent"><code>0.0%</code></td>
-                <td class="linecount"><code>0/21</code></td>
+                <td class="linecount"><code>0/22</code></td>
             </tr>
             
             <tr id="s_pkg_go-booking-management-init/internal/adapter/http">
@@ -194,8 +194,8 @@ p {
             
             <tr id="s_pkg_go-booking-management-init/internal/adapter/http/handler">
                 <td><code><a href="#pkg_go-booking-management-init/internal/adapter/http/handler">go-booking-management-init/internal/adapter/http/handler</a></code></td>
-                <td class="percent"><code>26.1%</code></td>
-                <td class="linecount"><code>6/23</code></td>
+                <td class="percent"><code>21.9%</code></td>
+                <td class="linecount"><code>7/32</code></td>
             </tr>
             
             <tr id="s_pkg_go-booking-management-init/internal/adapter/http/middleware">
@@ -206,8 +206,8 @@ p {
             
             <tr id="s_pkg_go-booking-management-init/internal/application/auth">
                 <td><code><a href="#pkg_go-booking-management-init/internal/application/auth">go-booking-management-init/internal/application/auth</a></code></td>
-                <td class="percent"><code>73.3%</code></td>
-                <td class="linecount"><code>22/30</code></td>
+                <td class="percent"><code>76.7%</code></td>
+                <td class="linecount"><code>23/30</code></td>
             </tr>
             
             <tr id="s_pkg_go-booking-management-init/internal/database">
@@ -228,6 +228,12 @@ p {
                 <td class="linecount"><code>0/23</code></td>
             </tr>
             
+            <tr id="s_pkg_go-booking-management-init/pkg/api">
+                <td><code><a href="#pkg_go-booking-management-init/pkg/api">go-booking-management-init/pkg/api</a></code></td>
+                <td class="percent"><code>0.0%</code></td>
+                <td class="linecount"><code>0/37</code></td>
+            </tr>
+            
             <tr id="s_pkg_go-booking-management-init/pkg/auth">
                 <td><code><a href="#pkg_go-booking-management-init/pkg/auth">go-booking-management-init/pkg/auth</a></code></td>
                 <td class="percent"><code>78.1%</code></td>
@@ -244,7 +250,7 @@ p {
             <p>
             This coverage report has been generated with the following command:
             </p>
-            <pre class="cmd">gocov test go-booking-management-init/api go-booking-management-init/cmd/api go-booking-management-init/internal/adapter/http go-booking-management-init/internal/adapter/http/handler go-booking-management-init/internal/adapter/http/middleware go-booking-management-init/internal/application/auth go-booking-management-init/internal/database go-booking-management-init/internal/infrastructure/db/sqlc go-booking-management-init/internal/server go-booking-management-init/pkg/auth go-booking-management-init/pkg/logger | gocov-html </pre>
+            <pre class="cmd">gocov test go-booking-management-init/api go-booking-management-init/cmd/api go-booking-management-init/internal/adapter/http go-booking-management-init/internal/adapter/http/handler go-booking-management-init/internal/adapter/http/middleware go-booking-management-init/internal/application/auth go-booking-management-init/internal/database go-booking-management-init/internal/infrastructure/db/sqlc go-booking-management-init/internal/server go-booking-management-init/pkg/api go-booking-management-init/pkg/auth go-booking-management-init/pkg/logger | gocov-html </pre>
         </div>
         
         
@@ -344,7 +350,7 @@ p {
                     <code>0.0%</code>
                 </td>
                 <td class="linecount">
-                    <code>0/10</code>
+                    <code>0/11</code>
                 </td>
             </tr>
         
@@ -360,168 +366,168 @@ p {
         <table class="listing">
             
             <tr>
-                <td>18</td>
+                <td>19</td>
                 <td>
                     <code><pre>func gracefulShutdown(apiServer *http.Server, done chan bool) {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>19</td>
+                <td>20</td>
                 <td>
                     <code><pre>        // Create context that listens for the interrupt signal from the OS.</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>20</td>
+                <td>21</td>
                 <td>
                     <code><pre>        ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>21</td>
+                <td>22</td>
                 <td>
                     <code><pre>        defer stop()</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>22</td>
+                <td>23</td>
                 <td>
                     <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>23</td>
+                <td>24</td>
                 <td>
                     <code><pre>        // Listen for the interrupt signal.</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>24</td>
+                <td>25</td>
                 <td>
                     <code><pre>        &lt;-ctx.Done()</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>25</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
                 <td>26</td>
                 <td>
-                    <code><pre>        log.Println(&#34;shutting down gracefully, press Ctrl+C again to force&#34;)</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>27</td>
                 <td>
-                    <code><pre>        stop() // Allow Ctrl+C to force shutdown</pre></code>
+                    <code><pre>        log.Println(&#34;shutting down gracefully, press Ctrl+C again to force&#34;)</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>28</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        stop() // Allow Ctrl+C to force shutdown</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>29</td>
                 <td>
-                    <code><pre>        // The context is used to inform the server it has 5 seconds to finish</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>30</td>
                 <td>
-                    <code><pre>        // the request it is currently handling</pre></code>
+                    <code><pre>        // The context is used to inform the server it has 5 seconds to finish</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>31</td>
                 <td>
-                    <code><pre>        ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)</pre></code>
+                    <code><pre>        // the request it is currently handling</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>32</td>
                 <td>
-                    <code><pre>        defer cancel()</pre></code>
+                    <code><pre>        ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>33</td>
                 <td>
-                    <code><pre>        if err := apiServer.Shutdown(ctx); err != nil {</pre></code>
+                    <code><pre>        defer cancel()</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>34</td>
                 <td>
-                    <code><pre>                log.Printf(&#34;Server forced to shutdown with error: %v&#34;, err)</pre></code>
+                    <code><pre>        if err := apiServer.Shutdown(ctx); err != nil {</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>35</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>                log.Printf(&#34;Server forced to shutdown with error: %v&#34;, err)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>36</td>
                 <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>37</td>
+                <td>
                     <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>37</td>
+                <td>38</td>
                 <td>
                     <code><pre>        log.Println(&#34;Server exiting&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>38</td>
+                <td>39</td>
                 <td>
                     <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>39</td>
+                <td>40</td>
                 <td>
                     <code><pre>        // Notify the main goroutine that the shutdown is complete</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>40</td>
+                <td>41</td>
                 <td>
                     <code><pre>        done &lt;- true</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>41</td>
+                <td>42</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -537,44 +543,37 @@ p {
         <table class="listing">
             
             <tr>
-                <td>43</td>
+                <td>44</td>
                 <td>
                     <code><pre>func main() {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>44</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
                 <td>45</td>
                 <td>
-                    <code><pre>        logger.Init(os.Getenv(&#34;APP_ENV&#34;))</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>46</td>
                 <td>
-                    <code><pre>        slog.Info(&#34;Starting server&#34;, &#34;port&#34;, os.Getenv(&#34;PORT&#34;), &#34;env&#34;, os.Getenv(&#34;APP_ENV&#34;))</pre></code>
+                    <code><pre>        logger.Init(os.Getenv(&#34;APP_ENV&#34;))</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>47</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        api.InitValidator()</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>48</td>
                 <td>
-                    <code><pre>        server := server.NewServer()</pre></code>
+                    <code><pre>        slog.Info(&#34;Starting server&#34;, &#34;port&#34;, os.Getenv(&#34;PORT&#34;), &#34;env&#34;, os.Getenv(&#34;APP_ENV&#34;))</pre></code>
                 </td>
             </tr>
             
@@ -585,106 +584,120 @@ p {
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>50</td>
                 <td>
-                    <code><pre>        // Create a done channel to signal when the shutdown is complete</pre></code>
+                    <code><pre>        server := server.NewServer()</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>51</td>
                 <td>
-                    <code><pre>        done := make(chan bool, 1)</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>52</td>
                 <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>53</td>
-                <td>
-                    <code><pre>        // Run graceful shutdown in a separate goroutine</pre></code>
+                    <code><pre>        // Create a done channel to signal when the shutdown is complete</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
+                <td>53</td>
+                <td>
+                    <code><pre>        done := make(chan bool, 1)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
                 <td>54</td>
                 <td>
-                    <code><pre>        go gracefulShutdown(server, done)</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>55</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        // Run graceful shutdown in a separate goroutine</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>56</td>
                 <td>
-                    <code><pre>        err := server.ListenAndServe()</pre></code>
+                    <code><pre>        go gracefulShutdown(server, done)</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>57</td>
                 <td>
-                    <code><pre>        if err != nil &amp;&amp; err != http.ErrServerClosed {</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>58</td>
                 <td>
-                    <code><pre>                panic(fmt.Sprintf(&#34;http server error: %s&#34;, err))</pre></code>
+                    <code><pre>        err := server.ListenAndServe()</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>59</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>        if err != nil &amp;&amp; err != http.ErrServerClosed {</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>60</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>                panic(fmt.Sprintf(&#34;http server error: %s&#34;, err))</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>61</td>
                 <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>62</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>63</td>
+                <td>
                     <code><pre>        // Wait for the graceful shutdown to complete</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>62</td>
+                <td>64</td>
                 <td>
                     <code><pre>        &lt;-done</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>63</td>
+                <td>65</td>
                 <td>
                     <code><pre>        log.Println(&#34;Graceful shutdown complete.&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>64</td>
+                <td>66</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -735,9 +748,9 @@ p {
                 </td>
             </tr>
         
-            <tr id="s_fn_@71:18">
+            <tr id="s_fn_@68:18">
                 <td>
-                    <code><a href="#fn_@71:18">@71:18(...)</a></code>
+                    <code><a href="#fn_@68:18">@68:18(...)</a></code>
                 </td>
                 <td>
                     <code>go-booking-management-init/internal/adapter/http/router.go</code>
@@ -750,9 +763,9 @@ p {
                 </td>
             </tr>
         
-            <tr id="s_fn_@53:27">
+            <tr id="s_fn_@54:27">
                 <td>
-                    <code><a href="#fn_@53:27">@53:27(...)</a></code>
+                    <code><a href="#fn_@54:27">@54:27(...)</a></code>
                 </td>
                 <td>
                     <code>go-booking-management-init/internal/adapter/http/router.go</code>
@@ -765,9 +778,9 @@ p {
                 </td>
             </tr>
         
-            <tr id="s_fn_@101:15">
+            <tr id="s_fn_@90:15">
                 <td>
-                    <code><a href="#fn_@101:15">@101:15(...)</a></code>
+                    <code><a href="#fn_@90:15">@90:15(...)</a></code>
                 </td>
                 <td>
                     <code>go-booking-management-init/internal/adapter/http/router.go</code>
@@ -780,9 +793,9 @@ p {
                 </td>
             </tr>
         
-            <tr id="s_fn_@112:20">
+            <tr id="s_fn_@98:20">
                 <td>
-                    <code><a href="#fn_@112:20">@112:20(...)</a></code>
+                    <code><a href="#fn_@98:20">@98:20(...)</a></code>
                 </td>
                 <td>
                     <code>go-booking-management-init/internal/adapter/http/router.go</code>
@@ -807,504 +820,399 @@ p {
         <table class="listing">
             
             <tr>
-                <td>46</td>
+                <td>47</td>
                 <td>
                     <code><pre>func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandler *handler.AuthHandler) http.Handler {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>47</td>
+                <td>48</td>
                 <td>
                     <code><pre>        v1 := r.engine.Group(&#34;/v1&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>48</td>
+                <td>49</td>
                 <td>
                     <code><pre>        {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>49</td>
+                <td>50</td>
                 <td>
                     <code><pre>                v1.GET(&#34;/health&#34;, healthHandler.HealthCheck)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>50</td>
+                <td>51</td>
                 <td>
                     <code><pre>                v1.POST(&#34;/auth/register&#34;, authHandler.Register)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>51</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
                 <td>52</td>
                 <td>
-                    <code><pre>                // Documentation routes</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>53</td>
                 <td>
-                    <code><pre>                v1.GET(&#34;/swagger/*any&#34;, func(c *gin.Context) {</pre></code>
+                    <code><pre>                // Documentation routes</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>54</td>
                 <td>
-                    <code><pre>                        path := c.Param(&#34;any&#34;)</pre></code>
+                    <code><pre>                v1.GET(&#34;/swagger/*any&#34;, func(c *gin.Context) {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>55</td>
                 <td>
-                    <code><pre>                        if path == &#34;/doc.json&#34; {</pre></code>
+                    <code><pre>                        path := c.Param(&#34;any&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>56</td>
                 <td>
-                    <code><pre>                                if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
+                    <code><pre>                        if path == &#34;/doc.json&#34; {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>57</td>
                 <td>
-                    <code><pre>                                        slog.Error(&#34;swagger file not found&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
+                    <code><pre>                                if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>58</td>
                 <td>
-                    <code><pre>                                        c.AbortWithStatusJSON(http.StatusNotFound, gin.H{</pre></code>
+                    <code><pre>                                        slog.Error(&#34;swagger file not found&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>59</td>
                 <td>
-                    <code><pre>                                                &#34;status&#34;:  &#34;error&#34;,</pre></code>
+                    <code><pre>                                        api.Error(c, http.StatusNotFound, &#34;NOT_FOUND&#34;, &#34;Swagger documentation file not found&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>60</td>
                 <td>
-                    <code><pre>                                                &#34;message&#34;: &#34;Swagger documentation file not found&#34;,</pre></code>
+                    <code><pre>                                        return</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>61</td>
                 <td>
-                    <code><pre>                                                &#34;code&#34;:    &#34;NOT_FOUND&#34;,</pre></code>
+                    <code><pre>                                }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>62</td>
                 <td>
-                    <code><pre>                                        })</pre></code>
+                    <code><pre>                                c.File(r.config.SwaggerPath)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>63</td>
                 <td>
-                    <code><pre>                                        return</pre></code>
+                    <code><pre>                                return</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>64</td>
                 <td>
-                    <code><pre>                                }</pre></code>
+                    <code><pre>                        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>65</td>
                 <td>
-                    <code><pre>                                c.File(r.config.SwaggerPath)</pre></code>
+                    <code><pre>                        c.Redirect(http.StatusMovedPermanently, &#34;/v1/doc&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>66</td>
                 <td>
-                    <code><pre>                                return</pre></code>
+                    <code><pre>                })</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>67</td>
                 <td>
-                    <code><pre>                        }</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>68</td>
                 <td>
-                    <code><pre>                        c.Redirect(http.StatusMovedPermanently, &#34;/v1/doc&#34;)</pre></code>
+                    <code><pre>                v1.GET(&#34;/doc&#34;, func(c *gin.Context) {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>69</td>
                 <td>
-                    <code><pre>                })</pre></code>
+                    <code><pre>                        if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>70</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>                                slog.Error(&#34;swagger file not found for scalar&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>71</td>
                 <td>
-                    <code><pre>                v1.GET(&#34;/doc&#34;, func(c *gin.Context) {</pre></code>
+                    <code><pre>                                api.Error(c, http.StatusNotFound, &#34;NOT_FOUND&#34;, &#34;API documentation source not found&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>72</td>
                 <td>
-                    <code><pre>                        if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
+                    <code><pre>                                return</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>73</td>
                 <td>
-                    <code><pre>                                slog.Error(&#34;swagger file not found for scalar&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
+                    <code><pre>                        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>74</td>
                 <td>
-                    <code><pre>                                c.AbortWithStatusJSON(http.StatusNotFound, gin.H{</pre></code>
+                    <code><pre>                        htmlContent, err := scalar.ApiReferenceHTML(&amp;scalar.Options{</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>75</td>
                 <td>
-                    <code><pre>                                        &#34;status&#34;:  &#34;error&#34;,</pre></code>
+                    <code><pre>                                SpecURL: r.config.SwaggerPath,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>76</td>
                 <td>
-                    <code><pre>                                        &#34;message&#34;: &#34;API documentation source not found&#34;,</pre></code>
+                    <code><pre>                                CustomOptions: scalar.CustomOptions{</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>77</td>
                 <td>
-                    <code><pre>                                        &#34;code&#34;:    &#34;NOT_FOUND&#34;,</pre></code>
+                    <code><pre>                                        PageTitle: &#34;Booking Management API - Scalar&#34;,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>78</td>
                 <td>
-                    <code><pre>                                })</pre></code>
+                    <code><pre>                                },</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>79</td>
                 <td>
-                    <code><pre>                                return</pre></code>
+                    <code><pre>                                DarkMode: true,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>80</td>
                 <td>
-                    <code><pre>                        }</pre></code>
+                    <code><pre>                        })</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>81</td>
                 <td>
-                    <code><pre>                        htmlContent, err := scalar.ApiReferenceHTML(&amp;scalar.Options{</pre></code>
+                    <code><pre>                        if err != nil {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>82</td>
                 <td>
-                    <code><pre>                                SpecURL: r.config.SwaggerPath,</pre></code>
+                    <code><pre>                                slog.Error(&#34;failed to generate scalar api reference&#34;, &#34;error&#34;, err)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>83</td>
                 <td>
-                    <code><pre>                                CustomOptions: scalar.CustomOptions{</pre></code>
+                    <code><pre>                                api.Error(c, http.StatusInternalServerError, &#34;INTERNAL_SERVER_ERROR&#34;, &#34;Failed to generate API documentation&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>84</td>
                 <td>
-                    <code><pre>                                        PageTitle: &#34;Booking Management API - Scalar&#34;,</pre></code>
+                    <code><pre>                                return</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>85</td>
                 <td>
-                    <code><pre>                                },</pre></code>
+                    <code><pre>                        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>86</td>
                 <td>
-                    <code><pre>                                DarkMode: true,</pre></code>
+                    <code><pre>                        c.Data(http.StatusOK, &#34;text/html; charset=utf-8&#34;, []byte(htmlContent))</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>87</td>
                 <td>
-                    <code><pre>                        })</pre></code>
+                    <code><pre>                })</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>88</td>
                 <td>
-                    <code><pre>                        if err != nil {</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>89</td>
                 <td>
-                    <code><pre>                                slog.Error(&#34;failed to generate scalar api reference&#34;, &#34;error&#34;, err)</pre></code>
+                    <code><pre>                // Root route</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>90</td>
                 <td>
-                    <code><pre>                                c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{</pre></code>
+                    <code><pre>                v1.GET(&#34;/&#34;, func(c *gin.Context) {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>91</td>
                 <td>
-                    <code><pre>                                        &#34;status&#34;:  &#34;error&#34;,</pre></code>
+                    <code><pre>                        api.Success(c, gin.H{</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>92</td>
                 <td>
-                    <code><pre>                                        &#34;message&#34;: &#34;Failed to generate API documentation&#34;,</pre></code>
+                    <code><pre>                                &#34;message&#34;: &#34;Booking Management API&#34;,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>93</td>
                 <td>
-                    <code><pre>                                        &#34;code&#34;:    &#34;INTERNAL_SERVER_ERROR&#34;,</pre></code>
+                    <code><pre>                        })</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>94</td>
                 <td>
-                    <code><pre>                                })</pre></code>
+                    <code><pre>                })</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>95</td>
                 <td>
-                    <code><pre>                                return</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>96</td>
                 <td>
-                    <code><pre>                        }</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>97</td>
                 <td>
-                    <code><pre>                        c.Data(http.StatusOK, &#34;text/html; charset=utf-8&#34;, []byte(htmlContent))</pre></code>
+                    <code><pre>        // Redirect root to /v1</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>98</td>
                 <td>
-                    <code><pre>                })</pre></code>
+                    <code><pre>        r.engine.GET(&#34;/&#34;, func(c *gin.Context) {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>99</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>                c.Redirect(http.StatusMovedPermanently, &#34;/v1&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>100</td>
                 <td>
-                    <code><pre>                // Root route</pre></code>
+                    <code><pre>        })</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>101</td>
                 <td>
-                    <code><pre>                v1.GET(&#34;/&#34;, func(c *gin.Context) {</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>102</td>
                 <td>
-                    <code><pre>                        c.JSON(http.StatusOK, gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>103</td>
-                <td>
-                    <code><pre>                                &#34;status&#34;: &#34;success&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>104</td>
-                <td>
-                    <code><pre>                                &#34;data&#34;: gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>105</td>
-                <td>
-                    <code><pre>                                        &#34;message&#34;: &#34;Booking Management API&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>106</td>
-                <td>
-                    <code><pre>                                },</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>107</td>
-                <td>
-                    <code><pre>                        })</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>108</td>
-                <td>
-                    <code><pre>                })</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>109</td>
-                <td>
-                    <code><pre>        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>110</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>111</td>
-                <td>
-                    <code><pre>        // Redirect root to /v1</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>112</td>
-                <td>
-                    <code><pre>        r.engine.GET(&#34;/&#34;, func(c *gin.Context) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>113</td>
-                <td>
-                    <code><pre>                c.Redirect(http.StatusMovedPermanently, &#34;/v1&#34;)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>114</td>
-                <td>
-                    <code><pre>        })</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>115</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>116</td>
-                <td>
                     <code><pre>        return r.engine</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>117</td>
+                <td>103</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -1320,133 +1228,133 @@ p {
         <table class="listing">
             
             <tr>
-                <td>26</td>
+                <td>27</td>
                 <td>
                     <code><pre>func NewRouter(config Config) *Router {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>27</td>
+                <td>28</td>
                 <td>
                     <code><pre>        r := gin.New()</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>28</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
                 <td>29</td>
                 <td>
-                    <code><pre>        // Default middlewares</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>30</td>
                 <td>
-                    <code><pre>        r.Use(middleware.Logger(), gin.Recovery())</pre></code>
+                    <code><pre>        // Default middlewares</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>31</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        r.Use(middleware.Logger(), gin.Recovery())</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>32</td>
                 <td>
-                    <code><pre>        // CORS configuration</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>33</td>
                 <td>
-                    <code><pre>        r.Use(cors.New(cors.Config{</pre></code>
+                    <code><pre>        // CORS configuration</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>34</td>
                 <td>
-                    <code><pre>                AllowOrigins:     config.AllowOrigins,</pre></code>
+                    <code><pre>        r.Use(cors.New(cors.Config{</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>35</td>
                 <td>
-                    <code><pre>                AllowMethods:     []string{&#34;GET&#34;, &#34;POST&#34;, &#34;PUT&#34;, &#34;DELETE&#34;, &#34;OPTIONS&#34;, &#34;PATCH&#34;},</pre></code>
+                    <code><pre>                AllowOrigins:     config.AllowOrigins,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>36</td>
                 <td>
-                    <code><pre>                AllowHeaders:     []string{&#34;Accept&#34;, &#34;Authorization&#34;, &#34;Content-Type&#34;},</pre></code>
+                    <code><pre>                AllowMethods:     []string{&#34;GET&#34;, &#34;POST&#34;, &#34;PUT&#34;, &#34;DELETE&#34;, &#34;OPTIONS&#34;, &#34;PATCH&#34;},</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>37</td>
                 <td>
-                    <code><pre>                AllowCredentials: true,</pre></code>
+                    <code><pre>                AllowHeaders:     []string{&#34;Accept&#34;, &#34;Authorization&#34;, &#34;Content-Type&#34;},</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>38</td>
                 <td>
-                    <code><pre>        }))</pre></code>
+                    <code><pre>                AllowCredentials: true,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>39</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        }))</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>40</td>
                 <td>
-                    <code><pre>        return &amp;Router{</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>41</td>
                 <td>
-                    <code><pre>                engine: r,</pre></code>
+                    <code><pre>        return &amp;Router{</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>42</td>
                 <td>
-                    <code><pre>                config: config,</pre></code>
+                    <code><pre>                engine: r,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>43</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>                config: config,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>44</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>45</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -1454,204 +1362,148 @@ p {
             
         </table>
         
-        <div class="funcname" id="fn_@71:18">func @71:18</div>
+        <div class="funcname" id="fn_@68:18">func @68:18</div>
         <div class="info">
-            <a href="#s_fn_@71:18">Back</a>
+            <a href="#s_fn_@68:18">Back</a>
             <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/router.go</code>:</p>
         </div>
         <table class="listing">
             
             <tr>
-                <td>71</td>
+                <td>68</td>
                 <td>
                     <code><pre>func(c *gin.Context) {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>72</td>
+                <td>69</td>
                 <td>
                     <code><pre>                        if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>73</td>
+                <td>70</td>
                 <td>
                     <code><pre>                                slog.Error(&#34;swagger file not found for scalar&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>74</td>
+                <td>71</td>
                 <td>
-                    <code><pre>                                c.AbortWithStatusJSON(http.StatusNotFound, gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>75</td>
-                <td>
-                    <code><pre>                                        &#34;status&#34;:  &#34;error&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>76</td>
-                <td>
-                    <code><pre>                                        &#34;message&#34;: &#34;API documentation source not found&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>77</td>
-                <td>
-                    <code><pre>                                        &#34;code&#34;:    &#34;NOT_FOUND&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>78</td>
-                <td>
-                    <code><pre>                                })</pre></code>
+                    <code><pre>                                api.Error(c, http.StatusNotFound, &#34;NOT_FOUND&#34;, &#34;API documentation source not found&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>79</td>
+                <td>72</td>
                 <td>
                     <code><pre>                                return</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>80</td>
+                <td>73</td>
                 <td>
                     <code><pre>                        }</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>81</td>
+                <td>74</td>
                 <td>
                     <code><pre>                        htmlContent, err := scalar.ApiReferenceHTML(&amp;scalar.Options{</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>82</td>
+                <td>75</td>
                 <td>
                     <code><pre>                                SpecURL: r.config.SwaggerPath,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>83</td>
+                <td>76</td>
                 <td>
                     <code><pre>                                CustomOptions: scalar.CustomOptions{</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>84</td>
+                <td>77</td>
                 <td>
                     <code><pre>                                        PageTitle: &#34;Booking Management API - Scalar&#34;,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>85</td>
+                <td>78</td>
                 <td>
                     <code><pre>                                },</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>86</td>
+                <td>79</td>
                 <td>
                     <code><pre>                                DarkMode: true,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>87</td>
+                <td>80</td>
                 <td>
                     <code><pre>                        })</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>88</td>
+                <td>81</td>
                 <td>
                     <code><pre>                        if err != nil {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>89</td>
+                <td>82</td>
                 <td>
                     <code><pre>                                slog.Error(&#34;failed to generate scalar api reference&#34;, &#34;error&#34;, err)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>90</td>
+                <td>83</td>
                 <td>
-                    <code><pre>                                c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>91</td>
-                <td>
-                    <code><pre>                                        &#34;status&#34;:  &#34;error&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>92</td>
-                <td>
-                    <code><pre>                                        &#34;message&#34;: &#34;Failed to generate API documentation&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>93</td>
-                <td>
-                    <code><pre>                                        &#34;code&#34;:    &#34;INTERNAL_SERVER_ERROR&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>94</td>
-                <td>
-                    <code><pre>                                })</pre></code>
+                    <code><pre>                                api.Error(c, http.StatusInternalServerError, &#34;INTERNAL_SERVER_ERROR&#34;, &#34;Failed to generate API documentation&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>95</td>
+                <td>84</td>
                 <td>
                     <code><pre>                                return</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>96</td>
+                <td>85</td>
                 <td>
                     <code><pre>                        }</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>97</td>
+                <td>86</td>
                 <td>
                     <code><pre>                        c.Data(http.StatusOK, &#34;text/html; charset=utf-8&#34;, []byte(htmlContent))</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>98</td>
+                <td>87</td>
                 <td>
                     <code><pre>                }</pre></code>
                 </td>
@@ -1659,127 +1511,99 @@ p {
             
         </table>
         
-        <div class="funcname" id="fn_@53:27">func @53:27</div>
+        <div class="funcname" id="fn_@54:27">func @54:27</div>
         <div class="info">
-            <a href="#s_fn_@53:27">Back</a>
+            <a href="#s_fn_@54:27">Back</a>
             <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/router.go</code>:</p>
         </div>
         <table class="listing">
             
             <tr>
-                <td>53</td>
-                <td>
-                    <code><pre>func(c *gin.Context) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
                 <td>54</td>
                 <td>
-                    <code><pre>                        path := c.Param(&#34;any&#34;)</pre></code>
+                    <code><pre>func(c *gin.Context) {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>55</td>
                 <td>
-                    <code><pre>                        if path == &#34;/doc.json&#34; {</pre></code>
+                    <code><pre>                        path := c.Param(&#34;any&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>56</td>
                 <td>
-                    <code><pre>                                if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
+                    <code><pre>                        if path == &#34;/doc.json&#34; {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>57</td>
                 <td>
-                    <code><pre>                                        slog.Error(&#34;swagger file not found&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
+                    <code><pre>                                if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>58</td>
                 <td>
-                    <code><pre>                                        c.AbortWithStatusJSON(http.StatusNotFound, gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>59</td>
-                <td>
-                    <code><pre>                                                &#34;status&#34;:  &#34;error&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>60</td>
-                <td>
-                    <code><pre>                                                &#34;message&#34;: &#34;Swagger documentation file not found&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>61</td>
-                <td>
-                    <code><pre>                                                &#34;code&#34;:    &#34;NOT_FOUND&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>62</td>
-                <td>
-                    <code><pre>                                        })</pre></code>
+                    <code><pre>                                        slog.Error(&#34;swagger file not found&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>63</td>
+                <td>59</td>
+                <td>
+                    <code><pre>                                        api.Error(c, http.StatusNotFound, &#34;NOT_FOUND&#34;, &#34;Swagger documentation file not found&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>60</td>
                 <td>
                     <code><pre>                                        return</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>64</td>
+                <td>61</td>
                 <td>
                     <code><pre>                                }</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>65</td>
+                <td>62</td>
                 <td>
                     <code><pre>                                c.File(r.config.SwaggerPath)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>66</td>
+                <td>63</td>
                 <td>
                     <code><pre>                                return</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>67</td>
+                <td>64</td>
                 <td>
                     <code><pre>                        }</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>68</td>
+                <td>65</td>
                 <td>
                     <code><pre>                        c.Redirect(http.StatusMovedPermanently, &#34;/v1/doc&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>69</td>
+                <td>66</td>
                 <td>
                     <code><pre>                }</pre></code>
                 </td>
@@ -1787,64 +1611,43 @@ p {
             
         </table>
         
-        <div class="funcname" id="fn_@101:15">func @101:15</div>
+        <div class="funcname" id="fn_@90:15">func @90:15</div>
         <div class="info">
-            <a href="#s_fn_@101:15">Back</a>
+            <a href="#s_fn_@90:15">Back</a>
             <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/router.go</code>:</p>
         </div>
         <table class="listing">
             
             <tr>
-                <td>101</td>
+                <td>90</td>
                 <td>
                     <code><pre>func(c *gin.Context) {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>102</td>
+                <td>91</td>
                 <td>
-                    <code><pre>                        c.JSON(http.StatusOK, gin.H{</pre></code>
+                    <code><pre>                        api.Success(c, gin.H{</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>103</td>
+                <td>92</td>
                 <td>
-                    <code><pre>                                &#34;status&#34;: &#34;success&#34;,</pre></code>
+                    <code><pre>                                &#34;message&#34;: &#34;Booking Management API&#34;,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>104</td>
-                <td>
-                    <code><pre>                                &#34;data&#34;: gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>105</td>
-                <td>
-                    <code><pre>                                        &#34;message&#34;: &#34;Booking Management API&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>106</td>
-                <td>
-                    <code><pre>                                },</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>107</td>
+                <td>93</td>
                 <td>
                     <code><pre>                        })</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>108</td>
+                <td>94</td>
                 <td>
                     <code><pre>                }</pre></code>
                 </td>
@@ -1852,29 +1655,29 @@ p {
             
         </table>
         
-        <div class="funcname" id="fn_@112:20">func @112:20</div>
+        <div class="funcname" id="fn_@98:20">func @98:20</div>
         <div class="info">
-            <a href="#s_fn_@112:20">Back</a>
+            <a href="#s_fn_@98:20">Back</a>
             <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/router.go</code>:</p>
         </div>
         <table class="listing">
             
             <tr>
-                <td>112</td>
+                <td>98</td>
                 <td>
                     <code><pre>func(c *gin.Context) {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>113</td>
+                <td>99</td>
                 <td>
                     <code><pre>                c.Redirect(http.StatusMovedPermanently, &#34;/v1&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>114</td>
+                <td>100</td>
                 <td>
                     <code><pre>        }</pre></code>
                 </td>
@@ -1889,7 +1692,7 @@ p {
         
         <div id="pkg_go-booking-management-init/internal/adapter/http/handler" class="funcname">
             Package Overview: go-booking-management-init/internal/adapter/http/handler
-            <span class="packageTotal">26.1%</span>
+            <span class="packageTotal">21.9%</span>
         </div>
         <p>Please select a function to see what's left for testing.</p>
 
@@ -1918,10 +1721,25 @@ p {
                     <code>go-booking-management-init/internal/adapter/http/handler/health_handler.go</code>
                 </td>
                 <td class="percent">
-                    <code>71.4%</code>
+                    <code>66.7%</code>
                 </td>
                 <td class="linecount">
-                    <code>5/7</code>
+                    <code>6/9</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_MapError">
+                <td>
+                    <code><a href="#fn_MapError">MapError(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/internal/adapter/http/handler/error_mapper.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/13</code>
                 </td>
             </tr>
         
@@ -1936,7 +1754,7 @@ p {
                     <code>0.0%</code>
                 </td>
                 <td class="linecount">
-                    <code>0/14</code>
+                    <code>0/8</code>
                 </td>
             </tr>
         
@@ -1967,21 +1785,21 @@ p {
         <table class="listing">
             
             <tr>
-                <td>17</td>
+                <td>18</td>
                 <td>
                     <code><pre>func NewHealthHandler(db database.Service) *HealthHandler {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>18</td>
+                <td>19</td>
                 <td>
                     <code><pre>        return &amp;HealthHandler{db: db}</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>19</td>
+                <td>20</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -1997,93 +1815,86 @@ p {
         <table class="listing">
             
             <tr>
-                <td>41</td>
+                <td>42</td>
                 <td>
                     <code><pre>func (h *HealthHandler) HealthCheck(c *gin.Context) {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>42</td>
+                <td>43</td>
                 <td>
                     <code><pre>        dbHealth := h.db.Health()</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>43</td>
+                <td>44</td>
                 <td>
                     <code><pre>        status := http.StatusOK</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>44</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
                 <td>45</td>
                 <td>
-                    <code><pre>        overallStatus := &#34;OK&#34;</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>46</td>
                 <td>
-                    <code><pre>        if dbHealth[&#34;status&#34;] != &#34;up&#34; {</pre></code>
+                    <code><pre>        overallStatus := &#34;OK&#34;</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>47</td>
                 <td>
-                    <code><pre>                overallStatus = &#34;Service Unavailable&#34;</pre></code>
+                    <code><pre>        if dbHealth[&#34;status&#34;] != &#34;up&#34; {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>48</td>
                 <td>
-                    <code><pre>                status = http.StatusServiceUnavailable</pre></code>
+                    <code><pre>                overallStatus = &#34;Service Unavailable&#34;</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>49</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>                status = http.StatusServiceUnavailable</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>50</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>51</td>
                 <td>
-                    <code><pre>        c.JSON(status, HealthResponse{</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>52</td>
                 <td>
-                    <code><pre>                Status: &#34;success&#34;,</pre></code>
+                    <code><pre>        if status == http.StatusOK {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>53</td>
                 <td>
-                    <code><pre>                Data: HealthData{</pre></code>
+                    <code><pre>                api.Success(c, HealthData{</pre></code>
                 </td>
             </tr>
             
@@ -2111,19 +1922,231 @@ p {
             <tr>
                 <td>57</td>
                 <td>
-                    <code><pre>                },</pre></code>
+                    <code><pre>                })</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>58</td>
                 <td>
-                    <code><pre>        })</pre></code>
+                    <code><pre>        } else {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>59</td>
+                <td>
+                    <code><pre>                api.Error(c, status, &#34;SERVICE_UNAVAILABLE&#34;, overallStatus)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>59</td>
+                <td>60</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>61</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_MapError">func MapError</div>
+        <div class="info">
+            <a href="#s_fn_MapError">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/handler/error_mapper.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>15</td>
+                <td>
+                    <code><pre>func MapError(c *gin.Context, err error) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>16</td>
+                <td>
+                    <code><pre>        if err == nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>17</td>
+                <td>
+                    <code><pre>                return</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>18</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>19</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>20</td>
+                <td>
+                    <code><pre>        // Handle validation errors that might bubble up from the service layer</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>21</td>
+                <td>
+                    <code><pre>        verrs := api.FormatValidationError(err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>22</td>
+                <td>
+                    <code><pre>        if verrs != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>23</td>
+                <td>
+                    <code><pre>                api.ValidationError(c, verrs)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>24</td>
+                <td>
+                    <code><pre>                return</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>25</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>26</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>27</td>
+                <td>
+                    <code><pre>        switch {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>28</td>
+                <td>
+                    <code><pre>        case errors.Is(err, domainAuth.ErrUserAlreadyExists):</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>29</td>
+                <td>
+                    <code><pre>                api.Error(c, http.StatusConflict, &#34;USER_EXISTS&#34;, &#34;User already exists&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>30</td>
+                <td>
+                    <code><pre>        case errors.Is(err, appAuth.ErrInvalidEmail):</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>31</td>
+                <td>
+                    <code><pre>                api.Error(c, http.StatusUnprocessableEntity, &#34;INVALID_EMAIL&#34;, &#34;Invalid email address format&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>32</td>
+                <td>
+                    <code><pre>        case errors.Is(err, appAuth.ErrInvalidRole):</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>33</td>
+                <td>
+                    <code><pre>                api.Error(c, http.StatusBadRequest, &#34;INVALID_ROLE&#34;, &#34;Invalid user role provided&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>34</td>
+                <td>
+                    <code><pre>        case errors.Is(err, appAuth.ErrPasswordTooLong):</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>35</td>
+                <td>
+                    <code><pre>                api.Error(c, http.StatusBadRequest, &#34;PASSWORD_TOO_LONG&#34;, &#34;Password is too long (max 72 characters)&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>36</td>
+                <td>
+                    <code><pre>        case errors.Is(err, domainAuth.ErrUserNotFound):</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>37</td>
+                <td>
+                    <code><pre>                api.Error(c, http.StatusNotFound, &#34;USER_NOT_FOUND&#34;, &#34;User not found&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>38</td>
+                <td>
+                    <code><pre>        default:</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>39</td>
+                <td>
+                    <code><pre>                api.Error(c, http.StatusInternalServerError, &#34;SERVER_ERROR&#34;, &#34;Internal server error&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>40</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>41</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -2139,413 +2162,140 @@ p {
         <table class="listing">
             
             <tr>
-                <td>23</td>
+                <td>21</td>
                 <td>
                     <code><pre>func (h *AuthHandler) Register(c *gin.Context) {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>24</td>
+                <td>22</td>
                 <td>
                     <code><pre>        var req dto.RegisterRequest</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>25</td>
+                <td>23</td>
                 <td>
-                    <code><pre>        if err := c.ShouldBindJSON(&amp;req); err != nil {</pre></code>
+                    <code><pre>        if !api.BindAndValidate(c, &amp;req) {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>26</td>
-                <td>
-                    <code><pre>                c.JSON(http.StatusBadRequest, gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>27</td>
-                <td>
-                    <code><pre>                        &#34;status&#34;:  &#34;error&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>28</td>
-                <td>
-                    <code><pre>                        &#34;message&#34;: &#34;Invalid request payload&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>29</td>
-                <td>
-                    <code><pre>                        &#34;code&#34;:    &#34;INVALID_REQUEST&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>30</td>
-                <td>
-                    <code><pre>                })</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>31</td>
+                <td>24</td>
                 <td>
                     <code><pre>                return</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>32</td>
+                <td>25</td>
                 <td>
                     <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>33</td>
+                <td>26</td>
                 <td>
                     <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>34</td>
+                <td>27</td>
                 <td>
                     <code><pre>        user, err := h.authService.Register(c.Request.Context(), req.Email, req.Password, req.Role)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>35</td>
+                <td>28</td>
                 <td>
                     <code><pre>        if err != nil {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>36</td>
+                <td>29</td>
                 <td>
-                    <code><pre>                switch {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>37</td>
-                <td>
-                    <code><pre>                case errors.Is(err, domainAuth.ErrUserAlreadyExists):</pre></code>
+                    <code><pre>                MapError(c, err)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>38</td>
-                <td>
-                    <code><pre>                        c.JSON(http.StatusConflict, gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>39</td>
-                <td>
-                    <code><pre>                                &#34;status&#34;:  &#34;error&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>40</td>
-                <td>
-                    <code><pre>                                &#34;message&#34;: &#34;User already exists&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>41</td>
-                <td>
-                    <code><pre>                                &#34;code&#34;:    &#34;USER_EXISTS&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>42</td>
-                <td>
-                    <code><pre>                        })</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>43</td>
-                <td>
-                    <code><pre>                case errors.Is(err, auth.ErrInvalidEmail):</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>44</td>
-                <td>
-                    <code><pre>                        c.JSON(http.StatusUnprocessableEntity, gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>45</td>
-                <td>
-                    <code><pre>                                &#34;status&#34;:  &#34;error&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>46</td>
-                <td>
-                    <code><pre>                                &#34;message&#34;: &#34;Invalid email address format&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>47</td>
-                <td>
-                    <code><pre>                                &#34;code&#34;:    &#34;INVALID_EMAIL&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>48</td>
-                <td>
-                    <code><pre>                        })</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>49</td>
-                <td>
-                    <code><pre>                case errors.Is(err, auth.ErrInvalidRole):</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>50</td>
-                <td>
-                    <code><pre>                        c.JSON(http.StatusBadRequest, gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>51</td>
-                <td>
-                    <code><pre>                                &#34;status&#34;:  &#34;error&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>52</td>
-                <td>
-                    <code><pre>                                &#34;message&#34;: &#34;Invalid user role provided&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>53</td>
-                <td>
-                    <code><pre>                                &#34;code&#34;:    &#34;INVALID_ROLE&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>54</td>
-                <td>
-                    <code><pre>                        })</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>55</td>
-                <td>
-                    <code><pre>                case errors.Is(err, auth.ErrPasswordTooLong):</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>56</td>
-                <td>
-                    <code><pre>                        c.JSON(http.StatusBadRequest, gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>57</td>
-                <td>
-                    <code><pre>                                &#34;status&#34;:  &#34;error&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>58</td>
-                <td>
-                    <code><pre>                                &#34;message&#34;: &#34;Password is too long (max 72 characters)&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>59</td>
-                <td>
-                    <code><pre>                                &#34;code&#34;:    &#34;PASSWORD_TOO_LONG&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>60</td>
-                <td>
-                    <code><pre>                        })</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>61</td>
-                <td>
-                    <code><pre>                default:</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>62</td>
-                <td>
-                    <code><pre>                        c.JSON(http.StatusInternalServerError, gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>63</td>
-                <td>
-                    <code><pre>                                &#34;status&#34;:  &#34;error&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>64</td>
-                <td>
-                    <code><pre>                                &#34;message&#34;: &#34;Internal server error&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>65</td>
-                <td>
-                    <code><pre>                                &#34;code&#34;:    &#34;SERVER_ERROR&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>66</td>
-                <td>
-                    <code><pre>                        })</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>67</td>
-                <td>
-                    <code><pre>                }</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>68</td>
+                <td>30</td>
                 <td>
                     <code><pre>                return</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>69</td>
+                <td>31</td>
                 <td>
                     <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>70</td>
+                <td>32</td>
                 <td>
                     <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>71</td>
+                <td>33</td>
                 <td>
-                    <code><pre>        c.JSON(http.StatusCreated, gin.H{</pre></code>
+                    <code><pre>        api.Created(c, dto.RegisterResponse{</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>72</td>
+                <td>34</td>
                 <td>
-                    <code><pre>                &#34;status&#34;: &#34;success&#34;,</pre></code>
+                    <code><pre>                ID:        user.ID,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>73</td>
+                <td>35</td>
                 <td>
-                    <code><pre>                &#34;data&#34;: dto.RegisterResponse{</pre></code>
+                    <code><pre>                Email:     user.Email,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>74</td>
+                <td>36</td>
                 <td>
-                    <code><pre>                        ID:        user.ID,</pre></code>
+                    <code><pre>                Role:      user.Role,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>75</td>
+                <td>37</td>
                 <td>
-                    <code><pre>                        Email:     user.Email,</pre></code>
+                    <code><pre>                CreatedAt: user.CreatedAt.Format(&#34;2006-01-02T15:04:05Z07:00&#34;),</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>76</td>
+                <td>38</td>
                 <td>
-                    <code><pre>                        Role:      user.Role,</pre></code>
+                    <code><pre>                UpdatedAt: user.UpdatedAt.Format(&#34;2006-01-02T15:04:05Z07:00&#34;),</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>77</td>
-                <td>
-                    <code><pre>                        CreatedAt: user.CreatedAt.Format(&#34;2006-01-02T15:04:05Z07:00&#34;),</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>78</td>
-                <td>
-                    <code><pre>                        UpdatedAt: user.UpdatedAt.Format(&#34;2006-01-02T15:04:05Z07:00&#34;),</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>79</td>
-                <td>
-                    <code><pre>                },</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>80</td>
+                <td>39</td>
                 <td>
                     <code><pre>        })</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>81</td>
+                <td>40</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -2561,35 +2311,35 @@ p {
         <table class="listing">
             
             <tr>
-                <td>17</td>
+                <td>15</td>
                 <td>
                     <code><pre>func NewAuthHandler(authService auth.Service) *AuthHandler {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>18</td>
+                <td>16</td>
                 <td>
                     <code><pre>        return &amp;AuthHandler{</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>19</td>
+                <td>17</td>
                 <td>
                     <code><pre>                authService: authService,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>20</td>
+                <td>18</td>
                 <td>
                     <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>21</td>
+                <td>19</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -2599,7 +2349,7 @@ p {
          
 
         <!--    Can be parsed by external script
-                PACKAGE:go-booking-management-init/internal/adapter/http/handler DONE:26.1
+                PACKAGE:go-booking-management-init/internal/adapter/http/handler DONE:21.9
         -->
         
         <div id="pkg_go-booking-management-init/internal/adapter/http/middleware" class="funcname">
@@ -3061,7 +2811,7 @@ p {
         
         <div id="pkg_go-booking-management-init/internal/application/auth" class="funcname">
             Package Overview: go-booking-management-init/internal/application/auth
-            <span class="packageTotal">73.3%</span>
+            <span class="packageTotal">76.7%</span>
         </div>
         <p>Please select a function to see what's left for testing.</p>
 
@@ -3090,10 +2840,10 @@ p {
                     <code>go-booking-management-init/internal/application/auth/service.go</code>
                 </td>
                 <td class="percent">
-                    <code>72.4%</code>
+                    <code>75.9%</code>
                 </td>
                 <td class="linecount">
-                    <code>21/29</code>
+                    <code>22/29</code>
                 </td>
             </tr>
         
@@ -3162,383 +2912,439 @@ p {
             <tr>
                 <td>35</td>
                 <td>
-                    <code><pre>        // 1. Validate Email</pre></code>
+                    <code><pre>        // 1. Validate Input using Service Layer Validator (validate tag)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>36</td>
                 <td>
-                    <code><pre>        if _, err := mail.ParseAddress(email); err != nil {</pre></code>
+                    <code><pre>        type registerInput struct {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>37</td>
                 <td>
-                    <code><pre>                slog.WarnContext(ctx, &#34;invalid email address during registration&#34;, &#34;email&#34;, email, &#34;err&#34;, err)</pre></code>
+                    <code><pre>                Email    string `validate:&#34;required,email&#34;`</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>38</td>
                 <td>
-                    <code><pre>                return nil, ErrInvalidEmail</pre></code>
+                    <code><pre>                Password string `validate:&#34;required,max=72&#34;`</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>39</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>                Role     string `validate:&#34;required,oneof=customer admin guest&#34;`</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>40</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>41</td>
                 <td>
-                    <code><pre>        // 2. Validate Role</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>42</td>
                 <td>
-                    <code><pre>        role = strings.ToLower(role)</pre></code>
+                    <code><pre>        input := registerInput{</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>43</td>
                 <td>
-                    <code><pre>        validRoles := map[string]bool{&#34;customer&#34;: true, &#34;admin&#34;: true, &#34;guest&#34;: true}</pre></code>
+                    <code><pre>                Email:    strings.ToLower(strings.TrimSpace(email)),</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>44</td>
                 <td>
-                    <code><pre>        if !validRoles[role] {</pre></code>
+                    <code><pre>                Password: password,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>45</td>
                 <td>
-                    <code><pre>                slog.WarnContext(ctx, &#34;invalid role during registration&#34;, &#34;role&#34;, role)</pre></code>
+                    <code><pre>                Role:     strings.ToLower(strings.TrimSpace(role)),</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>46</td>
                 <td>
-                    <code><pre>                return nil, ErrInvalidRole</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>47</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>48</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        if err := api.Validate(input); err != nil {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>49</td>
                 <td>
-                    <code><pre>        // 3. Normalize Email</pre></code>
+                    <code><pre>                slog.WarnContext(ctx, &#34;validation failed in service layer&#34;, &#34;err&#34;, err)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>50</td>
                 <td>
-                    <code><pre>        email = strings.ToLower(strings.TrimSpace(email))</pre></code>
+                    <code><pre>                // Map back to specific domain errors if needed, or return the validation error</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>51</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>                // For now, let&#39;s keep the legacy mapping but make it slightly better</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>52</td>
                 <td>
-                    <code><pre>        // 4. Validate Password Length (Prevent DoS)</pre></code>
+                    <code><pre>                errMsg := err.Error()</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>53</td>
                 <td>
-                    <code><pre>        if len(password) &gt; 72 {</pre></code>
+                    <code><pre>                if strings.Contains(errMsg, &#34;&#39;Email&#39;&#34;) {</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>54</td>
                 <td>
-                    <code><pre>                slog.WarnContext(ctx, &#34;password too long during registration&#34;)</pre></code>
+                    <code><pre>                        return nil, ErrInvalidEmail</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>55</td>
                 <td>
-                    <code><pre>                return nil, ErrPasswordTooLong</pre></code>
+                    <code><pre>                }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>56</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>                if strings.Contains(errMsg, &#34;&#39;Password&#39;&#34;) {</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>57</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>                        return nil, ErrPasswordTooLong</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>58</td>
                 <td>
-                    <code><pre>        // 5. Check if user already exists</pre></code>
+                    <code><pre>                }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>59</td>
                 <td>
-                    <code><pre>        existing, err := s.userRepo.GetByEmail(ctx, email)</pre></code>
+                    <code><pre>                return nil, ErrInvalidRole</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>60</td>
                 <td>
-                    <code><pre>        if err != nil &amp;&amp; !errors.Is(err, domain.ErrUserNotFound) {</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>61</td>
                 <td>
-                    <code><pre>                slog.ErrorContext(ctx, &#34;failed to check if user exists&#34;, &#34;email&#34;, email, &#34;err&#34;, err)</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>62</td>
                 <td>
-                    <code><pre>                return nil, fmt.Errorf(&#34;failed to check if user exists: %w&#34;, err)</pre></code>
+                    <code><pre>        // 2. Use normalized values from input</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>63</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>        email = input.Email</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>64</td>
                 <td>
-                    <code><pre>        if existing != nil {</pre></code>
+                    <code><pre>        role = input.Role</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>65</td>
                 <td>
-                    <code><pre>                return nil, domain.ErrUserAlreadyExists</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>66</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>        // 5. Check if user already exists</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>67</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        existing, err := s.userRepo.GetByEmail(ctx, email)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>68</td>
                 <td>
-                    <code><pre>        // 4. Hash password</pre></code>
+                    <code><pre>        if err != nil &amp;&amp; !errors.Is(err, domain.ErrUserNotFound) {</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>69</td>
                 <td>
-                    <code><pre>        hashedPassword, err := pkgAuth.HashPassword(password)</pre></code>
+                    <code><pre>                slog.ErrorContext(ctx, &#34;failed to check if user exists&#34;, &#34;email&#34;, email, &#34;err&#34;, err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>70</td>
+                <td>
+                    <code><pre>                return nil, fmt.Errorf(&#34;failed to check if user exists: %w&#34;, err)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>70</td>
-                <td>
-                    <code><pre>        if err != nil {</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
                 <td>71</td>
                 <td>
-                    <code><pre>                slog.ErrorContext(ctx, &#34;failed to hash password&#34;, &#34;err&#34;, err)</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>72</td>
                 <td>
-                    <code><pre>                return nil, fmt.Errorf(&#34;failed to hash password: %w&#34;, err)</pre></code>
+                    <code><pre>        if existing != nil {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>73</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>                return nil, domain.ErrUserAlreadyExists</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>74</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>75</td>
                 <td>
-                    <code><pre>        user := &amp;domain.User{</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>76</td>
                 <td>
-                    <code><pre>                Email:        email,</pre></code>
+                    <code><pre>        // 4. Hash password</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>77</td>
                 <td>
-                    <code><pre>                PasswordHash: hashedPassword,</pre></code>
+                    <code><pre>        hashedPassword, err := pkgAuth.HashPassword(password)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>78</td>
                 <td>
-                    <code><pre>                Role:         role,</pre></code>
+                    <code><pre>        if err != nil {</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>79</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>                slog.ErrorContext(ctx, &#34;failed to hash password&#34;, &#34;err&#34;, err)</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>80</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>                return nil, fmt.Errorf(&#34;failed to hash password: %w&#34;, err)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>81</td>
                 <td>
-                    <code><pre>        createdUser, err := s.userRepo.Create(ctx, user)</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>82</td>
                 <td>
-                    <code><pre>        if err != nil {</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>83</td>
                 <td>
-                    <code><pre>                slog.ErrorContext(ctx, &#34;failed to create user&#34;, &#34;email&#34;, email, &#34;err&#34;, err)</pre></code>
+                    <code><pre>        user := &amp;domain.User{</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>84</td>
                 <td>
-                    <code><pre>                return nil, fmt.Errorf(&#34;failed to create user: %w&#34;, err)</pre></code>
+                    <code><pre>                Email:        email,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>85</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>                PasswordHash: hashedPassword,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>86</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>                Role:         role,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>87</td>
                 <td>
-                    <code><pre>        slog.InfoContext(ctx, &#34;user registered successfully&#34;, &#34;user_id&#34;, createdUser.ID, &#34;email&#34;, createdUser.Email)</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>88</td>
                 <td>
-                    <code><pre>        return createdUser, nil</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>89</td>
+                <td>
+                    <code><pre>        createdUser, err := s.userRepo.Create(ctx, user)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>90</td>
+                <td>
+                    <code><pre>        if err != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>91</td>
+                <td>
+                    <code><pre>                slog.ErrorContext(ctx, &#34;failed to create user&#34;, &#34;email&#34;, email, &#34;err&#34;, err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>92</td>
+                <td>
+                    <code><pre>                return nil, fmt.Errorf(&#34;failed to create user: %w&#34;, err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>93</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>94</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>95</td>
+                <td>
+                    <code><pre>        slog.InfoContext(ctx, &#34;user registered successfully&#34;, &#34;user_id&#34;, createdUser.ID, &#34;email&#34;, createdUser.Email)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>96</td>
+                <td>
+                    <code><pre>        return createdUser, nil</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>97</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -3548,7 +3354,7 @@ p {
          
 
         <!--    Can be parsed by external script
-                PACKAGE:go-booking-management-init/internal/application/auth DONE:73.3
+                PACKAGE:go-booking-management-init/internal/application/auth DONE:76.7
         -->
         
         <div id="pkg_go-booking-management-init/internal/database" class="funcname">
@@ -5451,6 +5257,1021 @@ p {
                 PACKAGE:go-booking-management-init/internal/server DONE:0.0
         -->
         
+        <div id="pkg_go-booking-management-init/pkg/api" class="funcname">
+            Package Overview: go-booking-management-init/pkg/api
+            <span class="packageTotal">0.0%</span>
+        </div>
+        <p>Please select a function to see what's left for testing.</p>
+
+        <table class="overview">
+        
+            <tr id="s_fn_BindAndValidate">
+                <td>
+                    <code><a href="#fn_BindAndValidate">BindAndValidate(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/pkg/api/validator.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/8</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_FormatValidationError">
+                <td>
+                    <code><a href="#fn_FormatValidationError">FormatValidationError(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/pkg/api/validator.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/7</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_getErrorMsg">
+                <td>
+                    <code><a href="#fn_getErrorMsg">getErrorMsg(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/pkg/api/validator.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/7</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_@76:24">
+                <td>
+                    <code><a href="#fn_@76:24">@76:24(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/pkg/api/validator.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/4</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_InitValidator">
+                <td>
+                    <code><a href="#fn_InitValidator">InitValidator(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/pkg/api/validator.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/3</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_ValidationError">
+                <td>
+                    <code><a href="#fn_ValidationError">ValidationError(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/pkg/api/response.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/1</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_init">
+                <td>
+                    <code><a href="#fn_init">init(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/pkg/api/validator.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/1</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_Success">
+                <td>
+                    <code><a href="#fn_Success">Success(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/pkg/api/response.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/1</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_Validate">
+                <td>
+                    <code><a href="#fn_Validate">Validate(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/pkg/api/validator.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/1</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_GetValidator">
+                <td>
+                    <code><a href="#fn_GetValidator">GetValidator(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/pkg/api/validator.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/1</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_RegisterTagNameFunc">
+                <td>
+                    <code><a href="#fn_RegisterTagNameFunc">RegisterTagNameFunc(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/pkg/api/validator.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/1</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_Error">
+                <td>
+                    <code><a href="#fn_Error">Error(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/pkg/api/response.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/1</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_Created">
+                <td>
+                    <code><a href="#fn_Created">Created(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/pkg/api/response.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/1</code>
+                </td>
+            </tr>
+        
+        </table>
+
+        
+        
+        <div class="funcname" id="fn_BindAndValidate">func BindAndValidate</div>
+        <div class="info">
+            <a href="#s_fn_BindAndValidate">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/pkg/api/validator.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>51</td>
+                <td>
+                    <code><pre>func BindAndValidate(c *gin.Context, req interface{}) bool {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>52</td>
+                <td>
+                    <code><pre>        if err := c.ShouldBindJSON(req); err != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>53</td>
+                <td>
+                    <code><pre>                verrs := FormatValidationError(err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>54</td>
+                <td>
+                    <code><pre>                if verrs != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>55</td>
+                <td>
+                    <code><pre>                        ValidationError(c, verrs)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>56</td>
+                <td>
+                    <code><pre>                        return false</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>57</td>
+                <td>
+                    <code><pre>                }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>58</td>
+                <td>
+                    <code><pre>                Error(c, 400, &#34;INVALID_REQUEST&#34;, &#34;Invalid request payload&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>59</td>
+                <td>
+                    <code><pre>                return false</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>60</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>61</td>
+                <td>
+                    <code><pre>        return true</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>62</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_FormatValidationError">func FormatValidationError</div>
+        <div class="info">
+            <a href="#s_fn_FormatValidationError">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/pkg/api/validator.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>21</td>
+                <td>
+                    <code><pre>func FormatValidationError(err error) map[string]string {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>22</td>
+                <td>
+                    <code><pre>        var ve validator.ValidationErrors</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>23</td>
+                <td>
+                    <code><pre>        if errors.As(err, &amp;ve) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>24</td>
+                <td>
+                    <code><pre>                out := make(map[string]string)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>25</td>
+                <td>
+                    <code><pre>                for _, fe := range ve {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>26</td>
+                <td>
+                    <code><pre>                        out[fe.Field()] = getErrorMsg(fe)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>27</td>
+                <td>
+                    <code><pre>                }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>28</td>
+                <td>
+                    <code><pre>                return out</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>29</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>30</td>
+                <td>
+                    <code><pre>        return nil</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>31</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_getErrorMsg">func getErrorMsg</div>
+        <div class="info">
+            <a href="#s_fn_getErrorMsg">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/pkg/api/validator.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>33</td>
+                <td>
+                    <code><pre>func getErrorMsg(fe validator.FieldError) string {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>34</td>
+                <td>
+                    <code><pre>        switch fe.Tag() {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>35</td>
+                <td>
+                    <code><pre>        case &#34;required&#34;:</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>36</td>
+                <td>
+                    <code><pre>                return &#34;This field is required&#34;</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>37</td>
+                <td>
+                    <code><pre>        case &#34;email&#34;:</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>38</td>
+                <td>
+                    <code><pre>                return &#34;Invalid email format&#34;</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>39</td>
+                <td>
+                    <code><pre>        case &#34;min&#34;:</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>40</td>
+                <td>
+                    <code><pre>                return fmt.Sprintf(&#34;Should be at least %s characters long&#34;, fe.Param())</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>41</td>
+                <td>
+                    <code><pre>        case &#34;max&#34;:</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>42</td>
+                <td>
+                    <code><pre>                return fmt.Sprintf(&#34;Should be at most %s characters long&#34;, fe.Param())</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>43</td>
+                <td>
+                    <code><pre>        case &#34;oneof&#34;:</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>44</td>
+                <td>
+                    <code><pre>                return fmt.Sprintf(&#34;Must be one of: %s&#34;, fe.Param())</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>45</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>46</td>
+                <td>
+                    <code><pre>        return fmt.Sprintf(&#34;Invalid value for %s&#34;, fe.Field())</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>47</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_@76:24">func @76:24</div>
+        <div class="info">
+            <a href="#s_fn_@76:24">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/pkg/api/validator.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>76</td>
+                <td>
+                    <code><pre>func(fld reflect.StructField) string {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>77</td>
+                <td>
+                    <code><pre>                name := strings.SplitN(fld.Tag.Get(&#34;json&#34;), &#34;,&#34;, 2)[0]</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>78</td>
+                <td>
+                    <code><pre>                if name == &#34;-&#34; {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>79</td>
+                <td>
+                    <code><pre>                        return &#34;&#34;</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>80</td>
+                <td>
+                    <code><pre>                }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>81</td>
+                <td>
+                    <code><pre>                return name</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>82</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_InitValidator">func InitValidator</div>
+        <div class="info">
+            <a href="#s_fn_InitValidator">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/pkg/api/validator.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>86</td>
+                <td>
+                    <code><pre>func InitValidator() {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>87</td>
+                <td>
+                    <code><pre>        // Register for Gin&#39;s validator</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>88</td>
+                <td>
+                    <code><pre>        if v, ok := binding.Validator.Engine().(*validator.Validate); ok {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>89</td>
+                <td>
+                    <code><pre>                RegisterTagNameFunc(v)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>90</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>91</td>
+                <td>
+                    <code><pre>        // Register for shared internal validator</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>92</td>
+                <td>
+                    <code><pre>        RegisterTagNameFunc(validate)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>93</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_ValidationError">func ValidationError</div>
+        <div class="info">
+            <a href="#s_fn_ValidationError">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/pkg/api/response.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>44</td>
+                <td>
+                    <code><pre>func ValidationError(c *gin.Context, errors interface{}) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>45</td>
+                <td>
+                    <code><pre>        c.JSON(http.StatusBadRequest, Response{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>46</td>
+                <td>
+                    <code><pre>                Status:  &#34;error&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>47</td>
+                <td>
+                    <code><pre>                Code:    &#34;VALIDATION_ERROR&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>48</td>
+                <td>
+                    <code><pre>                Message: &#34;Validation failed&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>49</td>
+                <td>
+                    <code><pre>                Errors:  errors,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>50</td>
+                <td>
+                    <code><pre>        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>51</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_init">func init</div>
+        <div class="info">
+            <a href="#s_fn_init">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/pkg/api/validator.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>16</td>
+                <td>
+                    <code><pre>func init() {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>17</td>
+                <td>
+                    <code><pre>        validate = validator.New()</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>18</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_Success">func Success</div>
+        <div class="info">
+            <a href="#s_fn_Success">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/pkg/api/response.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>19</td>
+                <td>
+                    <code><pre>func Success(c *gin.Context, data interface{}) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>20</td>
+                <td>
+                    <code><pre>        c.JSON(http.StatusOK, Response{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>21</td>
+                <td>
+                    <code><pre>                Status: &#34;success&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>22</td>
+                <td>
+                    <code><pre>                Data:   data,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>23</td>
+                <td>
+                    <code><pre>        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>24</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_Validate">func Validate</div>
+        <div class="info">
+            <a href="#s_fn_Validate">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/pkg/api/validator.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>65</td>
+                <td>
+                    <code><pre>func Validate(s interface{}) error {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>66</td>
+                <td>
+                    <code><pre>        return validate.Struct(s)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>67</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_GetValidator">func GetValidator</div>
+        <div class="info">
+            <a href="#s_fn_GetValidator">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/pkg/api/validator.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>70</td>
+                <td>
+                    <code><pre>func GetValidator() *validator.Validate {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>71</td>
+                <td>
+                    <code><pre>        return validate</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>72</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_RegisterTagNameFunc">func RegisterTagNameFunc</div>
+        <div class="info">
+            <a href="#s_fn_RegisterTagNameFunc">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/pkg/api/validator.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>75</td>
+                <td>
+                    <code><pre>func RegisterTagNameFunc(v *validator.Validate) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>76</td>
+                <td>
+                    <code><pre>        v.RegisterTagNameFunc(func(fld reflect.StructField) string {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>77</td>
+                <td>
+                    <code><pre>                name := strings.SplitN(fld.Tag.Get(&#34;json&#34;), &#34;,&#34;, 2)[0]</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>78</td>
+                <td>
+                    <code><pre>                if name == &#34;-&#34; {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>79</td>
+                <td>
+                    <code><pre>                        return &#34;&#34;</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>80</td>
+                <td>
+                    <code><pre>                }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>81</td>
+                <td>
+                    <code><pre>                return name</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>82</td>
+                <td>
+                    <code><pre>        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>83</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_Error">func Error</div>
+        <div class="info">
+            <a href="#s_fn_Error">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/pkg/api/response.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>35</td>
+                <td>
+                    <code><pre>func Error(c *gin.Context, status int, code, message string) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>36</td>
+                <td>
+                    <code><pre>        c.JSON(status, Response{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>37</td>
+                <td>
+                    <code><pre>                Status:  &#34;error&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>38</td>
+                <td>
+                    <code><pre>                Code:    code,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>39</td>
+                <td>
+                    <code><pre>                Message: message,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>40</td>
+                <td>
+                    <code><pre>        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>41</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_Created">func Created</div>
+        <div class="info">
+            <a href="#s_fn_Created">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/pkg/api/response.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>27</td>
+                <td>
+                    <code><pre>func Created(c *gin.Context, data interface{}) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>28</td>
+                <td>
+                    <code><pre>        c.JSON(http.StatusCreated, Response{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>29</td>
+                <td>
+                    <code><pre>                Status: &#34;success&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>30</td>
+                <td>
+                    <code><pre>                Data:   data,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>31</td>
+                <td>
+                    <code><pre>        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>32</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+         
+
+        <!--    Can be parsed by external script
+                PACKAGE:go-booking-management-init/pkg/api DONE:0.0
+        -->
+        
         <div id="pkg_go-booking-management-init/pkg/auth" class="funcname">
             Package Overview: go-booking-management-init/pkg/auth
             <span class="packageTotal">78.1%</span>
@@ -6089,7 +6910,7 @@ p {
         <div id="summaryWrapper">
         
             <div class="package">Report Total</div>
-            <div id="totalcov">47.0%</div>
+            <div id="totalcov">40.3%</div>
          
         </div>
          

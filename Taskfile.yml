@@ -18,6 +18,18 @@ tasks:
     cmds:
       - go run cmd/api/main.go
 
+  routes:
+    desc: List all registered API routes
+    cmds:
+      - go run cmd/api/main.go --list-routes
+
+  routes:export:
+    desc: Export all registered API routes to a JSON file
+    cmds:
+      - go run cmd/api/main.go --export-routes routes.json
+
+
+
   docker:up:
     desc: Start DB container in background
     cmds:

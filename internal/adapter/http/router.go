@@ -25,6 +25,11 @@ type Router struct {
 }
 
 func NewRouter(config Config) *Router {
+	// Set Gin mode based on environment or default to release to keep it clean
+	if os.Getenv("APP_ENV") != "development" && os.Getenv("GIN_MODE") != "debug" {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
 	r := gin.New()
 
 	// Default middlewares
@@ -44,54 +49,14 @@ func NewRouter(config Config) *Router {
 	}
 }
 
-func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandler *handler.AuthHandler) http.Handler {
+func (r *Router) Engine() *gin.Engine {
+	return r.engine
+}
+
+func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandler *handler.AuthHandler, systemHandler *handler.SystemHandler) http.Handler {
 	v1 := r.engine.Group("/v1")
 	{
-		v1.GET("/health", healthHandler.HealthCheck)
-		v1.POST("/auth/register", authHandler.Register)
-
-		// Documentation routes
-		v1.GET("/swagger/*any", func(c *gin.Context) {
-			path := c.Param("any")
-			if path == "/doc.json" {
-				if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {
-					slog.Error("swagger file not found", "path", r.config.SwaggerPath)
-					api.Error(c, http.StatusNotFound, "NOT_FOUND", "Swagger documentation file not found")
-					return
-				}
-				c.File(r.config.SwaggerPath)
-				return
-			}
-			c.Redirect(http.StatusMovedPermanently, "/v1/doc")
-		})
-
-		v1.GET("/doc", func(c *gin.Context) {
-			if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {
-				slog.Error("swagger file not found for scalar", "path", r.config.SwaggerPath)
-				api.Error(c, http.StatusNotFound, "NOT_FOUND", "API documentation source not found")
-				return
-			}
-			htmlContent, err := scalar.ApiReferenceHTML(&scalar.Options{
-				SpecURL: r.config.SwaggerPath,
-				CustomOptions: scalar.CustomOptions{
-					PageTitle: "Booking Management API - Scalar",
-				},
-				DarkMode: true,
-			})
-			if err != nil {
-				slog.Error("failed to generate scalar api reference", "error", err)
-				api.Error(c, http.StatusInternalServerError, "INTERNAL_SERVER_ERROR", "Failed to generate API documentation")
-				return
-			}
-			c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(htmlContent))
-		})
-
-		// Root route
-		v1.GET("/", func(c *gin.Context) {
-			api.Success(c, gin.H{
-				"message": "Booking Management API",
-			})
-		})
+		r.registerV1Routes(v1, healthHandler, authHandler, systemHandler)
 	}
 
 	// Redirect root to /v1
@@ -100,4 +65,58 @@ func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandle
 	})
 
 	return r.engine
+}
+
+func (r *Router) registerV1Routes(rg *gin.RouterGroup, healthHandler *handler.HealthHandler, authHandler *handler.AuthHandler, systemHandler *handler.SystemHandler) {
+	// Health & Auth
+	rg.GET("/health", healthHandler.HealthCheck)
+	rg.POST("/auth/register", authHandler.Register)
+
+	// Debug routes (Dev only)
+	if os.Getenv("APP_ENV") == "development" {
+		rg.GET("/debug/routes", systemHandler.DebugRoutes)
+	}
+
+	// Documentation
+	r.registerDocRoutes(rg)
+
+	// Root
+	rg.GET("/", systemHandler.Index)
+}
+
+func (r *Router) registerDocRoutes(rg *gin.RouterGroup) {
+	rg.GET("/swagger/*any", func(c *gin.Context) {
+		path := c.Param("any")
+		if path == "/doc.json" {
+			if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {
+				slog.Error("swagger file not found", "path", r.config.SwaggerPath)
+				api.Error(c, http.StatusNotFound, "NOT_FOUND", "Swagger documentation file not found")
+				return
+			}
+			c.File(r.config.SwaggerPath)
+			return
+		}
+		c.Redirect(http.StatusMovedPermanently, "/v1/doc")
+	})
+
+	rg.GET("/doc", func(c *gin.Context) {
+		if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {
+			slog.Error("swagger file not found for scalar", "path", r.config.SwaggerPath)
+			api.Error(c, http.StatusNotFound, "NOT_FOUND", "API documentation source not found")
+			return
+		}
+		htmlContent, err := scalar.ApiReferenceHTML(&scalar.Options{
+			SpecURL: r.config.SwaggerPath,
+			CustomOptions: scalar.CustomOptions{
+				PageTitle: "Booking Management API - Scalar",
+			},
+			DarkMode: true,
+		})
+		if err != nil {
+			slog.Error("failed to generate scalar api reference", "error", err)
+			api.Error(c, http.StatusInternalServerError, "INTERNAL_SERVER_ERROR", "Failed to generate API documentation")
+			return
+		}
+		c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(htmlContent))
+	})
 }

@@ -23,7 +23,7 @@ type Server struct {
 	db   database.Service
 }
 
-func NewServer() *http.Server {
+func NewServer() (*http.Server, *adapterHttp.Router) {
 	portStr := os.Getenv("PORT")
 	port, err := strconv.Atoi(portStr)
 	if err != nil {
@@ -51,6 +51,7 @@ func NewServer() *http.Server {
 	authHandler := handler.NewAuthHandler(authService)
 
 	// Fetch router config from environment
+
 	allowOrigins := strings.Split(os.Getenv("ALLOW_ORIGINS"), ",")
 	if len(allowOrigins) == 0 || allowOrigins[0] == "" {
 		allowOrigins = []string{"http://localhost:5173"} // Default
@@ -68,14 +69,16 @@ func NewServer() *http.Server {
 		SwaggerPath:  swaggerPath,
 	})
 
+	systemHandler := handler.NewSystemHandler(router.Engine())
+
 	// Declare Server config
 	server := &http.Server{
 		Addr:         fmt.Sprintf(":%d", s.port),
-		Handler:      router.RegisterRoutes(healthHandler, authHandler),
+		Handler:      router.RegisterRoutes(healthHandler, authHandler, systemHandler),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
 	}
 
-	return server
+	return server, router
 }

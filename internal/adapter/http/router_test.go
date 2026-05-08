@@ -39,7 +39,8 @@ func TestRouter_HealthCheck(t *testing.T) {
 		AllowOrigins: []string{"*"},
 		SwaggerPath:  "./api/swagger.json",
 	})
-	h := router.RegisterRoutes(healthHandler, nil)
+	systemHandler := handler.NewSystemHandler(router.Engine())
+	h := router.RegisterRoutes(healthHandler, nil, systemHandler)
 
 	// Execute
 	w := httptest.NewRecorder()
