@@ -57,13 +57,13 @@ func mustStartPostgresContainer() (func(context.Context, ...testcontainers.Termi
 func TestMain(m *testing.M) {
 	teardown, err := mustStartPostgresContainer()
 	if err != nil {
-		log.Fatalf("could not start postgres container: %v", err)
+		log.Fatalf("could not start postgres container: %s", err)
 	}
 
 	m.Run()
 
 	if teardown != nil && teardown(context.Background()) != nil {
-		log.Fatalf("could not teardown postgres container: %v", err)
+		log.Fatalf("could not teardown postgres container: %s", err)
 	}
 }
 
@@ -71,6 +71,14 @@ func TestNew(t *testing.T) {
 	srv := New()
 	if srv == nil {
 		t.Fatal("New() returned nil")
+	}
+}
+
+func TestReuseConnection(t *testing.T) {
+	srv1 := New()
+	srv2 := New()
+	if srv1 != srv2 {
+		t.Fatal("New() should return the same instance")
 	}
 }
 
@@ -97,5 +105,13 @@ func TestClose(t *testing.T) {
 
 	if srv.Close() != nil {
 		t.Fatalf("expected Close() to return nil")
+	}
+}
+
+func TestDB(t *testing.T) {
+	srv := New()
+	db := srv.DB()
+	if db == nil {
+		t.Fatal("DB() returned nil")
 	}
 }

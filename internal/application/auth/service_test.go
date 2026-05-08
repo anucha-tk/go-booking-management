@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"errors"
 	domain "go-booking-management-init/internal/domain/auth"
 	"testing"
 
@@ -68,6 +69,7 @@ func TestService_Register(t *testing.T) {
 		assert.Nil(t, user)
 		mockRepo.AssertExpectations(t)
 	})
+
 	t.Run("invalid email", func(t *testing.T) {
 		user, err := service.Register(ctx, "invalid-email", "password123", domain.RoleGuest)
 		assert.Error(t, err)
@@ -80,5 +82,42 @@ func TestService_Register(t *testing.T) {
 		assert.Error(t, err)
 		assert.Equal(t, ErrInvalidRole, err)
 		assert.Nil(t, user)
+	})
+
+	t.Run("password too long", func(t *testing.T) {
+		longPass := string(make([]byte, 73))
+		user, err := service.Register(ctx, "test@example.com", longPass, domain.RoleGuest)
+		assert.Error(t, err)
+		assert.Equal(t, ErrPasswordTooLong, err)
+		assert.Nil(t, user)
+	})
+
+	t.Run("get by email returns unexpected error", func(t *testing.T) {
+		email := "dberror@example.com"
+		password := "password123"
+
+		mockRepo.On("GetByEmail", ctx, email).Return(nil, errors.New("connection refused")).Once()
+
+		user, err := service.Register(ctx, email, password, domain.RoleGuest)
+
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "failed to check if user exists")
+		assert.Nil(t, user)
+		mockRepo.AssertExpectations(t)
+	})
+
+	t.Run("create user fails", func(t *testing.T) {
+		email := "createfail@example.com"
+		password := "password123"
+
+		mockRepo.On("GetByEmail", ctx, email).Return(nil, domain.ErrUserNotFound).Once()
+		mockRepo.On("Create", ctx, mock.Anything).Return(nil, errors.New("insert failed")).Once()
+
+		user, err := service.Register(ctx, email, password, domain.RoleGuest)
+
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "failed to create user")
+		assert.Nil(t, user)
+		mockRepo.AssertExpectations(t)
 	})
 }
