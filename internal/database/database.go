@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"net/url"
 	"os"
 	"strconv"
 	"time"
@@ -19,22 +20,20 @@ type Service interface {
 	// The keys and values in the map are service-specific.
 	Health() map[string]string
 
+	// DB returns the underlying *sql.DB instance.
+	DB() *sql.DB
+
 	// Close terminates the database connection.
 	// It returns an error if the connection cannot be closed.
 	Close() error
 }
 
 type service struct {
-	db *sql.DB
+	db   *sql.DB
+	name string
 }
 
 var (
-	database   = os.Getenv("BLUEPRINT_DB_DATABASE")
-	password   = os.Getenv("BLUEPRINT_DB_PASSWORD")
-	username   = os.Getenv("BLUEPRINT_DB_USERNAME")
-	port       = os.Getenv("BLUEPRINT_DB_PORT")
-	host       = os.Getenv("BLUEPRINT_DB_HOST")
-	schema     = os.Getenv("BLUEPRINT_DB_SCHEMA")
 	dbInstance *service
 )
 
@@ -43,13 +42,28 @@ func New() Service {
 	if dbInstance != nil {
 		return dbInstance
 	}
-	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable&search_path=%s", username, password, host, port, database, schema)
+	database := os.Getenv("BLUEPRINT_DB_DATABASE")
+	password := os.Getenv("BLUEPRINT_DB_PASSWORD")
+	username := os.Getenv("BLUEPRINT_DB_USERNAME")
+	port := os.Getenv("BLUEPRINT_DB_PORT")
+	host := os.Getenv("BLUEPRINT_DB_HOST")
+	schema := os.Getenv("BLUEPRINT_DB_SCHEMA")
+
+	// Safely encode credentials
+	userInfo := url.UserPassword(username, password).String()
+	connStr := fmt.Sprintf("postgres://%s@%s:%s/%s?sslmode=disable", userInfo, host, port, database)
+
+	if schema != "" {
+		connStr = fmt.Sprintf("%s&search_path=%s", connStr, url.QueryEscape(schema))
+	}
+
 	db, err := sql.Open("pgx", connStr)
 	if err != nil {
 		log.Fatal(err)
 	}
 	dbInstance = &service{
-		db: db,
+		db:   db,
+		name: database,
 	}
 	return dbInstance
 }
@@ -104,11 +118,15 @@ func (s *service) Health() map[string]string {
 	return stats
 }
 
+func (s *service) DB() *sql.DB {
+	return s.db
+}
+
 // Close closes the database connection.
 // It logs a message indicating the disconnection from the specific database.
 // If the connection is successfully closed, it returns nil.
 // If an error occurs while closing the connection, it returns the error.
 func (s *service) Close() error {
-	log.Printf("Disconnected from database: %s", database)
+	log.Printf("Disconnected from database: %s", s.name)
 	return s.db.Close()
 }

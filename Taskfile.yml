@@ -44,6 +44,17 @@ tasks:
       - echo "Testing..."
       - go test ./... -v
 
+  test:cover:
+    desc: Run tests with coverage and open report in browser (gocov-html)
+    cmds:
+      - gocov test ./... | gocov-html > coverage.html
+      - open coverage.html
+    preconditions:
+      - sh: command -v gocov >/dev/null 2>&1
+        msg: "gocov is not installed. Run 'task tools:install' to install it."
+      - sh: command -v gocov-html >/dev/null 2>&1
+        msg: "gocov-html is not installed. Run 'task tools:install' to install it."
+
   itest:
     desc: Run integration tests
     cmds:
@@ -82,3 +93,9 @@ tasks:
     desc: Generate OpenAPI documentation
     cmds:
       - swag init -g cmd/api/main.go -o api
+
+  tools:install:
+    desc: Install dev tools (gocov, gocov-html)
+    cmds:
+      - go install github.com/axw/gocov/gocov@latest
+      - go install github.com/matm/gocov-html/cmd/gocov-html@latest

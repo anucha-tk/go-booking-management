@@ -43,10 +43,11 @@ func NewRouter(config Config) *Router {
 	}
 }
 
-func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler) http.Handler {
+func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandler *handler.AuthHandler) http.Handler {
 	v1 := r.engine.Group("/v1")
 	{
 		v1.GET("/health", healthHandler.HealthCheck)
+		v1.POST("/auth/register", authHandler.Register)
 
 		// Documentation routes
 		v1.GET("/swagger/*any", func(c *gin.Context) {

@@ -1,6 +1,7 @@
 package http
 
 import (
+	"database/sql"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -24,6 +25,10 @@ func (m *mockDB) Close() error {
 	return nil
 }
 
+func (m *mockDB) DB() *sql.DB {
+	return nil
+}
+
 func TestRouter_HealthCheck(t *testing.T) {
 	// Setup
 	gin.SetMode(gin.TestMode)
@@ -34,7 +39,7 @@ func TestRouter_HealthCheck(t *testing.T) {
 		AllowOrigins: []string{"*"},
 		SwaggerPath:  "./api/swagger.json",
 	})
-	h := router.RegisterRoutes(healthHandler)
+	h := router.RegisterRoutes(healthHandler, nil)
 
 	// Execute
 	w := httptest.NewRecorder()

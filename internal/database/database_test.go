@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"log"
+	"os"
 	"testing"
 	"time"
 
@@ -33,9 +34,9 @@ func mustStartPostgresContainer() (func(context.Context, ...testcontainers.Termi
 		return nil, err
 	}
 
-	database = dbName
-	password = dbPwd
-	username = dbUser
+	os.Setenv("BLUEPRINT_DB_DATABASE", dbName)
+	os.Setenv("BLUEPRINT_DB_PASSWORD", dbPwd)
+	os.Setenv("BLUEPRINT_DB_USERNAME", dbUser)
 
 	dbHost, err := dbContainer.Host(context.Background())
 	if err != nil {
@@ -47,8 +48,8 @@ func mustStartPostgresContainer() (func(context.Context, ...testcontainers.Termi
 		return dbContainer.Terminate, err
 	}
 
-	host = dbHost
-	port = dbPort.Port()
+	os.Setenv("BLUEPRINT_DB_HOST", dbHost)
+	os.Setenv("BLUEPRINT_DB_PORT", dbPort.Port())
 
 	return dbContainer.Terminate, err
 }

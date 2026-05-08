@@ -13,7 +13,9 @@ import (
 
 	adapterHttp "go-booking-management-init/internal/adapter/http"
 	"go-booking-management-init/internal/adapter/http/handler"
+	"go-booking-management-init/internal/application/auth"
 	"go-booking-management-init/internal/database"
+	sqlcDB "go-booking-management-init/internal/infrastructure/db/sqlc"
 )
 
 type Server struct {
@@ -38,8 +40,15 @@ func NewServer() *http.Server {
 		db:   db,
 	}
 
+	// Initialize repositories
+	userRepo := sqlcDB.NewSQLCAuthRepository(db.DB())
+
+	// Initialize services
+	authService := auth.NewService(userRepo)
+
 	// Initialize handlers
 	healthHandler := handler.NewHealthHandler(db)
+	authHandler := handler.NewAuthHandler(authService)
 
 	// Fetch router config from environment
 	allowOrigins := strings.Split(os.Getenv("ALLOW_ORIGINS"), ",")
@@ -62,7 +71,7 @@ func NewServer() *http.Server {
 	// Declare Server config
 	server := &http.Server{
 		Addr:         fmt.Sprintf(":%d", s.port),
-		Handler:      router.RegisterRoutes(healthHandler),
+		Handler:      router.RegisterRoutes(healthHandler, authHandler),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,

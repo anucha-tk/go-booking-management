@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"database/sql"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -19,6 +20,10 @@ func (m *mockDB) Health() map[string]string {
 }
 
 func (m *mockDB) Close() error {
+	return nil
+}
+
+func (m *mockDB) DB() *sql.DB {
 	return nil
 }
 
