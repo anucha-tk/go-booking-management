@@ -4,9 +4,9 @@
         "contact": {}
     },
     "paths": {
-        "/": {
+        "/v1/health": {
             "get": {
-                "description": "get string hello world",
+                "description": "get API health status including database connectivity",
                 "consumes": [
                     "application/json"
                 ],
@@ -14,45 +14,55 @@
                     "application/json"
                 ],
                 "tags": [
-                    "root"
-                ],
-                "summary": "Hello World",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/health": {
-            "get": {
-                "description": "get database health status",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "root"
+                    "health"
                 ],
                 "summary": "Health Check",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/handler.HealthResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/handler.HealthResponse"
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handler.HealthData": {
+            "type": "object",
+            "properties": {
+                "database": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "type": "string",
+                    "example": "OK"
+                },
+                "version": {
+                    "type": "string",
+                    "example": "1.0.0"
+                }
+            }
+        },
+        "handler.HealthResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/handler.HealthData"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
                 }
             }
         }

@@ -1,38 +1,45 @@
+definitions:
+  handler.HealthData:
+    properties:
+      database:
+        additionalProperties:
+          type: string
+        type: object
+      status:
+        example: OK
+        type: string
+      version:
+        example: 1.0.0
+        type: string
+    type: object
+  handler.HealthResponse:
+    properties:
+      data:
+        $ref: '#/definitions/handler.HealthData'
+      status:
+        example: success
+        type: string
+    type: object
 info:
   contact: {}
 paths:
-  /:
+  /v1/health:
     get:
       consumes:
       - application/json
-      description: get string hello world
+      description: get API health status including database connectivity
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Hello World
-      tags:
-      - root
-  /health:
-    get:
-      consumes:
-      - application/json
-      description: get database health status
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
+            $ref: '#/definitions/handler.HealthResponse'
+        "503":
+          description: Service Unavailable
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/handler.HealthResponse'
       summary: Health Check
       tags:
-      - root
+      - health
 swagger: "2.0"
