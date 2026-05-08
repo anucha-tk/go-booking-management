@@ -168,7 +168,7 @@ p {
 	<body>
 		<div id="doctitle">Coverage Report</div>
         
-        <div id="about">Generated on Fri, 08 May 2026 14:51:07 +07 with <a href="https://github.com/matm/gocov-html">gocov-html</a></div>
+        <div id="about">Generated on Fri, 08 May 2026 15:41:51 +07 with <a href="https://github.com/matm/gocov-html">gocov-html</a></div>
         
         
         <div class="funcname">Report Overview</div>
@@ -194,8 +194,8 @@ p {
             
             <tr id="s_pkg_go-booking-management-init/internal/adapter/http/handler">
                 <td><code><a href="#pkg_go-booking-management-init/internal/adapter/http/handler">go-booking-management-init/internal/adapter/http/handler</a></code></td>
-                <td class="percent"><code>28.6%</code></td>
-                <td class="linecount"><code>6/21</code></td>
+                <td class="percent"><code>26.1%</code></td>
+                <td class="linecount"><code>6/23</code></td>
             </tr>
             
             <tr id="s_pkg_go-booking-management-init/internal/adapter/http/middleware">
@@ -206,20 +206,20 @@ p {
             
             <tr id="s_pkg_go-booking-management-init/internal/application/auth">
                 <td><code><a href="#pkg_go-booking-management-init/internal/application/auth">go-booking-management-init/internal/application/auth</a></code></td>
-                <td class="percent"><code>88.9%</code></td>
-                <td class="linecount"><code>8/9</code></td>
+                <td class="percent"><code>73.3%</code></td>
+                <td class="linecount"><code>22/30</code></td>
             </tr>
             
             <tr id="s_pkg_go-booking-management-init/internal/database">
                 <td><code><a href="#pkg_go-booking-management-init/internal/database">go-booking-management-init/internal/database</a></code></td>
-                <td class="percent"><code>79.5%</code></td>
-                <td class="linecount"><code>35/44</code></td>
+                <td class="percent"><code>78.7%</code></td>
+                <td class="linecount"><code>37/47</code></td>
             </tr>
             
             <tr id="s_pkg_go-booking-management-init/internal/infrastructure/db/sqlc">
                 <td><code><a href="#pkg_go-booking-management-init/internal/infrastructure/db/sqlc">go-booking-management-init/internal/infrastructure/db/sqlc</a></code></td>
-                <td class="percent"><code>85.0%</code></td>
-                <td class="linecount"><code>17/20</code></td>
+                <td class="percent"><code>70.8%</code></td>
+                <td class="linecount"><code>17/24</code></td>
             </tr>
             
             <tr id="s_pkg_go-booking-management-init/internal/server">
@@ -1889,7 +1889,7 @@ p {
         
         <div id="pkg_go-booking-management-init/internal/adapter/http/handler" class="funcname">
             Package Overview: go-booking-management-init/internal/adapter/http/handler
-            <span class="packageTotal">28.6%</span>
+            <span class="packageTotal">26.1%</span>
         </div>
         <p>Please select a function to see what's left for testing.</p>
 
@@ -1936,7 +1936,7 @@ p {
                     <code>0.0%</code>
                 </td>
                 <td class="linecount">
-                    <code>0/12</code>
+                    <code>0/14</code>
                 </td>
             </tr>
         
@@ -2139,273 +2139,413 @@ p {
         <table class="listing">
             
             <tr>
-                <td>21</td>
+                <td>23</td>
                 <td>
                     <code><pre>func (h *AuthHandler) Register(c *gin.Context) {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>22</td>
+                <td>24</td>
                 <td>
                     <code><pre>        var req dto.RegisterRequest</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>23</td>
+                <td>25</td>
                 <td>
                     <code><pre>        if err := c.ShouldBindJSON(&amp;req); err != nil {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>24</td>
+                <td>26</td>
                 <td>
                     <code><pre>                c.JSON(http.StatusBadRequest, gin.H{</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>25</td>
-                <td>
-                    <code><pre>                        &#34;status&#34;:  &#34;error&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>26</td>
-                <td>
-                    <code><pre>                        &#34;message&#34;: &#34;Invalid request payload&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
                 <td>27</td>
                 <td>
-                    <code><pre>                        &#34;code&#34;:    &#34;INVALID_REQUEST&#34;,</pre></code>
+                    <code><pre>                        &#34;status&#34;:  &#34;error&#34;,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>28</td>
                 <td>
-                    <code><pre>                })</pre></code>
+                    <code><pre>                        &#34;message&#34;: &#34;Invalid request payload&#34;,</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>29</td>
                 <td>
-                    <code><pre>                return</pre></code>
+                    <code><pre>                        &#34;code&#34;:    &#34;INVALID_REQUEST&#34;,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>30</td>
                 <td>
-                    <code><pre>        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>31</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>32</td>
-                <td>
-                    <code><pre>        user, err := h.authService.Register(c.Request.Context(), req.Email, req.Password, req.Role)</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>33</td>
-                <td>
-                    <code><pre>        if err != nil {</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>34</td>
-                <td>
-                    <code><pre>                if err == auth.ErrUserAlreadyExists {</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>35</td>
-                <td>
-                    <code><pre>                        c.JSON(http.StatusConflict, gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>36</td>
-                <td>
-                    <code><pre>                                &#34;status&#34;:  &#34;error&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>37</td>
-                <td>
-                    <code><pre>                                &#34;message&#34;: &#34;User already exists&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>38</td>
-                <td>
-                    <code><pre>                                &#34;code&#34;:    &#34;USER_EXISTS&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>39</td>
-                <td>
-                    <code><pre>                        })</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>40</td>
-                <td>
-                    <code><pre>                        return</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>41</td>
-                <td>
-                    <code><pre>                }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>42</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>43</td>
-                <td>
-                    <code><pre>                c.JSON(http.StatusInternalServerError, gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>44</td>
-                <td>
-                    <code><pre>                        &#34;status&#34;:  &#34;error&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>45</td>
-                <td>
-                    <code><pre>                        &#34;message&#34;: &#34;Internal server error&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>46</td>
-                <td>
-                    <code><pre>                        &#34;code&#34;:    &#34;SERVER_ERROR&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>47</td>
-                <td>
                     <code><pre>                })</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>48</td>
+                <td>31</td>
                 <td>
                     <code><pre>                return</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>49</td>
+                <td>32</td>
                 <td>
                     <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>50</td>
+                <td>33</td>
                 <td>
                     <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
+                <td>34</td>
+                <td>
+                    <code><pre>        user, err := h.authService.Register(c.Request.Context(), req.Email, req.Password, req.Role)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>35</td>
+                <td>
+                    <code><pre>        if err != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>36</td>
+                <td>
+                    <code><pre>                switch {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>37</td>
+                <td>
+                    <code><pre>                case errors.Is(err, domainAuth.ErrUserAlreadyExists):</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>38</td>
+                <td>
+                    <code><pre>                        c.JSON(http.StatusConflict, gin.H{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>39</td>
+                <td>
+                    <code><pre>                                &#34;status&#34;:  &#34;error&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>40</td>
+                <td>
+                    <code><pre>                                &#34;message&#34;: &#34;User already exists&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>41</td>
+                <td>
+                    <code><pre>                                &#34;code&#34;:    &#34;USER_EXISTS&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>42</td>
+                <td>
+                    <code><pre>                        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>43</td>
+                <td>
+                    <code><pre>                case errors.Is(err, auth.ErrInvalidEmail):</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>44</td>
+                <td>
+                    <code><pre>                        c.JSON(http.StatusUnprocessableEntity, gin.H{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>45</td>
+                <td>
+                    <code><pre>                                &#34;status&#34;:  &#34;error&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>46</td>
+                <td>
+                    <code><pre>                                &#34;message&#34;: &#34;Invalid email address format&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>47</td>
+                <td>
+                    <code><pre>                                &#34;code&#34;:    &#34;INVALID_EMAIL&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>48</td>
+                <td>
+                    <code><pre>                        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>49</td>
+                <td>
+                    <code><pre>                case errors.Is(err, auth.ErrInvalidRole):</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>50</td>
+                <td>
+                    <code><pre>                        c.JSON(http.StatusBadRequest, gin.H{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
                 <td>51</td>
                 <td>
-                    <code><pre>        c.JSON(http.StatusCreated, gin.H{</pre></code>
+                    <code><pre>                                &#34;status&#34;:  &#34;error&#34;,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>52</td>
                 <td>
-                    <code><pre>                &#34;status&#34;: &#34;success&#34;,</pre></code>
+                    <code><pre>                                &#34;message&#34;: &#34;Invalid user role provided&#34;,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>53</td>
                 <td>
-                    <code><pre>                &#34;data&#34;: dto.RegisterResponse{</pre></code>
+                    <code><pre>                                &#34;code&#34;:    &#34;INVALID_ROLE&#34;,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>54</td>
                 <td>
-                    <code><pre>                        ID:    user.ID,</pre></code>
+                    <code><pre>                        })</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>55</td>
                 <td>
-                    <code><pre>                        Email: user.Email,</pre></code>
+                    <code><pre>                case errors.Is(err, auth.ErrPasswordTooLong):</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>56</td>
                 <td>
-                    <code><pre>                        Role:  user.Role,</pre></code>
+                    <code><pre>                        c.JSON(http.StatusBadRequest, gin.H{</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>57</td>
                 <td>
-                    <code><pre>                },</pre></code>
+                    <code><pre>                                &#34;status&#34;:  &#34;error&#34;,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>58</td>
                 <td>
-                    <code><pre>        })</pre></code>
+                    <code><pre>                                &#34;message&#34;: &#34;Password is too long (max 72 characters)&#34;,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>59</td>
+                <td>
+                    <code><pre>                                &#34;code&#34;:    &#34;PASSWORD_TOO_LONG&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>60</td>
+                <td>
+                    <code><pre>                        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>61</td>
+                <td>
+                    <code><pre>                default:</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>62</td>
+                <td>
+                    <code><pre>                        c.JSON(http.StatusInternalServerError, gin.H{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>63</td>
+                <td>
+                    <code><pre>                                &#34;status&#34;:  &#34;error&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>64</td>
+                <td>
+                    <code><pre>                                &#34;message&#34;: &#34;Internal server error&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>65</td>
+                <td>
+                    <code><pre>                                &#34;code&#34;:    &#34;SERVER_ERROR&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>66</td>
+                <td>
+                    <code><pre>                        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>67</td>
+                <td>
+                    <code><pre>                }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>68</td>
+                <td>
+                    <code><pre>                return</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>69</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>70</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>71</td>
+                <td>
+                    <code><pre>        c.JSON(http.StatusCreated, gin.H{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>72</td>
+                <td>
+                    <code><pre>                &#34;status&#34;: &#34;success&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>73</td>
+                <td>
+                    <code><pre>                &#34;data&#34;: dto.RegisterResponse{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>74</td>
+                <td>
+                    <code><pre>                        ID:        user.ID,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>75</td>
+                <td>
+                    <code><pre>                        Email:     user.Email,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>76</td>
+                <td>
+                    <code><pre>                        Role:      user.Role,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>77</td>
+                <td>
+                    <code><pre>                        CreatedAt: user.CreatedAt.Format(&#34;2006-01-02T15:04:05Z07:00&#34;),</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>78</td>
+                <td>
+                    <code><pre>                        UpdatedAt: user.UpdatedAt.Format(&#34;2006-01-02T15:04:05Z07:00&#34;),</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>79</td>
+                <td>
+                    <code><pre>                },</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>80</td>
+                <td>
+                    <code><pre>        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>81</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -2421,35 +2561,35 @@ p {
         <table class="listing">
             
             <tr>
-                <td>15</td>
+                <td>17</td>
                 <td>
                     <code><pre>func NewAuthHandler(authService auth.Service) *AuthHandler {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>16</td>
+                <td>18</td>
                 <td>
                     <code><pre>        return &amp;AuthHandler{</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>17</td>
+                <td>19</td>
                 <td>
                     <code><pre>                authService: authService,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>18</td>
+                <td>20</td>
                 <td>
                     <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>19</td>
+                <td>21</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -2459,7 +2599,7 @@ p {
          
 
         <!--    Can be parsed by external script
-                PACKAGE:go-booking-management-init/internal/adapter/http/handler DONE:28.6
+                PACKAGE:go-booking-management-init/internal/adapter/http/handler DONE:26.1
         -->
         
         <div id="pkg_go-booking-management-init/internal/adapter/http/middleware" class="funcname">
@@ -2921,7 +3061,7 @@ p {
         
         <div id="pkg_go-booking-management-init/internal/application/auth" class="funcname">
             Package Overview: go-booking-management-init/internal/application/auth
-            <span class="packageTotal">88.9%</span>
+            <span class="packageTotal">73.3%</span>
         </div>
         <p>Please select a function to see what's left for testing.</p>
 
@@ -2950,10 +3090,10 @@ p {
                     <code>go-booking-management-init/internal/application/auth/service.go</code>
                 </td>
                 <td class="percent">
-                    <code>87.5%</code>
+                    <code>72.4%</code>
                 </td>
                 <td class="linecount">
-                    <code>7/8</code>
+                    <code>21/29</code>
                 </td>
             </tr>
         
@@ -2969,35 +3109,35 @@ p {
         <table class="listing">
             
             <tr>
-                <td>22</td>
+                <td>28</td>
                 <td>
-                    <code><pre>func NewService(userRepo auth.UserRepository) Service {</pre></code>
+                    <code><pre>func NewService(userRepo domain.UserRepository) Service {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>23</td>
+                <td>29</td>
                 <td>
                     <code><pre>        return &amp;service{</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>24</td>
+                <td>30</td>
                 <td>
                     <code><pre>                userRepo: userRepo,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>25</td>
+                <td>31</td>
                 <td>
                     <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>26</td>
+                <td>32</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -3013,79 +3153,37 @@ p {
         <table class="listing">
             
             <tr>
-                <td>28</td>
-                <td>
-                    <code><pre>func (s *service) Register(ctx context.Context, email, password, role string) (*auth.User, error) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>29</td>
-                <td>
-                    <code><pre>        // Check if user already exists</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>30</td>
-                <td>
-                    <code><pre>        existing, _ := s.userRepo.GetByEmail(ctx, email)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>31</td>
-                <td>
-                    <code><pre>        if existing != nil {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>32</td>
-                <td>
-                    <code><pre>                return nil, ErrUserAlreadyExists</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>33</td>
-                <td>
-                    <code><pre>        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
                 <td>34</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>func (s *service) Register(ctx context.Context, email, password, role string) (*domain.User, error) {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>35</td>
                 <td>
-                    <code><pre>        // Hash password</pre></code>
+                    <code><pre>        // 1. Validate Email</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>36</td>
                 <td>
-                    <code><pre>        hashedPassword, err := pkgAuth.HashPassword(password)</pre></code>
+                    <code><pre>        if _, err := mail.ParseAddress(email); err != nil {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>37</td>
                 <td>
-                    <code><pre>        if err != nil {</pre></code>
+                    <code><pre>                slog.WarnContext(ctx, &#34;invalid email address during registration&#34;, &#34;email&#34;, email, &#34;err&#34;, err)</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>38</td>
                 <td>
-                    <code><pre>                return nil, err</pre></code>
+                    <code><pre>                return nil, ErrInvalidEmail</pre></code>
                 </td>
             </tr>
             
@@ -3106,54 +3204,341 @@ p {
             <tr>
                 <td>41</td>
                 <td>
-                    <code><pre>        user := &amp;auth.User{</pre></code>
+                    <code><pre>        // 2. Validate Role</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>42</td>
                 <td>
-                    <code><pre>                Email:        email,</pre></code>
+                    <code><pre>        role = strings.ToLower(role)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>43</td>
                 <td>
-                    <code><pre>                PasswordHash: hashedPassword,</pre></code>
+                    <code><pre>        validRoles := map[string]bool{&#34;customer&#34;: true, &#34;admin&#34;: true, &#34;guest&#34;: true}</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>44</td>
                 <td>
-                    <code><pre>                Role:         role,</pre></code>
+                    <code><pre>        if !validRoles[role] {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>45</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>                slog.WarnContext(ctx, &#34;invalid role during registration&#34;, &#34;role&#34;, role)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>46</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>                return nil, ErrInvalidRole</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>47</td>
                 <td>
-                    <code><pre>        return s.userRepo.Create(ctx, user)</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>48</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>49</td>
+                <td>
+                    <code><pre>        // 3. Normalize Email</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>50</td>
+                <td>
+                    <code><pre>        email = strings.ToLower(strings.TrimSpace(email))</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>51</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>52</td>
+                <td>
+                    <code><pre>        // 4. Validate Password Length (Prevent DoS)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>53</td>
+                <td>
+                    <code><pre>        if len(password) &gt; 72 {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>54</td>
+                <td>
+                    <code><pre>                slog.WarnContext(ctx, &#34;password too long during registration&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>55</td>
+                <td>
+                    <code><pre>                return nil, ErrPasswordTooLong</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>56</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>57</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>58</td>
+                <td>
+                    <code><pre>        // 5. Check if user already exists</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>59</td>
+                <td>
+                    <code><pre>        existing, err := s.userRepo.GetByEmail(ctx, email)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>60</td>
+                <td>
+                    <code><pre>        if err != nil &amp;&amp; !errors.Is(err, domain.ErrUserNotFound) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>61</td>
+                <td>
+                    <code><pre>                slog.ErrorContext(ctx, &#34;failed to check if user exists&#34;, &#34;email&#34;, email, &#34;err&#34;, err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>62</td>
+                <td>
+                    <code><pre>                return nil, fmt.Errorf(&#34;failed to check if user exists: %w&#34;, err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>63</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>64</td>
+                <td>
+                    <code><pre>        if existing != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>65</td>
+                <td>
+                    <code><pre>                return nil, domain.ErrUserAlreadyExists</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>66</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>67</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>68</td>
+                <td>
+                    <code><pre>        // 4. Hash password</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>69</td>
+                <td>
+                    <code><pre>        hashedPassword, err := pkgAuth.HashPassword(password)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>70</td>
+                <td>
+                    <code><pre>        if err != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>71</td>
+                <td>
+                    <code><pre>                slog.ErrorContext(ctx, &#34;failed to hash password&#34;, &#34;err&#34;, err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>72</td>
+                <td>
+                    <code><pre>                return nil, fmt.Errorf(&#34;failed to hash password: %w&#34;, err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>73</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>74</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>75</td>
+                <td>
+                    <code><pre>        user := &amp;domain.User{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>76</td>
+                <td>
+                    <code><pre>                Email:        email,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>77</td>
+                <td>
+                    <code><pre>                PasswordHash: hashedPassword,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>78</td>
+                <td>
+                    <code><pre>                Role:         role,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>79</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>80</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>81</td>
+                <td>
+                    <code><pre>        createdUser, err := s.userRepo.Create(ctx, user)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>82</td>
+                <td>
+                    <code><pre>        if err != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>83</td>
+                <td>
+                    <code><pre>                slog.ErrorContext(ctx, &#34;failed to create user&#34;, &#34;email&#34;, email, &#34;err&#34;, err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>84</td>
+                <td>
+                    <code><pre>                return nil, fmt.Errorf(&#34;failed to create user: %w&#34;, err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>85</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>86</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>87</td>
+                <td>
+                    <code><pre>        slog.InfoContext(ctx, &#34;user registered successfully&#34;, &#34;user_id&#34;, createdUser.ID, &#34;email&#34;, createdUser.Email)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>88</td>
+                <td>
+                    <code><pre>        return createdUser, nil</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>89</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -3163,12 +3548,12 @@ p {
          
 
         <!--    Can be parsed by external script
-                PACKAGE:go-booking-management-init/internal/application/auth DONE:88.9
+                PACKAGE:go-booking-management-init/internal/application/auth DONE:73.3
         -->
         
         <div id="pkg_go-booking-management-init/internal/database" class="funcname">
             Package Overview: go-booking-management-init/internal/database
-            <span class="packageTotal">79.5%</span>
+            <span class="packageTotal">78.7%</span>
         </div>
         <p>Please select a function to see what's left for testing.</p>
 
@@ -3197,10 +3582,10 @@ p {
                     <code>go-booking-management-init/internal/database/database.go</code>
                 </td>
                 <td class="percent">
-                    <code>92.9%</code>
+                    <code>88.2%</code>
                 </td>
                 <td class="linecount">
-                    <code>13/14</code>
+                    <code>15/17</code>
                 </td>
             </tr>
         
@@ -3246,28 +3631,28 @@ p {
         <table class="listing">
             
             <tr>
-                <td>121</td>
+                <td>129</td>
                 <td>
                     <code><pre>func (s *service) Close() error {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>122</td>
+                <td>130</td>
                 <td>
                     <code><pre>        log.Printf(&#34;Disconnected from database: %s&#34;, s.name)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>123</td>
+                <td>131</td>
                 <td>
                     <code><pre>        return s.db.Close()</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>124</td>
+                <td>132</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -3283,161 +3668,210 @@ p {
         <table class="listing">
             
             <tr>
-                <td>39</td>
+                <td>40</td>
                 <td>
                     <code><pre>func New() Service {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>40</td>
+                <td>41</td>
                 <td>
                     <code><pre>        // Reuse Connection</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>41</td>
+                <td>42</td>
                 <td>
                     <code><pre>        if dbInstance != nil {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>42</td>
+                <td>43</td>
                 <td>
                     <code><pre>                return dbInstance</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>43</td>
-                <td>
-                    <code><pre>        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
                 <td>44</td>
                 <td>
-                    <code><pre>        database := os.Getenv(&#34;BLUEPRINT_DB_DATABASE&#34;)</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>45</td>
                 <td>
-                    <code><pre>        password := os.Getenv(&#34;BLUEPRINT_DB_PASSWORD&#34;)</pre></code>
+                    <code><pre>        database := os.Getenv(&#34;BLUEPRINT_DB_DATABASE&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>46</td>
                 <td>
-                    <code><pre>        username := os.Getenv(&#34;BLUEPRINT_DB_USERNAME&#34;)</pre></code>
+                    <code><pre>        password := os.Getenv(&#34;BLUEPRINT_DB_PASSWORD&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>47</td>
                 <td>
-                    <code><pre>        port := os.Getenv(&#34;BLUEPRINT_DB_PORT&#34;)</pre></code>
+                    <code><pre>        username := os.Getenv(&#34;BLUEPRINT_DB_USERNAME&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>48</td>
                 <td>
-                    <code><pre>        host := os.Getenv(&#34;BLUEPRINT_DB_HOST&#34;)</pre></code>
+                    <code><pre>        port := os.Getenv(&#34;BLUEPRINT_DB_PORT&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>49</td>
                 <td>
-                    <code><pre>        schema := os.Getenv(&#34;BLUEPRINT_DB_SCHEMA&#34;)</pre></code>
+                    <code><pre>        host := os.Getenv(&#34;BLUEPRINT_DB_HOST&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>50</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        schema := os.Getenv(&#34;BLUEPRINT_DB_SCHEMA&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>51</td>
                 <td>
-                    <code><pre>        connStr := fmt.Sprintf(&#34;postgres://%s:%s@%s:%s/%s?sslmode=disable&amp;search_path=%s&#34;, username, password, host, port, database, schema)</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>52</td>
                 <td>
-                    <code><pre>        db, err := sql.Open(&#34;pgx&#34;, connStr)</pre></code>
+                    <code><pre>        // Safely encode credentials</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>53</td>
                 <td>
-                    <code><pre>        if err != nil {</pre></code>
+                    <code><pre>        userInfo := url.UserPassword(username, password).String()</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>54</td>
                 <td>
-                    <code><pre>                log.Fatal(err)</pre></code>
+                    <code><pre>        connStr := fmt.Sprintf(&#34;postgres://%s@%s:%s/%s?sslmode=disable&#34;, userInfo, host, port, database)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>55</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>56</td>
                 <td>
-                    <code><pre>        dbInstance = &amp;service{</pre></code>
+                    <code><pre>        if schema != &#34;&#34; {</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>57</td>
                 <td>
-                    <code><pre>                db:   db,</pre></code>
+                    <code><pre>                connStr = fmt.Sprintf(&#34;%s&amp;search_path=%s&#34;, connStr, url.QueryEscape(schema))</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>58</td>
                 <td>
-                    <code><pre>                name: database,</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>59</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>60</td>
                 <td>
-                    <code><pre>        return dbInstance</pre></code>
+                    <code><pre>        db, err := sql.Open(&#34;pgx&#34;, connStr)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>61</td>
+                <td>
+                    <code><pre>        if err != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>62</td>
+                <td>
+                    <code><pre>                log.Fatal(err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>63</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>64</td>
+                <td>
+                    <code><pre>        dbInstance = &amp;service{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>65</td>
+                <td>
+                    <code><pre>                db:   db,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>66</td>
+                <td>
+                    <code><pre>                name: database,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>67</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>68</td>
+                <td>
+                    <code><pre>        return dbInstance</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>69</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -3453,93 +3887,37 @@ p {
         <table class="listing">
             
             <tr>
-                <td>65</td>
+                <td>73</td>
                 <td>
                     <code><pre>func (s *service) Health() map[string]string {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>66</td>
+                <td>74</td>
                 <td>
                     <code><pre>        ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>67</td>
+                <td>75</td>
                 <td>
                     <code><pre>        defer cancel()</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>68</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>69</td>
-                <td>
-                    <code><pre>        stats := make(map[string]string)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>70</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>71</td>
-                <td>
-                    <code><pre>        // Ping the database</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>72</td>
-                <td>
-                    <code><pre>        err := s.db.PingContext(ctx)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>73</td>
-                <td>
-                    <code><pre>        if err != nil {</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>74</td>
-                <td>
-                    <code><pre>                stats[&#34;status&#34;] = &#34;down&#34;</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>75</td>
-                <td>
-                    <code><pre>                stats[&#34;error&#34;] = fmt.Sprintf(&#34;db down: %v&#34;, err)</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
                 <td>76</td>
                 <td>
-                    <code><pre>                return stats</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>77</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>        stats := make(map[string]string)</pre></code>
                 </td>
             </tr>
             
@@ -3553,175 +3931,175 @@ p {
             <tr>
                 <td>79</td>
                 <td>
-                    <code><pre>        // Database is up, add more statistics</pre></code>
+                    <code><pre>        // Ping the database</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>80</td>
                 <td>
-                    <code><pre>        stats[&#34;status&#34;] = &#34;up&#34;</pre></code>
+                    <code><pre>        err := s.db.PingContext(ctx)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>81</td>
                 <td>
-                    <code><pre>        stats[&#34;message&#34;] = &#34;It&#39;s healthy&#34;</pre></code>
+                    <code><pre>        if err != nil {</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>82</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>                stats[&#34;status&#34;] = &#34;down&#34;</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>83</td>
                 <td>
-                    <code><pre>        // Get database stats (like open connections, in use, idle, etc.)</pre></code>
+                    <code><pre>                stats[&#34;error&#34;] = fmt.Sprintf(&#34;db down: %v&#34;, err)</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>84</td>
                 <td>
-                    <code><pre>        dbStats := s.db.Stats()</pre></code>
+                    <code><pre>                return stats</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>85</td>
                 <td>
-                    <code><pre>        stats[&#34;open_connections&#34;] = strconv.Itoa(dbStats.OpenConnections)</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>86</td>
                 <td>
-                    <code><pre>        stats[&#34;in_use&#34;] = strconv.Itoa(dbStats.InUse)</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>87</td>
                 <td>
-                    <code><pre>        stats[&#34;idle&#34;] = strconv.Itoa(dbStats.Idle)</pre></code>
+                    <code><pre>        // Database is up, add more statistics</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>88</td>
                 <td>
-                    <code><pre>        stats[&#34;wait_count&#34;] = strconv.FormatInt(dbStats.WaitCount, 10)</pre></code>
+                    <code><pre>        stats[&#34;status&#34;] = &#34;up&#34;</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>89</td>
                 <td>
-                    <code><pre>        stats[&#34;wait_duration&#34;] = dbStats.WaitDuration.String()</pre></code>
+                    <code><pre>        stats[&#34;message&#34;] = &#34;It&#39;s healthy&#34;</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>90</td>
                 <td>
-                    <code><pre>        stats[&#34;max_idle_closed&#34;] = strconv.FormatInt(dbStats.MaxIdleClosed, 10)</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>91</td>
                 <td>
-                    <code><pre>        stats[&#34;max_lifetime_closed&#34;] = strconv.FormatInt(dbStats.MaxLifetimeClosed, 10)</pre></code>
+                    <code><pre>        // Get database stats (like open connections, in use, idle, etc.)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>92</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        dbStats := s.db.Stats()</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>93</td>
                 <td>
-                    <code><pre>        // Evaluate stats to provide a health message</pre></code>
+                    <code><pre>        stats[&#34;open_connections&#34;] = strconv.Itoa(dbStats.OpenConnections)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>94</td>
                 <td>
-                    <code><pre>        if dbStats.OpenConnections &gt; 40 { // Assuming 50 is the max for this example</pre></code>
+                    <code><pre>        stats[&#34;in_use&#34;] = strconv.Itoa(dbStats.InUse)</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>95</td>
                 <td>
-                    <code><pre>                stats[&#34;message&#34;] = &#34;The database is experiencing heavy load.&#34;</pre></code>
+                    <code><pre>        stats[&#34;idle&#34;] = strconv.Itoa(dbStats.Idle)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>96</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>        stats[&#34;wait_count&#34;] = strconv.FormatInt(dbStats.WaitCount, 10)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>97</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        stats[&#34;wait_duration&#34;] = dbStats.WaitDuration.String()</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>98</td>
                 <td>
-                    <code><pre>        if dbStats.WaitCount &gt; 1000 {</pre></code>
+                    <code><pre>        stats[&#34;max_idle_closed&#34;] = strconv.FormatInt(dbStats.MaxIdleClosed, 10)</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>99</td>
                 <td>
-                    <code><pre>                stats[&#34;message&#34;] = &#34;The database has a high number of wait events, indicating potential bottlenecks.&#34;</pre></code>
+                    <code><pre>        stats[&#34;max_lifetime_closed&#34;] = strconv.FormatInt(dbStats.MaxLifetimeClosed, 10)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>100</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>101</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        // Evaluate stats to provide a health message</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>102</td>
                 <td>
-                    <code><pre>        if dbStats.MaxIdleClosed &gt; int64(dbStats.OpenConnections)/2 {</pre></code>
+                    <code><pre>        if dbStats.OpenConnections &gt; 40 { // Assuming 50 is the max for this example</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>103</td>
                 <td>
-                    <code><pre>                stats[&#34;message&#34;] = &#34;Many idle connections are being closed, consider revising the connection pool settings.&#34;</pre></code>
+                    <code><pre>                stats[&#34;message&#34;] = &#34;The database is experiencing heavy load.&#34;</pre></code>
                 </td>
             </tr>
             
@@ -3742,14 +4120,14 @@ p {
             <tr>
                 <td>106</td>
                 <td>
-                    <code><pre>        if dbStats.MaxLifetimeClosed &gt; int64(dbStats.OpenConnections)/2 {</pre></code>
+                    <code><pre>        if dbStats.WaitCount &gt; 1000 {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>107</td>
                 <td>
-                    <code><pre>                stats[&#34;message&#34;] = &#34;Many connections are being closed due to max lifetime, consider increasing max lifetime or revising the connection usage pattern.&#34;</pre></code>
+                    <code><pre>                stats[&#34;message&#34;] = &#34;The database has a high number of wait events, indicating potential bottlenecks.&#34;</pre></code>
                 </td>
             </tr>
             
@@ -3770,12 +4148,68 @@ p {
             <tr>
                 <td>110</td>
                 <td>
+                    <code><pre>        if dbStats.MaxIdleClosed &gt; int64(dbStats.OpenConnections)/2 {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>111</td>
+                <td>
+                    <code><pre>                stats[&#34;message&#34;] = &#34;Many idle connections are being closed, consider revising the connection pool settings.&#34;</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>112</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>113</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>114</td>
+                <td>
+                    <code><pre>        if dbStats.MaxLifetimeClosed &gt; int64(dbStats.OpenConnections)/2 {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>115</td>
+                <td>
+                    <code><pre>                stats[&#34;message&#34;] = &#34;Many connections are being closed due to max lifetime, consider increasing max lifetime or revising the connection usage pattern.&#34;</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>116</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>117</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>118</td>
+                <td>
                     <code><pre>        return stats</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>111</td>
+                <td>119</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -3791,21 +4225,21 @@ p {
         <table class="listing">
             
             <tr>
-                <td>113</td>
+                <td>121</td>
                 <td>
                     <code><pre>func (s *service) DB() *sql.DB {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>114</td>
+                <td>122</td>
                 <td>
                     <code><pre>        return s.db</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>115</td>
+                <td>123</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -3815,12 +4249,12 @@ p {
          
 
         <!--    Can be parsed by external script
-                PACKAGE:go-booking-management-init/internal/database DONE:79.5
+                PACKAGE:go-booking-management-init/internal/database DONE:78.7
         -->
         
         <div id="pkg_go-booking-management-init/internal/infrastructure/db/sqlc" class="funcname">
             Package Overview: go-booking-management-init/internal/infrastructure/db/sqlc
-            <span class="packageTotal">85.0%</span>
+            <span class="packageTotal">70.8%</span>
         </div>
         <p>Please select a function to see what's left for testing.</p>
 
@@ -3894,10 +4328,10 @@ p {
                     <code>go-booking-management-init/internal/infrastructure/db/sqlc/auth_repository.go</code>
                 </td>
                 <td class="percent">
-                    <code>80.0%</code>
+                    <code>57.1%</code>
                 </td>
                 <td class="linecount">
-                    <code>4/5</code>
+                    <code>4/7</code>
                 </td>
             </tr>
         
@@ -3909,10 +4343,10 @@ p {
                     <code>go-booking-management-init/internal/infrastructure/db/sqlc/auth_repository.go</code>
                 </td>
                 <td class="percent">
-                    <code>75.0%</code>
+                    <code>50.0%</code>
                 </td>
                 <td class="linecount">
-                    <code>3/4</code>
+                    <code>3/6</code>
                 </td>
             </tr>
         
@@ -4143,42 +4577,42 @@ p {
         <table class="listing">
             
             <tr>
-                <td>14</td>
+                <td>16</td>
                 <td>
                     <code><pre>func NewSQLCAuthRepository(db *sql.DB) *SQLCAuthRepository {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>15</td>
+                <td>17</td>
                 <td>
                     <code><pre>        return &amp;SQLCAuthRepository{</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>16</td>
+                <td>18</td>
                 <td>
                     <code><pre>                queries: New(db),</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>17</td>
+                <td>19</td>
                 <td>
                     <code><pre>                db:      db,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>18</td>
+                <td>20</td>
                 <td>
                     <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>19</td>
+                <td>21</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -4224,147 +4658,175 @@ p {
         <table class="listing">
             
             <tr>
-                <td>21</td>
+                <td>23</td>
                 <td>
                     <code><pre>func (r *SQLCAuthRepository) Create(ctx context.Context, user *auth.User) (*auth.User, error) {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>22</td>
+                <td>24</td>
                 <td>
                     <code><pre>        params := CreateUserParams{</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>23</td>
+                <td>25</td>
                 <td>
                     <code><pre>                Email:        user.Email,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>24</td>
+                <td>26</td>
                 <td>
                     <code><pre>                PasswordHash: user.PasswordHash,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>25</td>
+                <td>27</td>
                 <td>
                     <code><pre>                Role:         user.Role,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>26</td>
-                <td>
-                    <code><pre>        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>27</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
                 <td>28</td>
                 <td>
-                    <code><pre>        res, err := r.queries.CreateUser(ctx, params)</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>29</td>
                 <td>
-                    <code><pre>        if err != nil {</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>30</td>
                 <td>
-                    <code><pre>                return nil, err</pre></code>
+                    <code><pre>        res, err := r.queries.CreateUser(ctx, params)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>31</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>        if err != nil {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>32</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>                // Check for unique constraint violation (PostgreSQL code 23505)</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>33</td>
                 <td>
-                    <code><pre>        return &amp;auth.User{</pre></code>
+                    <code><pre>                if strings.Contains(err.Error(), &#34;duplicate key value violates unique constraint&#34;) {</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>34</td>
                 <td>
-                    <code><pre>                ID:           res.ID,</pre></code>
+                    <code><pre>                        return nil, auth.ErrUserAlreadyExists</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>35</td>
                 <td>
-                    <code><pre>                Email:        res.Email,</pre></code>
+                    <code><pre>                }</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>36</td>
                 <td>
-                    <code><pre>                PasswordHash: res.PasswordHash,</pre></code>
+                    <code><pre>                return nil, err</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>37</td>
                 <td>
-                    <code><pre>                Role:         res.Role,</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>38</td>
                 <td>
-                    <code><pre>                CreatedAt:    res.CreatedAt.Time,</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>39</td>
                 <td>
-                    <code><pre>                UpdatedAt:    res.UpdatedAt.Time,</pre></code>
+                    <code><pre>        return &amp;auth.User{</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>40</td>
                 <td>
-                    <code><pre>        }, nil</pre></code>
+                    <code><pre>                ID:           res.ID,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>41</td>
+                <td>
+                    <code><pre>                Email:        res.Email,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>42</td>
+                <td>
+                    <code><pre>                PasswordHash: res.PasswordHash,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>43</td>
+                <td>
+                    <code><pre>                Role:         res.Role,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>44</td>
+                <td>
+                    <code><pre>                CreatedAt:    res.CreatedAt.Time,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>45</td>
+                <td>
+                    <code><pre>                UpdatedAt:    res.UpdatedAt.Time,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>46</td>
+                <td>
+                    <code><pre>        }, nil</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>47</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -4380,105 +4842,126 @@ p {
         <table class="listing">
             
             <tr>
-                <td>43</td>
+                <td>49</td>
                 <td>
                     <code><pre>func (r *SQLCAuthRepository) GetByEmail(ctx context.Context, email string) (*auth.User, error) {</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>44</td>
+                <td>50</td>
                 <td>
                     <code><pre>        res, err := r.queries.GetUserByEmail(ctx, email)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>45</td>
+                <td>51</td>
                 <td>
                     <code><pre>        if err != nil {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>46</td>
-                <td>
-                    <code><pre>                return nil, err</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>47</td>
-                <td>
-                    <code><pre>        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>48</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>49</td>
-                <td>
-                    <code><pre>        return &amp;auth.User{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>50</td>
-                <td>
-                    <code><pre>                ID:           res.ID,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>51</td>
-                <td>
-                    <code><pre>                Email:        res.Email,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
                 <td>52</td>
                 <td>
-                    <code><pre>                PasswordHash: res.PasswordHash,</pre></code>
+                    <code><pre>                if errors.Is(err, sql.ErrNoRows) {</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>53</td>
                 <td>
-                    <code><pre>                Role:         res.Role,</pre></code>
+                    <code><pre>                        return nil, auth.ErrUserNotFound</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>54</td>
                 <td>
-                    <code><pre>                CreatedAt:    res.CreatedAt.Time,</pre></code>
+                    <code><pre>                }</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>55</td>
                 <td>
-                    <code><pre>                UpdatedAt:    res.UpdatedAt.Time,</pre></code>
+                    <code><pre>                return nil, err</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>56</td>
                 <td>
-                    <code><pre>        }, nil</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>57</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>58</td>
+                <td>
+                    <code><pre>        return &amp;auth.User{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>59</td>
+                <td>
+                    <code><pre>                ID:           res.ID,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>60</td>
+                <td>
+                    <code><pre>                Email:        res.Email,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>61</td>
+                <td>
+                    <code><pre>                PasswordHash: res.PasswordHash,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>62</td>
+                <td>
+                    <code><pre>                Role:         res.Role,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>63</td>
+                <td>
+                    <code><pre>                CreatedAt:    res.CreatedAt.Time,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>64</td>
+                <td>
+                    <code><pre>                UpdatedAt:    res.UpdatedAt.Time,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>65</td>
+                <td>
+                    <code><pre>        }, nil</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>66</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -4532,7 +5015,7 @@ p {
          
 
         <!--    Can be parsed by external script
-                PACKAGE:go-booking-management-init/internal/infrastructure/db/sqlc DONE:85.0
+                PACKAGE:go-booking-management-init/internal/infrastructure/db/sqlc DONE:70.8
         -->
         
         <div id="pkg_go-booking-management-init/internal/server" class="funcname">
@@ -5606,7 +6089,7 @@ p {
         <div id="summaryWrapper">
         
             <div class="package">Report Total</div>
-            <div id="totalcov">46.2%</div>
+            <div id="totalcov">47.0%</div>
          
         </div>
          

@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 	domain "go-booking-management-init/internal/domain/auth"
+	"go-booking-management-init/pkg/api"
 	pkgAuth "go-booking-management-init/pkg/auth"
 	"log/slog"
-	"net/mail"
 	"strings"
 )
 
@@ -32,28 +32,36 @@ func NewService(userRepo domain.UserRepository) Service {
 }
 
 func (s *service) Register(ctx context.Context, email, password, role string) (*domain.User, error) {
-	// 1. Validate Email
-	if _, err := mail.ParseAddress(email); err != nil {
-		slog.WarnContext(ctx, "invalid email address during registration", "email", email, "err", err)
-		return nil, ErrInvalidEmail
+	// 1. Validate Input using Service Layer Validator (validate tag)
+	type registerInput struct {
+		Email    string `validate:"required,email"`
+		Password string `validate:"required,max=72"`
+		Role     string `validate:"required,oneof=customer admin guest"`
 	}
 
-	// 2. Validate Role
-	role = strings.ToLower(role)
-	validRoles := map[string]bool{"customer": true, "admin": true, "guest": true}
-	if !validRoles[role] {
-		slog.WarnContext(ctx, "invalid role during registration", "role", role)
+	input := registerInput{
+		Email:    strings.ToLower(strings.TrimSpace(email)),
+		Password: password,
+		Role:     strings.ToLower(strings.TrimSpace(role)),
+	}
+
+	if err := api.Validate(input); err != nil {
+		slog.WarnContext(ctx, "validation failed in service layer", "err", err)
+		// Map back to specific domain errors if needed, or return the validation error
+		// For now, let's keep the legacy mapping but make it slightly better
+		errMsg := err.Error()
+		if strings.Contains(errMsg, "'Email'") {
+			return nil, ErrInvalidEmail
+		}
+		if strings.Contains(errMsg, "'Password'") {
+			return nil, ErrPasswordTooLong
+		}
 		return nil, ErrInvalidRole
 	}
 
-	// 3. Normalize Email
-	email = strings.ToLower(strings.TrimSpace(email))
-
-	// 4. Validate Password Length (Prevent DoS)
-	if len(password) > 72 {
-		slog.WarnContext(ctx, "password too long during registration")
-		return nil, ErrPasswordTooLong
-	}
+	// 2. Use normalized values from input
+	email = input.Email
+	role = input.Role
 
 	// 5. Check if user already exists
 	existing, err := s.userRepo.GetByEmail(ctx, email)

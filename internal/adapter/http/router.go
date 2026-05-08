@@ -7,6 +7,7 @@ import (
 
 	"go-booking-management-init/internal/adapter/http/handler"
 	"go-booking-management-init/internal/adapter/http/middleware"
+	"go-booking-management-init/pkg/api"
 
 	scalar "github.com/MarceloPetrucio/go-scalar-api-reference"
 	"github.com/gin-contrib/cors"
@@ -55,11 +56,7 @@ func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandle
 			if path == "/doc.json" {
 				if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {
 					slog.Error("swagger file not found", "path", r.config.SwaggerPath)
-					c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
-						"status":  "error",
-						"message": "Swagger documentation file not found",
-						"code":    "NOT_FOUND",
-					})
+					api.Error(c, http.StatusNotFound, "NOT_FOUND", "Swagger documentation file not found")
 					return
 				}
 				c.File(r.config.SwaggerPath)
@@ -71,11 +68,7 @@ func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandle
 		v1.GET("/doc", func(c *gin.Context) {
 			if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {
 				slog.Error("swagger file not found for scalar", "path", r.config.SwaggerPath)
-				c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
-					"status":  "error",
-					"message": "API documentation source not found",
-					"code":    "NOT_FOUND",
-				})
+				api.Error(c, http.StatusNotFound, "NOT_FOUND", "API documentation source not found")
 				return
 			}
 			htmlContent, err := scalar.ApiReferenceHTML(&scalar.Options{
@@ -87,11 +80,7 @@ func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandle
 			})
 			if err != nil {
 				slog.Error("failed to generate scalar api reference", "error", err)
-				c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-					"status":  "error",
-					"message": "Failed to generate API documentation",
-					"code":    "INTERNAL_SERVER_ERROR",
-				})
+				api.Error(c, http.StatusInternalServerError, "INTERNAL_SERVER_ERROR", "Failed to generate API documentation")
 				return
 			}
 			c.Data(http.StatusOK, "text/html; charset=utf-8", []byte(htmlContent))
@@ -99,11 +88,8 @@ func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandle
 
 		// Root route
 		v1.GET("/", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{
-				"status": "success",
-				"data": gin.H{
-					"message": "Booking Management API",
-				},
+			api.Success(c, gin.H{
+				"message": "Booking Management API",
 			})
 		})
 	}

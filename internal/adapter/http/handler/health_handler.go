@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"go-booking-management-init/internal/database"
+	"go-booking-management-init/pkg/api"
 
 	"github.com/gin-gonic/gin"
 )
@@ -48,12 +49,13 @@ func (h *HealthHandler) HealthCheck(c *gin.Context) {
 		status = http.StatusServiceUnavailable
 	}
 
-	c.JSON(status, HealthResponse{
-		Status: "success",
-		Data: HealthData{
+	if status == http.StatusOK {
+		api.Success(c, HealthData{
 			Status:   overallStatus,
 			Version:  APIVersion,
 			Database: dbHealth,
-		},
-	})
+		})
+	} else {
+		api.Error(c, status, "SERVICE_UNAVAILABLE", overallStatus)
+	}
 }

@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"go-booking-management-init/internal/server"
+	"go-booking-management-init/pkg/api"
 	"go-booking-management-init/pkg/logger"
 	"log/slog"
 	"os"
@@ -43,6 +44,7 @@ func gracefulShutdown(apiServer *http.Server, done chan bool) {
 func main() {
 
 	logger.Init(os.Getenv("APP_ENV"))
+	api.InitValidator()
 	slog.Info("Starting server", "port", os.Getenv("PORT"), "env", os.Getenv("APP_ENV"))
 
 	server := server.NewServer()
