@@ -168,7 +168,7 @@ p {
 	<body>
 		<div id="doctitle">Coverage Report</div>
         
-        <div id="about">Generated on Fri, 08 May 2026 16:11:44 +07 with <a href="https://github.com/matm/gocov-html">gocov-html</a></div>
+        <div id="about">Generated on Fri, 08 May 2026 16:53:23 +07 with <a href="https://github.com/matm/gocov-html">gocov-html</a></div>
         
         
         <div class="funcname">Report Overview</div>
@@ -183,19 +183,19 @@ p {
             <tr id="s_pkg_go-booking-management-init/cmd/api">
                 <td><code><a href="#pkg_go-booking-management-init/cmd/api">go-booking-management-init/cmd/api</a></code></td>
                 <td class="percent"><code>0.0%</code></td>
-                <td class="linecount"><code>0/22</code></td>
+                <td class="linecount"><code>0/39</code></td>
             </tr>
             
             <tr id="s_pkg_go-booking-management-init/internal/adapter/http">
                 <td><code><a href="#pkg_go-booking-management-init/internal/adapter/http">go-booking-management-init/internal/adapter/http</a></code></td>
-                <td class="percent"><code>36.4%</code></td>
-                <td class="linecount"><code>12/33</code></td>
+                <td class="percent"><code>34.5%</code></td>
+                <td class="linecount"><code>20/58</code></td>
             </tr>
             
             <tr id="s_pkg_go-booking-management-init/internal/adapter/http/handler">
                 <td><code><a href="#pkg_go-booking-management-init/internal/adapter/http/handler">go-booking-management-init/internal/adapter/http/handler</a></code></td>
-                <td class="percent"><code>21.9%</code></td>
-                <td class="linecount"><code>7/32</code></td>
+                <td class="percent"><code>17.5%</code></td>
+                <td class="linecount"><code>7/40</code></td>
             </tr>
             
             <tr id="s_pkg_go-booking-management-init/internal/adapter/http/middleware">
@@ -225,7 +225,7 @@ p {
             <tr id="s_pkg_go-booking-management-init/internal/server">
                 <td><code><a href="#pkg_go-booking-management-init/internal/server">go-booking-management-init/internal/server</a></code></td>
                 <td class="percent"><code>0.0%</code></td>
-                <td class="linecount"><code>0/23</code></td>
+                <td class="linecount"><code>0/24</code></td>
             </tr>
             
             <tr id="s_pkg_go-booking-management-init/pkg/api">
@@ -289,21 +289,21 @@ p {
         <table class="listing">
             
             <tr>
-                <td>97</td>
+                <td>259</td>
                 <td>
                     <code><pre>func init() {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>98</td>
+                <td>260</td>
                 <td>
                     <code><pre>        swag.Register(SwaggerInfo.InstanceName(), SwaggerInfo)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>99</td>
+                <td>261</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -324,6 +324,21 @@ p {
 
         <table class="overview">
         
+            <tr id="s_fn_main">
+                <td>
+                    <code><a href="#fn_main">main(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/cmd/api/main.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/28</code>
+                </td>
+            </tr>
+        
             <tr id="s_fn_gracefulShutdown">
                 <td>
                     <code><a href="#fn_gracefulShutdown">gracefulShutdown(...)</a></code>
@@ -339,201 +354,9 @@ p {
                 </td>
             </tr>
         
-            <tr id="s_fn_main">
-                <td>
-                    <code><a href="#fn_main">main(...)</a></code>
-                </td>
-                <td>
-                    <code>go-booking-management-init/cmd/api/main.go</code>
-                </td>
-                <td class="percent">
-                    <code>0.0%</code>
-                </td>
-                <td class="linecount">
-                    <code>0/11</code>
-                </td>
-            </tr>
-        
         </table>
 
         
-        
-        <div class="funcname" id="fn_gracefulShutdown">func gracefulShutdown</div>
-        <div class="info">
-            <a href="#s_fn_gracefulShutdown">Back</a>
-            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/cmd/api/main.go</code>:</p>
-        </div>
-        <table class="listing">
-            
-            <tr>
-                <td>19</td>
-                <td>
-                    <code><pre>func gracefulShutdown(apiServer *http.Server, done chan bool) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>20</td>
-                <td>
-                    <code><pre>        // Create context that listens for the interrupt signal from the OS.</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>21</td>
-                <td>
-                    <code><pre>        ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>22</td>
-                <td>
-                    <code><pre>        defer stop()</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>23</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>24</td>
-                <td>
-                    <code><pre>        // Listen for the interrupt signal.</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>25</td>
-                <td>
-                    <code><pre>        &lt;-ctx.Done()</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>26</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>27</td>
-                <td>
-                    <code><pre>        log.Println(&#34;shutting down gracefully, press Ctrl+C again to force&#34;)</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>28</td>
-                <td>
-                    <code><pre>        stop() // Allow Ctrl+C to force shutdown</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>29</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>30</td>
-                <td>
-                    <code><pre>        // The context is used to inform the server it has 5 seconds to finish</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>31</td>
-                <td>
-                    <code><pre>        // the request it is currently handling</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>32</td>
-                <td>
-                    <code><pre>        ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>33</td>
-                <td>
-                    <code><pre>        defer cancel()</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>34</td>
-                <td>
-                    <code><pre>        if err := apiServer.Shutdown(ctx); err != nil {</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>35</td>
-                <td>
-                    <code><pre>                log.Printf(&#34;Server forced to shutdown with error: %v&#34;, err)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>36</td>
-                <td>
-                    <code><pre>        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>37</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>38</td>
-                <td>
-                    <code><pre>        log.Println(&#34;Server exiting&#34;)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>39</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>40</td>
-                <td>
-                    <code><pre>        // Notify the main goroutine that the shutdown is complete</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>41</td>
-                <td>
-                    <code><pre>        done &lt;- true</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>42</td>
-                <td>
-                    <code><pre>}</pre></code>
-                </td>
-            </tr>
-            
-        </table>
         
         <div class="funcname" id="fn_main">func main</div>
         <div class="info">
@@ -543,161 +366,520 @@ p {
         <table class="listing">
             
             <tr>
-                <td>44</td>
-                <td>
-                    <code><pre>func main() {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
                 <td>45</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>func main() {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>46</td>
                 <td>
-                    <code><pre>        logger.Init(os.Getenv(&#34;APP_ENV&#34;))</pre></code>
+                    <code><pre>        listRoutes := false</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>47</td>
                 <td>
-                    <code><pre>        api.InitValidator()</pre></code>
+                    <code><pre>        exportPath := &#34;&#34;</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>48</td>
                 <td>
-                    <code><pre>        slog.Info(&#34;Starting server&#34;, &#34;port&#34;, os.Getenv(&#34;PORT&#34;), &#34;env&#34;, os.Getenv(&#34;APP_ENV&#34;))</pre></code>
+                    <code><pre>        for i, arg := range os.Args {</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>49</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>                if arg == &#34;--list-routes&#34; {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>50</td>
                 <td>
-                    <code><pre>        server := server.NewServer()</pre></code>
+                    <code><pre>                        listRoutes = true</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>51</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>                }</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>52</td>
                 <td>
-                    <code><pre>        // Create a done channel to signal when the shutdown is complete</pre></code>
+                    <code><pre>                if arg == &#34;--export-routes&#34; &amp;&amp; i+1 &lt; len(os.Args) {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>53</td>
                 <td>
-                    <code><pre>        done := make(chan bool, 1)</pre></code>
+                    <code><pre>                        exportPath = os.Args[i+1]</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>54</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>                }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>55</td>
                 <td>
-                    <code><pre>        // Run graceful shutdown in a separate goroutine</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>56</td>
-                <td>
-                    <code><pre>        go gracefulShutdown(server, done)</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>57</td>
+                <td>56</td>
                 <td>
                     <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>57</td>
+                <td>
+                    <code><pre>        logger.Init(os.Getenv(&#34;APP_ENV&#34;))</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>58</td>
                 <td>
-                    <code><pre>        err := server.ListenAndServe()</pre></code>
+                    <code><pre>        api.InitValidator()</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>59</td>
                 <td>
-                    <code><pre>        if err != nil &amp;&amp; err != http.ErrServerClosed {</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>60</td>
                 <td>
-                    <code><pre>                panic(fmt.Sprintf(&#34;http server error: %s&#34;, err))</pre></code>
+                    <code><pre>        httpServer, router := server.NewServer()</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>61</td>
                 <td>
-                    <code><pre>        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>62</td>
-                <td>
                     <code><pre></pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
+                <td>62</td>
+                <td>
+                    <code><pre>        if listRoutes {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
                 <td>63</td>
                 <td>
-                    <code><pre>        // Wait for the graceful shutdown to complete</pre></code>
+                    <code><pre>                adapterHttp.InspectRoutes(router.Engine().Routes(), &#34;&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>64</td>
                 <td>
+                    <code><pre>                os.Exit(0)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>65</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>66</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>67</td>
+                <td>
+                    <code><pre>        if exportPath != &#34;&#34; {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>68</td>
+                <td>
+                    <code><pre>                err := adapterHttp.ExportRoutes(router.Engine().Routes(), exportPath)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>69</td>
+                <td>
+                    <code><pre>                if err != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>70</td>
+                <td>
+                    <code><pre>                        slog.Error(&#34;failed to export routes&#34;, &#34;error&#34;, err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>71</td>
+                <td>
+                    <code><pre>                        os.Exit(1)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>72</td>
+                <td>
+                    <code><pre>                }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>73</td>
+                <td>
+                    <code><pre>                fmt.Printf(&#34;✅ Routes exported to %s\n&#34;, exportPath)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>74</td>
+                <td>
+                    <code><pre>                os.Exit(0)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>75</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>76</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>77</td>
+                <td>
+                    <code><pre>        slog.Info(&#34;Starting server&#34;, &#34;port&#34;, os.Getenv(&#34;PORT&#34;), &#34;env&#34;, os.Getenv(&#34;APP_ENV&#34;))</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>78</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>79</td>
+                <td>
+                    <code><pre>        // Create a done channel to signal when the shutdown is complete</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>80</td>
+                <td>
+                    <code><pre>        done := make(chan bool, 1)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>81</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>82</td>
+                <td>
+                    <code><pre>        // Run graceful shutdown in a separate goroutine</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>83</td>
+                <td>
+                    <code><pre>        go gracefulShutdown(httpServer, done)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>84</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>85</td>
+                <td>
+                    <code><pre>        err := httpServer.ListenAndServe()</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>86</td>
+                <td>
+                    <code><pre>        if err != nil &amp;&amp; err != http.ErrServerClosed {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>87</td>
+                <td>
+                    <code><pre>                panic(fmt.Sprintf(&#34;http server error: %s&#34;, err))</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>88</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>89</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>90</td>
+                <td>
+                    <code><pre>        // Wait for the graceful shutdown to complete</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>91</td>
+                <td>
                     <code><pre>        &lt;-done</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>65</td>
+                <td>92</td>
                 <td>
                     <code><pre>        log.Println(&#34;Graceful shutdown complete.&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>66</td>
+                <td>93</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_gracefulShutdown">func gracefulShutdown</div>
+        <div class="info">
+            <a href="#s_fn_gracefulShutdown">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/cmd/api/main.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>20</td>
+                <td>
+                    <code><pre>func gracefulShutdown(apiServer *http.Server, done chan bool) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>21</td>
+                <td>
+                    <code><pre>        // Create context that listens for the interrupt signal from the OS.</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>22</td>
+                <td>
+                    <code><pre>        ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>23</td>
+                <td>
+                    <code><pre>        defer stop()</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>24</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>25</td>
+                <td>
+                    <code><pre>        // Listen for the interrupt signal.</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>26</td>
+                <td>
+                    <code><pre>        &lt;-ctx.Done()</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>27</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>28</td>
+                <td>
+                    <code><pre>        log.Println(&#34;shutting down gracefully, press Ctrl+C again to force&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>29</td>
+                <td>
+                    <code><pre>        stop() // Allow Ctrl+C to force shutdown</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>30</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>31</td>
+                <td>
+                    <code><pre>        // The context is used to inform the server it has 5 seconds to finish</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>32</td>
+                <td>
+                    <code><pre>        // the request it is currently handling</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>33</td>
+                <td>
+                    <code><pre>        ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>34</td>
+                <td>
+                    <code><pre>        defer cancel()</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>35</td>
+                <td>
+                    <code><pre>        if err := apiServer.Shutdown(ctx); err != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>36</td>
+                <td>
+                    <code><pre>                log.Printf(&#34;Server forced to shutdown with error: %v&#34;, err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>37</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>38</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>39</td>
+                <td>
+                    <code><pre>        log.Println(&#34;Server exiting&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>40</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>41</td>
+                <td>
+                    <code><pre>        // Notify the main goroutine that the shutdown is complete</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>42</td>
+                <td>
+                    <code><pre>        done &lt;- true</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>43</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -712,26 +894,11 @@ p {
         
         <div id="pkg_go-booking-management-init/internal/adapter/http" class="funcname">
             Package Overview: go-booking-management-init/internal/adapter/http
-            <span class="packageTotal">36.4%</span>
+            <span class="packageTotal">34.5%</span>
         </div>
         <p>Please select a function to see what's left for testing.</p>
 
         <table class="overview">
-        
-            <tr id="s_fn_Router.RegisterRoutes">
-                <td>
-                    <code><a href="#fn_Router.RegisterRoutes">Router.RegisterRoutes(...)</a></code>
-                </td>
-                <td>
-                    <code>go-booking-management-init/internal/adapter/http/router.go</code>
-                </td>
-                <td class="percent">
-                    <code>100.0%</code>
-                </td>
-                <td class="linecount">
-                    <code>8/8</code>
-                </td>
-            </tr>
         
             <tr id="s_fn_NewRouter">
                 <td>
@@ -744,13 +911,88 @@ p {
                     <code>100.0%</code>
                 </td>
                 <td class="linecount">
+                    <code>7/7</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_Router.RegisterRoutes">
+                <td>
+                    <code><a href="#fn_Router.RegisterRoutes">Router.RegisterRoutes(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/internal/adapter/http/router.go</code>
+                </td>
+                <td class="percent">
+                    <code>100.0%</code>
+                </td>
+                <td class="linecount">
                     <code>4/4</code>
                 </td>
             </tr>
         
-            <tr id="s_fn_@68:18">
+            <tr id="s_fn_Router.registerDocRoutes">
                 <td>
-                    <code><a href="#fn_@68:18">@68:18(...)</a></code>
+                    <code><a href="#fn_Router.registerDocRoutes">Router.registerDocRoutes(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/internal/adapter/http/router.go</code>
+                </td>
+                <td class="percent">
+                    <code>100.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>2/2</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_Router.Engine">
+                <td>
+                    <code><a href="#fn_Router.Engine">Router.Engine(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/internal/adapter/http/router.go</code>
+                </td>
+                <td class="percent">
+                    <code>100.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>1/1</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_Router.registerV1Routes">
+                <td>
+                    <code><a href="#fn_Router.registerV1Routes">Router.registerV1Routes(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/internal/adapter/http/router.go</code>
+                </td>
+                <td class="percent">
+                    <code>85.7%</code>
+                </td>
+                <td class="linecount">
+                    <code>6/7</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_InspectRoutes">
+                <td>
+                    <code><a href="#fn_InspectRoutes">InspectRoutes(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/internal/adapter/http/inspector.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/13</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_@104:17">
+                <td>
+                    <code><a href="#fn_@104:17">@104:17(...)</a></code>
                 </td>
                 <td>
                     <code>go-booking-management-init/internal/adapter/http/router.go</code>
@@ -763,9 +1005,9 @@ p {
                 </td>
             </tr>
         
-            <tr id="s_fn_@54:27">
+            <tr id="s_fn_@90:26">
                 <td>
-                    <code><a href="#fn_@54:27">@54:27(...)</a></code>
+                    <code><a href="#fn_@90:26">@90:26(...)</a></code>
                 </td>
                 <td>
                     <code>go-booking-management-init/internal/adapter/http/router.go</code>
@@ -778,24 +1020,24 @@ p {
                 </td>
             </tr>
         
-            <tr id="s_fn_@90:15">
+            <tr id="s_fn_ExportRoutes">
                 <td>
-                    <code><a href="#fn_@90:15">@90:15(...)</a></code>
+                    <code><a href="#fn_ExportRoutes">ExportRoutes(...)</a></code>
                 </td>
                 <td>
-                    <code>go-booking-management-init/internal/adapter/http/router.go</code>
+                    <code>go-booking-management-init/internal/adapter/http/inspector.go</code>
                 </td>
                 <td class="percent">
                     <code>0.0%</code>
                 </td>
                 <td class="linecount">
-                    <code>0/1</code>
+                    <code>0/4</code>
                 </td>
             </tr>
         
-            <tr id="s_fn_@98:20">
+            <tr id="s_fn_@64:20">
                 <td>
-                    <code><a href="#fn_@98:20">@98:20(...)</a></code>
+                    <code><a href="#fn_@64:20">@64:20(...)</a></code>
                 </td>
                 <td>
                     <code>go-booking-management-init/internal/adapter/http/router.go</code>
@@ -811,414 +1053,6 @@ p {
         </table>
 
         
-        
-        <div class="funcname" id="fn_Router.RegisterRoutes">func Router.RegisterRoutes</div>
-        <div class="info">
-            <a href="#s_fn_Router.RegisterRoutes">Back</a>
-            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/router.go</code>:</p>
-        </div>
-        <table class="listing">
-            
-            <tr>
-                <td>47</td>
-                <td>
-                    <code><pre>func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandler *handler.AuthHandler) http.Handler {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>48</td>
-                <td>
-                    <code><pre>        v1 := r.engine.Group(&#34;/v1&#34;)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>49</td>
-                <td>
-                    <code><pre>        {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>50</td>
-                <td>
-                    <code><pre>                v1.GET(&#34;/health&#34;, healthHandler.HealthCheck)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>51</td>
-                <td>
-                    <code><pre>                v1.POST(&#34;/auth/register&#34;, authHandler.Register)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>52</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>53</td>
-                <td>
-                    <code><pre>                // Documentation routes</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>54</td>
-                <td>
-                    <code><pre>                v1.GET(&#34;/swagger/*any&#34;, func(c *gin.Context) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>55</td>
-                <td>
-                    <code><pre>                        path := c.Param(&#34;any&#34;)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>56</td>
-                <td>
-                    <code><pre>                        if path == &#34;/doc.json&#34; {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>57</td>
-                <td>
-                    <code><pre>                                if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>58</td>
-                <td>
-                    <code><pre>                                        slog.Error(&#34;swagger file not found&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>59</td>
-                <td>
-                    <code><pre>                                        api.Error(c, http.StatusNotFound, &#34;NOT_FOUND&#34;, &#34;Swagger documentation file not found&#34;)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>60</td>
-                <td>
-                    <code><pre>                                        return</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>61</td>
-                <td>
-                    <code><pre>                                }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>62</td>
-                <td>
-                    <code><pre>                                c.File(r.config.SwaggerPath)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>63</td>
-                <td>
-                    <code><pre>                                return</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>64</td>
-                <td>
-                    <code><pre>                        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>65</td>
-                <td>
-                    <code><pre>                        c.Redirect(http.StatusMovedPermanently, &#34;/v1/doc&#34;)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>66</td>
-                <td>
-                    <code><pre>                })</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>67</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>68</td>
-                <td>
-                    <code><pre>                v1.GET(&#34;/doc&#34;, func(c *gin.Context) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>69</td>
-                <td>
-                    <code><pre>                        if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>70</td>
-                <td>
-                    <code><pre>                                slog.Error(&#34;swagger file not found for scalar&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>71</td>
-                <td>
-                    <code><pre>                                api.Error(c, http.StatusNotFound, &#34;NOT_FOUND&#34;, &#34;API documentation source not found&#34;)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>72</td>
-                <td>
-                    <code><pre>                                return</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>73</td>
-                <td>
-                    <code><pre>                        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>74</td>
-                <td>
-                    <code><pre>                        htmlContent, err := scalar.ApiReferenceHTML(&amp;scalar.Options{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>75</td>
-                <td>
-                    <code><pre>                                SpecURL: r.config.SwaggerPath,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>76</td>
-                <td>
-                    <code><pre>                                CustomOptions: scalar.CustomOptions{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>77</td>
-                <td>
-                    <code><pre>                                        PageTitle: &#34;Booking Management API - Scalar&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>78</td>
-                <td>
-                    <code><pre>                                },</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>79</td>
-                <td>
-                    <code><pre>                                DarkMode: true,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>80</td>
-                <td>
-                    <code><pre>                        })</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>81</td>
-                <td>
-                    <code><pre>                        if err != nil {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>82</td>
-                <td>
-                    <code><pre>                                slog.Error(&#34;failed to generate scalar api reference&#34;, &#34;error&#34;, err)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>83</td>
-                <td>
-                    <code><pre>                                api.Error(c, http.StatusInternalServerError, &#34;INTERNAL_SERVER_ERROR&#34;, &#34;Failed to generate API documentation&#34;)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>84</td>
-                <td>
-                    <code><pre>                                return</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>85</td>
-                <td>
-                    <code><pre>                        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>86</td>
-                <td>
-                    <code><pre>                        c.Data(http.StatusOK, &#34;text/html; charset=utf-8&#34;, []byte(htmlContent))</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>87</td>
-                <td>
-                    <code><pre>                })</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>88</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>89</td>
-                <td>
-                    <code><pre>                // Root route</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>90</td>
-                <td>
-                    <code><pre>                v1.GET(&#34;/&#34;, func(c *gin.Context) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>91</td>
-                <td>
-                    <code><pre>                        api.Success(c, gin.H{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>92</td>
-                <td>
-                    <code><pre>                                &#34;message&#34;: &#34;Booking Management API&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>93</td>
-                <td>
-                    <code><pre>                        })</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>94</td>
-                <td>
-                    <code><pre>                })</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>95</td>
-                <td>
-                    <code><pre>        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>96</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>97</td>
-                <td>
-                    <code><pre>        // Redirect root to /v1</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>98</td>
-                <td>
-                    <code><pre>        r.engine.GET(&#34;/&#34;, func(c *gin.Context) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>99</td>
-                <td>
-                    <code><pre>                c.Redirect(http.StatusMovedPermanently, &#34;/v1&#34;)</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>100</td>
-                <td>
-                    <code><pre>        })</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>101</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>102</td>
-                <td>
-                    <code><pre>        return r.engine</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>103</td>
-                <td>
-                    <code><pre>}</pre></code>
-                </td>
-            </tr>
-            
-        </table>
         
         <div class="funcname" id="fn_NewRouter">func NewRouter</div>
         <div class="info">
@@ -1237,124 +1071,166 @@ p {
             <tr>
                 <td>28</td>
                 <td>
-                    <code><pre>        r := gin.New()</pre></code>
+                    <code><pre>        // Set Gin mode based on environment or default to release to keep it clean</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>29</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        env := os.Getenv(&#34;APP_ENV&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>30</td>
                 <td>
-                    <code><pre>        // Default middlewares</pre></code>
+                    <code><pre>        if env != &#34;development&#34; &amp;&amp; env != &#34;local&#34; &amp;&amp; os.Getenv(&#34;GIN_MODE&#34;) != &#34;debug&#34; {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>31</td>
                 <td>
-                    <code><pre>        r.Use(middleware.Logger(), gin.Recovery())</pre></code>
+                    <code><pre>                gin.SetMode(gin.ReleaseMode)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>32</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>33</td>
                 <td>
-                    <code><pre>        // CORS configuration</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>34</td>
                 <td>
-                    <code><pre>        r.Use(cors.New(cors.Config{</pre></code>
+                    <code><pre>        r := gin.New()</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>35</td>
                 <td>
-                    <code><pre>                AllowOrigins:     config.AllowOrigins,</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>36</td>
                 <td>
-                    <code><pre>                AllowMethods:     []string{&#34;GET&#34;, &#34;POST&#34;, &#34;PUT&#34;, &#34;DELETE&#34;, &#34;OPTIONS&#34;, &#34;PATCH&#34;},</pre></code>
+                    <code><pre>        // Default middlewares</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>37</td>
                 <td>
-                    <code><pre>                AllowHeaders:     []string{&#34;Accept&#34;, &#34;Authorization&#34;, &#34;Content-Type&#34;},</pre></code>
+                    <code><pre>        r.Use(middleware.Logger(), gin.Recovery())</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>38</td>
                 <td>
-                    <code><pre>                AllowCredentials: true,</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>39</td>
                 <td>
-                    <code><pre>        }))</pre></code>
+                    <code><pre>        // CORS configuration</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>40</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        r.Use(cors.New(cors.Config{</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>41</td>
                 <td>
-                    <code><pre>        return &amp;Router{</pre></code>
+                    <code><pre>                AllowOrigins:     config.AllowOrigins,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>42</td>
                 <td>
-                    <code><pre>                engine: r,</pre></code>
+                    <code><pre>                AllowMethods:     []string{&#34;GET&#34;, &#34;POST&#34;, &#34;PUT&#34;, &#34;DELETE&#34;, &#34;OPTIONS&#34;, &#34;PATCH&#34;},</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>43</td>
                 <td>
-                    <code><pre>                config: config,</pre></code>
+                    <code><pre>                AllowHeaders:     []string{&#34;Accept&#34;, &#34;Authorization&#34;, &#34;Content-Type&#34;},</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>44</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>                AllowCredentials: true,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>45</td>
+                <td>
+                    <code><pre>        }))</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>46</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>47</td>
+                <td>
+                    <code><pre>        return &amp;Router{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>48</td>
+                <td>
+                    <code><pre>                engine: r,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>49</td>
+                <td>
+                    <code><pre>                config: config,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>50</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>51</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -1362,258 +1238,826 @@ p {
             
         </table>
         
-        <div class="funcname" id="fn_@68:18">func @68:18</div>
+        <div class="funcname" id="fn_Router.RegisterRoutes">func Router.RegisterRoutes</div>
         <div class="info">
-            <a href="#s_fn_@68:18">Back</a>
+            <a href="#s_fn_Router.RegisterRoutes">Back</a>
             <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/router.go</code>:</p>
         </div>
         <table class="listing">
             
             <tr>
-                <td>68</td>
-                <td>
-                    <code><pre>func(c *gin.Context) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>69</td>
-                <td>
-                    <code><pre>                        if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>70</td>
-                <td>
-                    <code><pre>                                slog.Error(&#34;swagger file not found for scalar&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>71</td>
-                <td>
-                    <code><pre>                                api.Error(c, http.StatusNotFound, &#34;NOT_FOUND&#34;, &#34;API documentation source not found&#34;)</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>72</td>
-                <td>
-                    <code><pre>                                return</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>73</td>
-                <td>
-                    <code><pre>                        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>74</td>
-                <td>
-                    <code><pre>                        htmlContent, err := scalar.ApiReferenceHTML(&amp;scalar.Options{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>75</td>
-                <td>
-                    <code><pre>                                SpecURL: r.config.SwaggerPath,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>76</td>
-                <td>
-                    <code><pre>                                CustomOptions: scalar.CustomOptions{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>77</td>
-                <td>
-                    <code><pre>                                        PageTitle: &#34;Booking Management API - Scalar&#34;,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>78</td>
-                <td>
-                    <code><pre>                                },</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>79</td>
-                <td>
-                    <code><pre>                                DarkMode: true,</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>80</td>
-                <td>
-                    <code><pre>                        })</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>81</td>
-                <td>
-                    <code><pre>                        if err != nil {</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>82</td>
-                <td>
-                    <code><pre>                                slog.Error(&#34;failed to generate scalar api reference&#34;, &#34;error&#34;, err)</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>83</td>
-                <td>
-                    <code><pre>                                api.Error(c, http.StatusInternalServerError, &#34;INTERNAL_SERVER_ERROR&#34;, &#34;Failed to generate API documentation&#34;)</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>84</td>
-                <td>
-                    <code><pre>                                return</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>85</td>
-                <td>
-                    <code><pre>                        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>86</td>
-                <td>
-                    <code><pre>                        c.Data(http.StatusOK, &#34;text/html; charset=utf-8&#34;, []byte(htmlContent))</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>87</td>
-                <td>
-                    <code><pre>                }</pre></code>
-                </td>
-            </tr>
-            
-        </table>
-        
-        <div class="funcname" id="fn_@54:27">func @54:27</div>
-        <div class="info">
-            <a href="#s_fn_@54:27">Back</a>
-            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/router.go</code>:</p>
-        </div>
-        <table class="listing">
-            
-            <tr>
-                <td>54</td>
-                <td>
-                    <code><pre>func(c *gin.Context) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>55</td>
-                <td>
-                    <code><pre>                        path := c.Param(&#34;any&#34;)</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>56</td>
-                <td>
-                    <code><pre>                        if path == &#34;/doc.json&#34; {</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
                 <td>57</td>
                 <td>
-                    <code><pre>                                if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
+                    <code><pre>func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandler *handler.AuthHandler, systemHandler *handler.SystemHandler) http.Handler {</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>58</td>
                 <td>
-                    <code><pre>                                        slog.Error(&#34;swagger file not found&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
+                    <code><pre>        v1 := r.engine.Group(&#34;/v1&#34;)</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>59</td>
                 <td>
-                    <code><pre>                                        api.Error(c, http.StatusNotFound, &#34;NOT_FOUND&#34;, &#34;Swagger documentation file not found&#34;)</pre></code>
+                    <code><pre>        {</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>60</td>
                 <td>
-                    <code><pre>                                        return</pre></code>
+                    <code><pre>                r.registerV1Routes(v1, healthHandler, authHandler, systemHandler)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>61</td>
                 <td>
-                    <code><pre>                                }</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>62</td>
                 <td>
-                    <code><pre>                                c.File(r.config.SwaggerPath)</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>63</td>
                 <td>
-                    <code><pre>                                return</pre></code>
+                    <code><pre>        // Redirect root to /v1</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>64</td>
                 <td>
-                    <code><pre>                        }</pre></code>
+                    <code><pre>        r.engine.GET(&#34;/&#34;, func(c *gin.Context) {</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>65</td>
                 <td>
-                    <code><pre>                        c.Redirect(http.StatusMovedPermanently, &#34;/v1/doc&#34;)</pre></code>
+                    <code><pre>                c.Redirect(http.StatusMovedPermanently, &#34;/v1&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>66</td>
                 <td>
-                    <code><pre>                }</pre></code>
+                    <code><pre>        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>67</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>68</td>
+                <td>
+                    <code><pre>        return r.engine</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>69</td>
+                <td>
+                    <code><pre>}</pre></code>
                 </td>
             </tr>
             
         </table>
         
-        <div class="funcname" id="fn_@90:15">func @90:15</div>
+        <div class="funcname" id="fn_Router.registerDocRoutes">func Router.registerDocRoutes</div>
         <div class="info">
-            <a href="#s_fn_@90:15">Back</a>
+            <a href="#s_fn_Router.registerDocRoutes">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/router.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>89</td>
+                <td>
+                    <code><pre>func (r *Router) registerDocRoutes(rg *gin.RouterGroup) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>90</td>
+                <td>
+                    <code><pre>        rg.GET(&#34;/swagger/*any&#34;, func(c *gin.Context) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>91</td>
+                <td>
+                    <code><pre>                path := c.Param(&#34;any&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>92</td>
+                <td>
+                    <code><pre>                if path == &#34;/doc.json&#34; {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>93</td>
+                <td>
+                    <code><pre>                        if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>94</td>
+                <td>
+                    <code><pre>                                slog.Error(&#34;swagger file not found&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>95</td>
+                <td>
+                    <code><pre>                                api.Error(c, http.StatusNotFound, &#34;NOT_FOUND&#34;, &#34;Swagger documentation file not found&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>96</td>
+                <td>
+                    <code><pre>                                return</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>97</td>
+                <td>
+                    <code><pre>                        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>98</td>
+                <td>
+                    <code><pre>                        c.File(r.config.SwaggerPath)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>99</td>
+                <td>
+                    <code><pre>                        return</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>100</td>
+                <td>
+                    <code><pre>                }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>101</td>
+                <td>
+                    <code><pre>                c.Redirect(http.StatusMovedPermanently, &#34;/v1/doc&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>102</td>
+                <td>
+                    <code><pre>        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>103</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>104</td>
+                <td>
+                    <code><pre>        rg.GET(&#34;/doc&#34;, func(c *gin.Context) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>105</td>
+                <td>
+                    <code><pre>                if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>106</td>
+                <td>
+                    <code><pre>                        slog.Error(&#34;swagger file not found for scalar&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>107</td>
+                <td>
+                    <code><pre>                        api.Error(c, http.StatusNotFound, &#34;NOT_FOUND&#34;, &#34;API documentation source not found&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>108</td>
+                <td>
+                    <code><pre>                        return</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>109</td>
+                <td>
+                    <code><pre>                }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>110</td>
+                <td>
+                    <code><pre>                htmlContent, err := scalar.ApiReferenceHTML(&amp;scalar.Options{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>111</td>
+                <td>
+                    <code><pre>                        SpecURL: r.config.SwaggerPath,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>112</td>
+                <td>
+                    <code><pre>                        CustomOptions: scalar.CustomOptions{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>113</td>
+                <td>
+                    <code><pre>                                PageTitle: &#34;Booking Management API - Scalar&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>114</td>
+                <td>
+                    <code><pre>                        },</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>115</td>
+                <td>
+                    <code><pre>                        DarkMode: true,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>116</td>
+                <td>
+                    <code><pre>                })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>117</td>
+                <td>
+                    <code><pre>                if err != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>118</td>
+                <td>
+                    <code><pre>                        slog.Error(&#34;failed to generate scalar api reference&#34;, &#34;error&#34;, err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>119</td>
+                <td>
+                    <code><pre>                        api.Error(c, http.StatusInternalServerError, &#34;INTERNAL_SERVER_ERROR&#34;, &#34;Failed to generate API documentation&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>120</td>
+                <td>
+                    <code><pre>                        return</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>121</td>
+                <td>
+                    <code><pre>                }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>122</td>
+                <td>
+                    <code><pre>                c.Data(http.StatusOK, &#34;text/html; charset=utf-8&#34;, []byte(htmlContent))</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>123</td>
+                <td>
+                    <code><pre>        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>124</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_Router.Engine">func Router.Engine</div>
+        <div class="info">
+            <a href="#s_fn_Router.Engine">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/router.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>53</td>
+                <td>
+                    <code><pre>func (r *Router) Engine() *gin.Engine {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>54</td>
+                <td>
+                    <code><pre>        return r.engine</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>55</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_Router.registerV1Routes">func Router.registerV1Routes</div>
+        <div class="info">
+            <a href="#s_fn_Router.registerV1Routes">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/router.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>71</td>
+                <td>
+                    <code><pre>func (r *Router) registerV1Routes(rg *gin.RouterGroup, healthHandler *handler.HealthHandler, authHandler *handler.AuthHandler, systemHandler *handler.SystemHandler) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>72</td>
+                <td>
+                    <code><pre>        // Health &amp; Auth</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>73</td>
+                <td>
+                    <code><pre>        rg.GET(&#34;/health&#34;, healthHandler.HealthCheck)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>74</td>
+                <td>
+                    <code><pre>        rg.POST(&#34;/auth/register&#34;, authHandler.Register)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>75</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>76</td>
+                <td>
+                    <code><pre>        // Debug routes (Dev only)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>77</td>
+                <td>
+                    <code><pre>        env := os.Getenv(&#34;APP_ENV&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>78</td>
+                <td>
+                    <code><pre>        if env == &#34;development&#34; || env == &#34;local&#34; {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>79</td>
+                <td>
+                    <code><pre>                rg.GET(&#34;/debug/routes&#34;, systemHandler.DebugRoutes)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>80</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>81</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>82</td>
+                <td>
+                    <code><pre>        // Documentation</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>83</td>
+                <td>
+                    <code><pre>        r.registerDocRoutes(rg)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>84</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>85</td>
+                <td>
+                    <code><pre>        // Root</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>86</td>
+                <td>
+                    <code><pre>        rg.GET(&#34;/&#34;, systemHandler.Index)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>87</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_InspectRoutes">func InspectRoutes</div>
+        <div class="info">
+            <a href="#s_fn_InspectRoutes">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/inspector.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>15</td>
+                <td>
+                    <code><pre>func InspectRoutes(routes gin.RoutesInfo, filter string) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>16</td>
+                <td>
+                    <code><pre>        fmt.Println(&#34;\n🔍 API ROUTE INSPECTOR&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>17</td>
+                <td>
+                    <code><pre>        fmt.Println(strings.Repeat(&#34;=&#34;, 60))</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>18</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>19</td>
+                <td>
+                    <code><pre>        w := tabwriter.NewWriter(os.Stdout, 0, 0, 3, &#39; &#39;, tabwriter.Debug)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>20</td>
+                <td>
+                    <code><pre>        fmt.Fprintln(w, &#34;METHOD\tPATH\tHANDLER&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>21</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>22</td>
+                <td>
+                    <code><pre>        count := 0</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>23</td>
+                <td>
+                    <code><pre>        for _, route := range routes {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>24</td>
+                <td>
+                    <code><pre>                if filter != &#34;&#34; &amp;&amp; !strings.Contains(route.Path, filter) &amp;&amp; !strings.Contains(route.Method, filter) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>25</td>
+                <td>
+                    <code><pre>                        continue</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>26</td>
+                <td>
+                    <code><pre>                }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>27</td>
+                <td>
+                    <code><pre>                fmt.Fprintf(w, &#34;%s\t%s\t%s\n&#34;, route.Method, route.Path, route.Handler)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>28</td>
+                <td>
+                    <code><pre>                count++</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>29</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>30</td>
+                <td>
+                    <code><pre>        w.Flush()</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>31</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>32</td>
+                <td>
+                    <code><pre>        fmt.Println(strings.Repeat(&#34;=&#34;, 60))</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>33</td>
+                <td>
+                    <code><pre>        fmt.Printf(&#34;Total Routes: %d\n\n&#34;, count)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>34</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_@104:17">func @104:17</div>
+        <div class="info">
+            <a href="#s_fn_@104:17">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/router.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>104</td>
+                <td>
+                    <code><pre>func(c *gin.Context) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>105</td>
+                <td>
+                    <code><pre>                if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>106</td>
+                <td>
+                    <code><pre>                        slog.Error(&#34;swagger file not found for scalar&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>107</td>
+                <td>
+                    <code><pre>                        api.Error(c, http.StatusNotFound, &#34;NOT_FOUND&#34;, &#34;API documentation source not found&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>108</td>
+                <td>
+                    <code><pre>                        return</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>109</td>
+                <td>
+                    <code><pre>                }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>110</td>
+                <td>
+                    <code><pre>                htmlContent, err := scalar.ApiReferenceHTML(&amp;scalar.Options{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>111</td>
+                <td>
+                    <code><pre>                        SpecURL: r.config.SwaggerPath,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>112</td>
+                <td>
+                    <code><pre>                        CustomOptions: scalar.CustomOptions{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>113</td>
+                <td>
+                    <code><pre>                                PageTitle: &#34;Booking Management API - Scalar&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>114</td>
+                <td>
+                    <code><pre>                        },</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>115</td>
+                <td>
+                    <code><pre>                        DarkMode: true,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>116</td>
+                <td>
+                    <code><pre>                })</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>117</td>
+                <td>
+                    <code><pre>                if err != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>118</td>
+                <td>
+                    <code><pre>                        slog.Error(&#34;failed to generate scalar api reference&#34;, &#34;error&#34;, err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>119</td>
+                <td>
+                    <code><pre>                        api.Error(c, http.StatusInternalServerError, &#34;INTERNAL_SERVER_ERROR&#34;, &#34;Failed to generate API documentation&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>120</td>
+                <td>
+                    <code><pre>                        return</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>121</td>
+                <td>
+                    <code><pre>                }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>122</td>
+                <td>
+                    <code><pre>                c.Data(http.StatusOK, &#34;text/html; charset=utf-8&#34;, []byte(htmlContent))</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>123</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_@90:26">func @90:26</div>
+        <div class="info">
+            <a href="#s_fn_@90:26">Back</a>
             <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/router.go</code>:</p>
         </div>
         <table class="listing">
@@ -1628,56 +2072,170 @@ p {
             <tr class="miss">
                 <td>91</td>
                 <td>
-                    <code><pre>                        api.Success(c, gin.H{</pre></code>
+                    <code><pre>                path := c.Param(&#34;any&#34;)</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>92</td>
                 <td>
-                    <code><pre>                                &#34;message&#34;: &#34;Booking Management API&#34;,</pre></code>
+                    <code><pre>                if path == &#34;/doc.json&#34; {</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>93</td>
                 <td>
-                    <code><pre>                        })</pre></code>
+                    <code><pre>                        if _, err := os.Stat(r.config.SwaggerPath); os.IsNotExist(err) {</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>94</td>
                 <td>
-                    <code><pre>                }</pre></code>
+                    <code><pre>                                slog.Error(&#34;swagger file not found&#34;, &#34;path&#34;, r.config.SwaggerPath)</pre></code>
                 </td>
             </tr>
             
-        </table>
-        
-        <div class="funcname" id="fn_@98:20">func @98:20</div>
-        <div class="info">
-            <a href="#s_fn_@98:20">Back</a>
-            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/router.go</code>:</p>
-        </div>
-        <table class="listing">
+            <tr class="miss">
+                <td>95</td>
+                <td>
+                    <code><pre>                                api.Error(c, http.StatusNotFound, &#34;NOT_FOUND&#34;, &#34;Swagger documentation file not found&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>96</td>
+                <td>
+                    <code><pre>                                return</pre></code>
+                </td>
+            </tr>
             
             <tr>
+                <td>97</td>
+                <td>
+                    <code><pre>                        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
                 <td>98</td>
                 <td>
-                    <code><pre>func(c *gin.Context) {</pre></code>
+                    <code><pre>                        c.File(r.config.SwaggerPath)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>99</td>
                 <td>
-                    <code><pre>                c.Redirect(http.StatusMovedPermanently, &#34;/v1&#34;)</pre></code>
+                    <code><pre>                        return</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>100</td>
+                <td>
+                    <code><pre>                }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>101</td>
+                <td>
+                    <code><pre>                c.Redirect(http.StatusMovedPermanently, &#34;/v1/doc&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>102</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_ExportRoutes">func ExportRoutes</div>
+        <div class="info">
+            <a href="#s_fn_ExportRoutes">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/inspector.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>37</td>
+                <td>
+                    <code><pre>func ExportRoutes(routes gin.RoutesInfo, filePath string) error {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>38</td>
+                <td>
+                    <code><pre>        data, err := json.MarshalIndent(routes, &#34;&#34;, &#34;  &#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>39</td>
+                <td>
+                    <code><pre>        if err != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>40</td>
+                <td>
+                    <code><pre>                return err</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>41</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>42</td>
+                <td>
+                    <code><pre>        return os.WriteFile(filePath, data, 0644)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>43</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_@64:20">func @64:20</div>
+        <div class="info">
+            <a href="#s_fn_@64:20">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/router.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>64</td>
+                <td>
+                    <code><pre>func(c *gin.Context) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>65</td>
+                <td>
+                    <code><pre>                c.Redirect(http.StatusMovedPermanently, &#34;/v1&#34;)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>66</td>
                 <td>
                     <code><pre>        }</pre></code>
                 </td>
@@ -1687,12 +2245,12 @@ p {
          
 
         <!--    Can be parsed by external script
-                PACKAGE:go-booking-management-init/internal/adapter/http DONE:36.4
+                PACKAGE:go-booking-management-init/internal/adapter/http DONE:34.5
         -->
         
         <div id="pkg_go-booking-management-init/internal/adapter/http/handler" class="funcname">
             Package Overview: go-booking-management-init/internal/adapter/http/handler
-            <span class="packageTotal">21.9%</span>
+            <span class="packageTotal">17.5%</span>
         </div>
         <p>Please select a function to see what's left for testing.</p>
 
@@ -1758,12 +2316,57 @@ p {
                 </td>
             </tr>
         
+            <tr id="s_fn_SystemHandler.DebugRoutes">
+                <td>
+                    <code><a href="#fn_SystemHandler.DebugRoutes">SystemHandler.DebugRoutes(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/internal/adapter/http/handler/system_handler.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/6</code>
+                </td>
+            </tr>
+        
             <tr id="s_fn_NewAuthHandler">
                 <td>
                     <code><a href="#fn_NewAuthHandler">NewAuthHandler(...)</a></code>
                 </td>
                 <td>
                     <code>go-booking-management-init/internal/adapter/http/handler/auth_handler.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/1</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_NewSystemHandler">
+                <td>
+                    <code><a href="#fn_NewSystemHandler">NewSystemHandler(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/internal/adapter/http/handler/system_handler.go</code>
+                </td>
+                <td class="percent">
+                    <code>0.0%</code>
+                </td>
+                <td class="linecount">
+                    <code>0/1</code>
+                </td>
+            </tr>
+        
+            <tr id="s_fn_SystemHandler.Index">
+                <td>
+                    <code><a href="#fn_SystemHandler.Index">SystemHandler.Index(...)</a></code>
+                </td>
+                <td>
+                    <code>go-booking-management-init/internal/adapter/http/handler/system_handler.go</code>
                 </td>
                 <td class="percent">
                     <code>0.0%</code>
@@ -2162,140 +2765,289 @@ p {
         <table class="listing">
             
             <tr>
-                <td>21</td>
-                <td>
-                    <code><pre>func (h *AuthHandler) Register(c *gin.Context) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>22</td>
-                <td>
-                    <code><pre>        var req dto.RegisterRequest</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>23</td>
-                <td>
-                    <code><pre>        if !api.BindAndValidate(c, &amp;req) {</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>24</td>
-                <td>
-                    <code><pre>                return</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>25</td>
-                <td>
-                    <code><pre>        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>26</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>27</td>
-                <td>
-                    <code><pre>        user, err := h.authService.Register(c.Request.Context(), req.Email, req.Password, req.Role)</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>28</td>
-                <td>
-                    <code><pre>        if err != nil {</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>29</td>
-                <td>
-                    <code><pre>                MapError(c, err)</pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>30</td>
-                <td>
-                    <code><pre>                return</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>31</td>
-                <td>
-                    <code><pre>        }</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>32</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
-                <td>33</td>
-                <td>
-                    <code><pre>        api.Created(c, dto.RegisterResponse{</pre></code>
-                </td>
-            </tr>
-            
-            <tr>
                 <td>34</td>
                 <td>
-                    <code><pre>                ID:        user.ID,</pre></code>
+                    <code><pre>func (h *AuthHandler) Register(c *gin.Context) {</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>35</td>
                 <td>
-                    <code><pre>                Email:     user.Email,</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>36</td>
                 <td>
-                    <code><pre>                Role:      user.Role,</pre></code>
+                    <code><pre>        var req dto.RegisterRequest</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>37</td>
                 <td>
-                    <code><pre>                CreatedAt: user.CreatedAt.Format(&#34;2006-01-02T15:04:05Z07:00&#34;),</pre></code>
+                    <code><pre>        if !api.BindAndValidate(c, &amp;req) {</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>38</td>
                 <td>
-                    <code><pre>                UpdatedAt: user.UpdatedAt.Format(&#34;2006-01-02T15:04:05Z07:00&#34;),</pre></code>
+                    <code><pre>                return</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>39</td>
                 <td>
-                    <code><pre>        })</pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>40</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>41</td>
+                <td>
+                    <code><pre>        user, err := h.authService.Register(c.Request.Context(), req.Email, req.Password, domain.UserRole(req.Role))</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>42</td>
+                <td>
+                    <code><pre>        if err != nil {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>43</td>
+                <td>
+                    <code><pre>                MapError(c, err)</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>44</td>
+                <td>
+                    <code><pre>                return</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>45</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>46</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>47</td>
+                <td>
+                    <code><pre>        api.Created(c, dto.RegisterResponse{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>48</td>
+                <td>
+                    <code><pre>                ID:        user.ID,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>49</td>
+                <td>
+                    <code><pre>                Email:     user.Email,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>50</td>
+                <td>
+                    <code><pre>                Role:      string(user.Role),</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>51</td>
+                <td>
+                    <code><pre>                CreatedAt: user.CreatedAt.Format(&#34;2006-01-02T15:04:05Z07:00&#34;),</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>52</td>
+                <td>
+                    <code><pre>                UpdatedAt: user.UpdatedAt.Format(&#34;2006-01-02T15:04:05Z07:00&#34;),</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>53</td>
+                <td>
+                    <code><pre>        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>54</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_SystemHandler.DebugRoutes">func SystemHandler.DebugRoutes</div>
+        <div class="info">
+            <a href="#s_fn_SystemHandler.DebugRoutes">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/handler/system_handler.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>40</td>
+                <td>
+                    <code><pre>func (h *SystemHandler) DebugRoutes(c *gin.Context) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>41</td>
+                <td>
+                    <code><pre>        routes := h.engine.Routes()</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>42</td>
+                <td>
+                    <code><pre>        type routeDisplay struct {</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>43</td>
+                <td>
+                    <code><pre>                Method  string `json:&#34;method&#34;`</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>44</td>
+                <td>
+                    <code><pre>                Path    string `json:&#34;path&#34;`</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>45</td>
+                <td>
+                    <code><pre>                Handler string `json:&#34;handler&#34;`</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>46</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>47</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>48</td>
+                <td>
+                    <code><pre>        display := make([]routeDisplay, len(routes))</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>49</td>
+                <td>
+                    <code><pre>        for i, r := range routes {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>50</td>
+                <td>
+                    <code><pre>                display[i] = routeDisplay{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>51</td>
+                <td>
+                    <code><pre>                        Method:  r.Method,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>52</td>
+                <td>
+                    <code><pre>                        Path:    r.Path,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>53</td>
+                <td>
+                    <code><pre>                        Handler: r.Handler,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>54</td>
+                <td>
+                    <code><pre>                }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>55</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>56</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>57</td>
+                <td>
+                    <code><pre>        c.JSON(http.StatusOK, display)</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>58</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -2311,35 +3063,123 @@ p {
         <table class="listing">
             
             <tr>
-                <td>15</td>
+                <td>16</td>
                 <td>
                     <code><pre>func NewAuthHandler(authService auth.Service) *AuthHandler {</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>16</td>
+                <td>17</td>
                 <td>
                     <code><pre>        return &amp;AuthHandler{</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>17</td>
+                <td>18</td>
                 <td>
                     <code><pre>                authService: authService,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>18</td>
+                <td>19</td>
                 <td>
                     <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>19</td>
+                <td>20</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_NewSystemHandler">func NewSystemHandler</div>
+        <div class="info">
+            <a href="#s_fn_NewSystemHandler">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/handler/system_handler.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>14</td>
+                <td>
+                    <code><pre>func NewSystemHandler(engine *gin.Engine) *SystemHandler {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>15</td>
+                <td>
+                    <code><pre>        return &amp;SystemHandler{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>16</td>
+                <td>
+                    <code><pre>                engine: engine,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>17</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>18</td>
+                <td>
+                    <code><pre>}</pre></code>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <div class="funcname" id="fn_SystemHandler.Index">func SystemHandler.Index</div>
+        <div class="info">
+            <a href="#s_fn_SystemHandler.Index">Back</a>
+            <p>In <code>/Users/anucha-tk/App/anucha-tk/go-booking-management/internal/adapter/http/handler/system_handler.go</code>:</p>
+        </div>
+        <table class="listing">
+            
+            <tr>
+                <td>27</td>
+                <td>
+                    <code><pre>func (h *SystemHandler) Index(c *gin.Context) {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>28</td>
+                <td>
+                    <code><pre>        api.Success(c, gin.H{</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>29</td>
+                <td>
+                    <code><pre>                &#34;message&#34;: &#34;Booking Management API&#34;,</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>30</td>
+                <td>
+                    <code><pre>        })</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>31</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -2349,7 +3189,7 @@ p {
          
 
         <!--    Can be parsed by external script
-                PACKAGE:go-booking-management-init/internal/adapter/http/handler DONE:21.9
+                PACKAGE:go-booking-management-init/internal/adapter/http/handler DONE:17.5
         -->
         
         <div id="pkg_go-booking-management-init/internal/adapter/http/middleware" class="funcname">
@@ -2905,7 +3745,7 @@ p {
             <tr>
                 <td>34</td>
                 <td>
-                    <code><pre>func (s *service) Register(ctx context.Context, email, password, role string) (*domain.User, error) {</pre></code>
+                    <code><pre>func (s *service) Register(ctx context.Context, email, password string, role domain.UserRole) (*domain.User, error) {</pre></code>
                 </td>
             </tr>
             
@@ -2982,7 +3822,7 @@ p {
             <tr>
                 <td>45</td>
                 <td>
-                    <code><pre>                Role:     strings.ToLower(strings.TrimSpace(role)),</pre></code>
+                    <code><pre>                Role:     string(role),</pre></code>
                 </td>
             </tr>
             
@@ -3115,7 +3955,7 @@ p {
             <tr>
                 <td>64</td>
                 <td>
-                    <code><pre>        role = input.Role</pre></code>
+                    <code><pre>        role = domain.UserRole(input.Role)</pre></code>
                 </td>
             </tr>
             
@@ -4494,7 +5334,7 @@ p {
             <tr>
                 <td>27</td>
                 <td>
-                    <code><pre>                Role:         user.Role,</pre></code>
+                    <code><pre>                Role:         string(user.Role),</pre></code>
                 </td>
             </tr>
             
@@ -4606,7 +5446,7 @@ p {
             <tr>
                 <td>43</td>
                 <td>
-                    <code><pre>                Role:         res.Role,</pre></code>
+                    <code><pre>                Role:         auth.UserRole(res.Role),</pre></code>
                 </td>
             </tr>
             
@@ -4741,7 +5581,7 @@ p {
             <tr>
                 <td>62</td>
                 <td>
-                    <code><pre>                Role:         res.Role,</pre></code>
+                    <code><pre>                Role:         auth.UserRole(res.Role),</pre></code>
                 </td>
             </tr>
             
@@ -4843,7 +5683,7 @@ p {
                     <code>0.0%</code>
                 </td>
                 <td class="linecount">
-                    <code>0/23</code>
+                    <code>0/24</code>
                 </td>
             </tr>
         
@@ -4861,7 +5701,7 @@ p {
             <tr>
                 <td>26</td>
                 <td>
-                    <code><pre>func NewServer() *http.Server {</pre></code>
+                    <code><pre>func NewServer() (*http.Server, *adapterHttp.Router) {</pre></code>
                 </td>
             </tr>
             
@@ -5054,197 +5894,218 @@ p {
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>54</td>
                 <td>
-                    <code><pre>        allowOrigins := strings.Split(os.Getenv(&#34;ALLOW_ORIGINS&#34;), &#34;,&#34;)</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>55</td>
                 <td>
-                    <code><pre>        if len(allowOrigins) == 0 || allowOrigins[0] == &#34;&#34; {</pre></code>
+                    <code><pre>        allowOrigins := strings.Split(os.Getenv(&#34;ALLOW_ORIGINS&#34;), &#34;,&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>56</td>
                 <td>
+                    <code><pre>        if len(allowOrigins) == 0 || allowOrigins[0] == &#34;&#34; {</pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>57</td>
+                <td>
                     <code><pre>                allowOrigins = []string{&#34;http://localhost:5173&#34;} // Default</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>57</td>
+                <td>58</td>
                 <td>
                     <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>58</td>
+                <td>59</td>
                 <td>
                     <code><pre>        log.Printf(&#34;CORS allowed origins: %v&#34;, allowOrigins)</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>59</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr class="miss">
                 <td>60</td>
                 <td>
-                    <code><pre>        swaggerPath := os.Getenv(&#34;SWAGGER_PATH&#34;)</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>61</td>
                 <td>
-                    <code><pre>        if swaggerPath == &#34;&#34; {</pre></code>
+                    <code><pre>        swaggerPath := os.Getenv(&#34;SWAGGER_PATH&#34;)</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>62</td>
                 <td>
-                    <code><pre>                swaggerPath = &#34;./api/swagger.json&#34; // Default</pre></code>
+                    <code><pre>        if swaggerPath == &#34;&#34; {</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>63</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>                swaggerPath = &#34;./api/swagger.json&#34; // Default</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>64</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>        }</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>65</td>
                 <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>66</td>
+                <td>
                     <code><pre>        // Initialize router</pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
-                <td>66</td>
+                <td>67</td>
                 <td>
                     <code><pre>        router := adapterHttp.NewRouter(adapterHttp.Config{</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>67</td>
+                <td>68</td>
                 <td>
                     <code><pre>                AllowOrigins: allowOrigins,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>68</td>
+                <td>69</td>
                 <td>
                     <code><pre>                SwaggerPath:  swaggerPath,</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>69</td>
+                <td>70</td>
                 <td>
                     <code><pre>        })</pre></code>
                 </td>
             </tr>
             
             <tr>
-                <td>70</td>
-                <td>
-                    <code><pre></pre></code>
-                </td>
-            </tr>
-            
-            <tr>
                 <td>71</td>
                 <td>
-                    <code><pre>        // Declare Server config</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr class="miss">
                 <td>72</td>
                 <td>
-                    <code><pre>        server := &amp;http.Server{</pre></code>
+                    <code><pre>        systemHandler := handler.NewSystemHandler(router.Engine())</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>73</td>
                 <td>
-                    <code><pre>                Addr:         fmt.Sprintf(&#34;:%d&#34;, s.port),</pre></code>
+                    <code><pre></pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>74</td>
                 <td>
-                    <code><pre>                Handler:      router.RegisterRoutes(healthHandler, authHandler),</pre></code>
+                    <code><pre>        // Declare Server config</pre></code>
                 </td>
             </tr>
             
-            <tr>
+            <tr class="miss">
                 <td>75</td>
                 <td>
-                    <code><pre>                IdleTimeout:  time.Minute,</pre></code>
+                    <code><pre>        server := &amp;http.Server{</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>76</td>
                 <td>
-                    <code><pre>                ReadTimeout:  10 * time.Second,</pre></code>
+                    <code><pre>                Addr:         fmt.Sprintf(&#34;:%d&#34;, s.port),</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>77</td>
                 <td>
-                    <code><pre>                WriteTimeout: 30 * time.Second,</pre></code>
+                    <code><pre>                Handler:      router.RegisterRoutes(healthHandler, authHandler, systemHandler),</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>78</td>
                 <td>
-                    <code><pre>        }</pre></code>
+                    <code><pre>                IdleTimeout:  time.Minute,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>79</td>
                 <td>
-                    <code><pre></pre></code>
+                    <code><pre>                ReadTimeout:  10 * time.Second,</pre></code>
                 </td>
             </tr>
             
-            <tr class="miss">
+            <tr>
                 <td>80</td>
                 <td>
-                    <code><pre>        return server</pre></code>
+                    <code><pre>                WriteTimeout: 30 * time.Second,</pre></code>
                 </td>
             </tr>
             
             <tr>
                 <td>81</td>
+                <td>
+                    <code><pre>        }</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>82</td>
+                <td>
+                    <code><pre></pre></code>
+                </td>
+            </tr>
+            
+            <tr class="miss">
+                <td>83</td>
+                <td>
+                    <code><pre>        return server, router</pre></code>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>84</td>
                 <td>
                     <code><pre>}</pre></code>
                 </td>
@@ -6910,7 +7771,7 @@ p {
         <div id="summaryWrapper">
         
             <div class="package">Report Total</div>
-            <div id="totalcov">40.3%</div>
+            <div id="totalcov">36.8%</div>
          
         </div>
          

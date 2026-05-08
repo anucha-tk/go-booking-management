@@ -43,10 +43,10 @@ func TestService_Register(t *testing.T) {
 		mockRepo.On("Create", ctx, mock.Anything).Return(&domain.User{
 			ID:    1,
 			Email: email,
-			Role:  role,
+			Role:  domain.UserRole(role),
 		}, nil).Once()
 
-		user, err := service.Register(ctx, email, password, role)
+		user, err := service.Register(ctx, email, password, domain.UserRole(role))
 
 		assert.NoError(t, err)
 		assert.NotNil(t, user)
@@ -61,7 +61,7 @@ func TestService_Register(t *testing.T) {
 
 		mockRepo.On("GetByEmail", ctx, email).Return(&domain.User{ID: 1, Email: email}, nil).Once()
 
-		user, err := service.Register(ctx, email, password, role)
+		user, err := service.Register(ctx, email, password, domain.UserRole(role))
 
 		assert.Error(t, err)
 		assert.Equal(t, domain.ErrUserAlreadyExists, err)
@@ -69,14 +69,14 @@ func TestService_Register(t *testing.T) {
 		mockRepo.AssertExpectations(t)
 	})
 	t.Run("invalid email", func(t *testing.T) {
-		user, err := service.Register(ctx, "invalid-email", "password123", "guest")
+		user, err := service.Register(ctx, "invalid-email", "password123", domain.RoleGuest)
 		assert.Error(t, err)
 		assert.Equal(t, ErrInvalidEmail, err)
 		assert.Nil(t, user)
 	})
 
 	t.Run("invalid role", func(t *testing.T) {
-		user, err := service.Register(ctx, "test@example.com", "password123", "invalid-role")
+		user, err := service.Register(ctx, "test@example.com", "password123", domain.UserRole("invalid-role"))
 		assert.Error(t, err)
 		assert.Equal(t, ErrInvalidRole, err)
 		assert.Nil(t, user)

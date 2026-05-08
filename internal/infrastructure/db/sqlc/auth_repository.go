@@ -24,7 +24,7 @@ func (r *SQLCAuthRepository) Create(ctx context.Context, user *auth.User) (*auth
 	params := CreateUserParams{
 		Email:        user.Email,
 		PasswordHash: user.PasswordHash,
-		Role:         user.Role,
+		Role:         string(user.Role),
 	}
 
 	res, err := r.queries.CreateUser(ctx, params)
@@ -40,7 +40,7 @@ func (r *SQLCAuthRepository) Create(ctx context.Context, user *auth.User) (*auth
 		ID:           res.ID,
 		Email:        res.Email,
 		PasswordHash: res.PasswordHash,
-		Role:         res.Role,
+		Role:         auth.UserRole(res.Role),
 		CreatedAt:    res.CreatedAt.Time,
 		UpdatedAt:    res.UpdatedAt.Time,
 	}, nil
@@ -59,7 +59,7 @@ func (r *SQLCAuthRepository) GetByEmail(ctx context.Context, email string) (*aut
 		ID:           res.ID,
 		Email:        res.Email,
 		PasswordHash: res.PasswordHash,
-		Role:         res.Role,
+		Role:         auth.UserRole(res.Role),
 		CreatedAt:    res.CreatedAt.Time,
 		UpdatedAt:    res.UpdatedAt.Time,
 	}, nil

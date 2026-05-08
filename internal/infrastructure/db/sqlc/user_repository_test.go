@@ -48,7 +48,7 @@ func TestUserRepository_CreateUser(t *testing.T) {
 	user := &auth.User{
 		Email:        email,
 		PasswordHash: "hashed_pass",
-		Role:         "customer",
+		Role:         auth.RoleCustomer,
 	}
 
 	created, err := repo.Create(ctx, user)
@@ -68,7 +68,7 @@ func TestUserRepository_GetByEmail(t *testing.T) {
 	_, _ = repo.Create(ctx, &auth.User{
 		Email:        email,
 		PasswordHash: "hashed_pass",
-		Role:         "customer",
+		Role:         auth.RoleCustomer,
 	})
 
 	found, err := repo.GetByEmail(ctx, email)

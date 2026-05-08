@@ -38,6 +38,21 @@ func (h *SystemHandler) Index(c *gin.Context) {
 // @Success 200 {array} interface{}
 // @Router /v1/debug/routes [get]
 func (h *SystemHandler) DebugRoutes(c *gin.Context) {
+	routes := h.engine.Routes()
+	type routeDisplay struct {
+		Method  string `json:"method"`
+		Path    string `json:"path"`
+		Handler string `json:"handler"`
+	}
 
-	c.JSON(http.StatusOK, h.engine.Routes())
+	display := make([]routeDisplay, len(routes))
+	for i, r := range routes {
+		display[i] = routeDisplay{
+			Method:  r.Method,
+			Path:    r.Path,
+			Handler: r.Handler,
+		}
+	}
+
+	c.JSON(http.StatusOK, display)
 }

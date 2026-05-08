@@ -3,6 +3,7 @@ package handler
 import (
 	"go-booking-management-init/internal/adapter/http/dto"
 	"go-booking-management-init/internal/application/auth"
+	domain "go-booking-management-init/internal/domain/auth"
 	"go-booking-management-init/pkg/api"
 
 	"github.com/gin-gonic/gin"
@@ -37,7 +38,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 		return
 	}
 
-	user, err := h.authService.Register(c.Request.Context(), req.Email, req.Password, req.Role)
+	user, err := h.authService.Register(c.Request.Context(), req.Email, req.Password, domain.UserRole(req.Role))
 	if err != nil {
 		MapError(c, err)
 		return
@@ -46,7 +47,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	api.Created(c, dto.RegisterResponse{
 		ID:        user.ID,
 		Email:     user.Email,
-		Role:      user.Role,
+		Role:      string(user.Role),
 		CreatedAt: user.CreatedAt.Format("2006-01-02T15:04:05Z07:00"),
 		UpdatedAt: user.UpdatedAt.Format("2006-01-02T15:04:05Z07:00"),
 	})

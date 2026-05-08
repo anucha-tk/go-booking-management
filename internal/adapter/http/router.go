@@ -26,7 +26,8 @@ type Router struct {
 
 func NewRouter(config Config) *Router {
 	// Set Gin mode based on environment or default to release to keep it clean
-	if os.Getenv("APP_ENV") != "development" && os.Getenv("GIN_MODE") != "debug" {
+	env := os.Getenv("APP_ENV")
+	if env != "development" && env != "local" && os.Getenv("GIN_MODE") != "debug" {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
@@ -73,7 +74,8 @@ func (r *Router) registerV1Routes(rg *gin.RouterGroup, healthHandler *handler.He
 	rg.POST("/auth/register", authHandler.Register)
 
 	// Debug routes (Dev only)
-	if os.Getenv("APP_ENV") == "development" {
+	env := os.Getenv("APP_ENV")
+	if env == "development" || env == "local" {
 		rg.GET("/debug/routes", systemHandler.DebugRoutes)
 	}
 

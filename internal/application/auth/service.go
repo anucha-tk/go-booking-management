@@ -18,7 +18,7 @@ var (
 )
 
 type Service interface {
-	Register(ctx context.Context, email, password, role string) (*domain.User, error)
+	Register(ctx context.Context, email, password string, role domain.UserRole) (*domain.User, error)
 }
 
 type service struct {
@@ -31,7 +31,7 @@ func NewService(userRepo domain.UserRepository) Service {
 	}
 }
 
-func (s *service) Register(ctx context.Context, email, password, role string) (*domain.User, error) {
+func (s *service) Register(ctx context.Context, email, password string, role domain.UserRole) (*domain.User, error) {
 	// 1. Validate Input using Service Layer Validator (validate tag)
 	type registerInput struct {
 		Email    string `validate:"required,email"`
@@ -42,7 +42,7 @@ func (s *service) Register(ctx context.Context, email, password, role string) (*
 	input := registerInput{
 		Email:    strings.ToLower(strings.TrimSpace(email)),
 		Password: password,
-		Role:     strings.ToLower(strings.TrimSpace(role)),
+		Role:     string(role),
 	}
 
 	if err := api.Validate(input); err != nil {
@@ -61,7 +61,7 @@ func (s *service) Register(ctx context.Context, email, password, role string) (*
 
 	// 2. Use normalized values from input
 	email = input.Email
-	role = input.Role
+	role = domain.UserRole(input.Role)
 
 	// 5. Check if user already exists
 	existing, err := s.userRepo.GetByEmail(ctx, email)

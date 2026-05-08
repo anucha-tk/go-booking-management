@@ -2,11 +2,20 @@ package auth
 
 import "time"
 
+type UserRole string
+
+const (
+	RoleAdmin    UserRole = "admin"
+	RoleCustomer UserRole = "customer"
+	RoleStaff    UserRole = "staff"
+	RoleGuest    UserRole = "guest"
+)
+
 type User struct {
 	ID           int32     `json:"id"`
 	Email        string    `json:"email"`
 	PasswordHash string    `json:"-"`
-	Role         string    `json:"role"`
+	Role         UserRole  `json:"role"`
 	CreatedAt    time.Time `json:"createdAt"`
 	UpdatedAt    time.Time `json:"updatedAt"`
 }
