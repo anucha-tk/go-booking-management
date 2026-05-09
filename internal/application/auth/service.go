@@ -9,25 +9,32 @@ import (
 	pkgAuth "go-booking-management-init/pkg/auth"
 	"log/slog"
 	"strings"
+
+	"github.com/go-playground/validator/v10"
 )
 
 var (
-	ErrInvalidEmail    = errors.New("invalid email address")
-	ErrInvalidRole     = errors.New("invalid role")
-	ErrPasswordTooLong = errors.New("password too long")
+	ErrInvalidEmail       = errors.New("invalid email address")
+	ErrInvalidRole        = errors.New("invalid role")
+	ErrPasswordTooShort   = errors.New("password is too short (min 8 characters)")
+	ErrPasswordTooLong    = errors.New("password too long")
+	ErrInvalidCredentials = errors.New("invalid credentials")
 )
 
 type Service interface {
 	Register(ctx context.Context, email, password string, role domain.UserRole) (*domain.User, error)
+	Login(ctx context.Context, email, password string) (string, error)
 }
 
 type service struct {
-	userRepo domain.UserRepository
+	userRepo     domain.UserRepository
+	tokenManager pkgAuth.TokenManager
 }
 
-func NewService(userRepo domain.UserRepository) Service {
+func NewService(userRepo domain.UserRepository, tokenManager pkgAuth.TokenManager) Service {
 	return &service{
-		userRepo: userRepo,
+		userRepo:     userRepo,
+		tokenManager: tokenManager,
 	}
 }
 
@@ -35,7 +42,7 @@ func (s *service) Register(ctx context.Context, email, password string, role dom
 	// 1. Validate Input using Service Layer Validator (validate tag)
 	type registerInput struct {
 		Email    string `validate:"required,email"`
-		Password string `validate:"required,max=72"`
+		Password string `validate:"required,min=8,max=72"`
 		Role     string `validate:"required,oneof=customer admin guest"`
 	}
 
@@ -47,16 +54,23 @@ func (s *service) Register(ctx context.Context, email, password string, role dom
 
 	if err := api.Validate(input); err != nil {
 		slog.WarnContext(ctx, "validation failed in service layer", "err", err)
-		// Map back to specific domain errors if needed, or return the validation error
-		// For now, let's keep the legacy mapping but make it slightly better
-		errMsg := err.Error()
-		if strings.Contains(errMsg, "'Email'") {
-			return nil, ErrInvalidEmail
+		var ve validator.ValidationErrors
+		if errors.As(err, &ve) {
+			for _, fe := range ve {
+				switch fe.Field() {
+				case "Email":
+					return nil, ErrInvalidEmail
+				case "Password":
+					if fe.Tag() == "min" {
+						return nil, ErrPasswordTooShort
+					}
+					return nil, ErrPasswordTooLong
+				case "Role":
+					return nil, ErrInvalidRole
+				}
+			}
 		}
-		if strings.Contains(errMsg, "'Password'") {
-			return nil, ErrPasswordTooLong
-		}
-		return nil, ErrInvalidRole
+		return nil, err
 	}
 
 	// 2. Use normalized values from input
@@ -94,4 +108,31 @@ func (s *service) Register(ctx context.Context, email, password string, role dom
 
 	slog.InfoContext(ctx, "user registered successfully", "user_id", createdUser.ID, "email", createdUser.Email)
 	return createdUser, nil
+}
+
+func (s *service) Login(ctx context.Context, email, password string) (string, error) {
+	email = strings.ToLower(strings.TrimSpace(email))
+
+	user, err := s.userRepo.GetByEmail(ctx, email)
+	if err != nil {
+		if errors.Is(err, domain.ErrUserNotFound) {
+			return "", domain.ErrUserNotFound
+		}
+		slog.ErrorContext(ctx, "failed to get user by email", "email", email, "err", err)
+		return "", fmt.Errorf("failed to get user: %w", err)
+	}
+
+	if err := pkgAuth.ComparePassword(user.PasswordHash, password); err != nil {
+		slog.WarnContext(ctx, "invalid password login attempt", "email", email)
+		return "", ErrInvalidCredentials
+	}
+
+	token, err := s.tokenManager.GenerateToken(user.ID, user.Email, string(user.Role))
+	if err != nil {
+		slog.ErrorContext(ctx, "failed to generate token", "user_id", user.ID, "err", err)
+		return "", fmt.Errorf("failed to generate token: %w", err)
+	}
+
+	slog.InfoContext(ctx, "user logged in successfully", "user_id", user.ID)
+	return token, nil
 }

@@ -72,6 +72,7 @@ func (r *Router) registerV1Routes(rg *gin.RouterGroup, healthHandler *handler.He
 	// Health & Auth
 	rg.GET("/health", healthHandler.HealthCheck)
 	rg.POST("/auth/register", authHandler.Register)
+	rg.POST("/auth/login", authHandler.Login)
 
 	// Debug routes (Dev only)
 	env := os.Getenv("APP_ENV")

@@ -7,6 +7,7 @@ import (
 	"go-booking-management-init/internal/application/auth"
 	"go-booking-management-init/internal/database"
 	sqlcDB "go-booking-management-init/internal/infrastructure/db/sqlc"
+	pkgAuth "go-booking-management-init/pkg/auth"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -22,11 +23,12 @@ func TestRegisterUser_Integration(t *testing.T) {
 	_ = godotenv.Load(".env")
 	// Setup real dependencies
 	db := database.New()
-	if db == nil {
+	if db == nil || db.DB().Ping() != nil {
 		t.Skip("Database not available")
 	}
 	userRepo := sqlcDB.NewSQLCAuthRepository(db.DB())
-	authService := auth.NewService(userRepo)
+	tokenManager := pkgAuth.NewJWTManager()
+	authService := auth.NewService(userRepo, tokenManager)
 	authHandler := handler.NewAuthHandler(authService)
 
 	gin.SetMode(gin.TestMode)
@@ -79,11 +81,12 @@ func TestRegisterUser_Integration(t *testing.T) {
 func TestRegisterUser_PasswordTooLong(t *testing.T) {
 	_ = godotenv.Load("../../../.env")
 	db := database.New()
-	if db == nil {
+	if db == nil || db.DB().Ping() != nil {
 		t.Skip("Database not available")
 	}
 	userRepo := sqlcDB.NewSQLCAuthRepository(db.DB())
-	authService := auth.NewService(userRepo)
+	tokenManager := pkgAuth.NewJWTManager()
+	authService := auth.NewService(userRepo, tokenManager)
 	authHandler := handler.NewAuthHandler(authService)
 
 	gin.SetMode(gin.TestMode)

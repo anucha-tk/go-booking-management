@@ -90,4 +90,39 @@ func TestVerifyPassword_EdgeCases(t *testing.T) {
 		assert.Error(t, err)
 		assert.False(t, match)
 	})
+
+	t.Run("invalid version format", func(t *testing.T) {
+		hash := "$argon2id$v=abc$m=65536,t=3,p=4$salt$hash"
+		match, err := auth.VerifyPassword("password", hash)
+		assert.Error(t, err)
+		assert.False(t, match)
+	})
+
+	t.Run("invalid config format", func(t *testing.T) {
+		hash := "$argon2id$v=19$m=abc,t=3,p=4$salt$hash"
+		match, err := auth.VerifyPassword("password", hash)
+		assert.Error(t, err)
+		assert.False(t, match)
+	})
+}
+
+func TestComparePassword(t *testing.T) {
+	password := "mypassword"
+	hash, _ := auth.HashPassword(password)
+
+	t.Run("match", func(t *testing.T) {
+		err := auth.ComparePassword(hash, password)
+		assert.NoError(t, err)
+	})
+
+	t.Run("no match", func(t *testing.T) {
+		err := auth.ComparePassword(hash, "wrong")
+		assert.Error(t, err)
+		assert.Equal(t, "password does not match", err.Error())
+	})
+
+	t.Run("invalid hash", func(t *testing.T) {
+		err := auth.ComparePassword("invalid", password)
+		assert.Error(t, err)
+	})
 }

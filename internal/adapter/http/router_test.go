@@ -210,3 +210,20 @@ func TestRouter_ScalarDoc(t *testing.T) {
 	assert.True(t, w.Code == http.StatusOK || w.Code == http.StatusInternalServerError,
 		"expected 200 or 500, got %d: %s", w.Code, w.Body.String())
 }
+
+func TestRouter_ScalarDoc_NotFound(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	router := NewRouter(Config{
+		AllowOrigins: []string{"*"},
+		SwaggerPath:  "./nonexistent-scalar.json",
+	})
+	systemHandler := handler.NewSystemHandler(router.Engine())
+	h := router.RegisterRoutes(nil, nil, systemHandler)
+
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest(http.MethodGet, "/v1/doc", nil)
+	h.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusNotFound, w.Code)
+}

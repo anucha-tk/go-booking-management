@@ -91,3 +91,14 @@ func VerifyPassword(password, encodedHash string) (bool, error) {
 
 	return subtle.ConstantTimeCompare(decodedHash, comparisonHash) == 1, nil
 }
+
+func ComparePassword(hashedPassword, password string) error {
+	match, err := VerifyPassword(password, hashedPassword)
+	if err != nil {
+		return err
+	}
+	if !match {
+		return errors.New("password does not match")
+	}
+	return nil
+}

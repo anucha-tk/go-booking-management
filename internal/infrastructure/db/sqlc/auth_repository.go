@@ -9,7 +9,7 @@ import (
 )
 
 type SQLCAuthRepository struct {
-	queries *Queries
+	queries Querier
 	db      *sql.DB
 }
 

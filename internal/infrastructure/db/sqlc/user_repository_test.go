@@ -39,6 +39,10 @@ func setupTestDB(t *testing.T) (*sql.DB, func()) {
 		t.Fatalf("failed to connect to test db: %v", err)
 	}
 
+	if err := db.Ping(); err != nil {
+		t.Skipf("database not reachable: %v", err)
+	}
+
 	return db, func() {
 		db.Close()
 	}

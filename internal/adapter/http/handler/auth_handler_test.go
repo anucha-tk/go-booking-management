@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"go-booking-management-init/internal/application/auth"
 	domain "go-booking-management-init/internal/domain/auth"
 
 	"github.com/gin-gonic/gin"
@@ -26,6 +27,11 @@ func (m *mockAuthService) Register(ctx context.Context, email, password string, 
 		return nil, args.Error(1)
 	}
 	return args.Get(0).(*domain.User), args.Error(1)
+}
+
+func (m *mockAuthService) Login(ctx context.Context, email, password string) (string, error) {
+	args := m.Called(ctx, email, password)
+	return args.String(0), args.Error(1)
 }
 
 func TestAuthHandler_Register_Success(t *testing.T) {
@@ -106,4 +112,66 @@ func TestAuthHandler_Register_ServiceError(t *testing.T) {
 
 	assert.Equal(t, http.StatusConflict, w.Code)
 	mockSvc.AssertExpectations(t)
+}
+
+func TestAuthHandler_Login_Success(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	mockSvc := new(mockAuthService)
+	h := NewAuthHandler(mockSvc)
+
+	r := gin.New()
+	r.POST("/login", h.Login)
+
+	mockSvc.On("Login", mock.Anything, "test@example.com", "password123").
+		Return("mock-token", nil).Once()
+
+	body := map[string]string{"email": "test@example.com", "password": "password123"}
+	jsonBody, _ := json.Marshal(body)
+	req := httptest.NewRequest(http.MethodPost, "/login", bytes.NewBuffer(jsonBody))
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	var resp map[string]interface{}
+	err := json.Unmarshal(w.Body.Bytes(), &resp)
+	assert.NoError(t, err)
+	assert.Equal(t, "success", resp["status"])
+	data := resp["data"].(map[string]interface{})
+	assert.Equal(t, "mock-token", data["accessToken"])
+	mockSvc.AssertExpectations(t)
+}
+
+func TestAuthHandler_Login_Error(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	mockSvc := new(mockAuthService)
+	h := NewAuthHandler(mockSvc)
+
+	r := gin.New()
+	r.POST("/login", h.Login)
+
+	t.Run("invalid credentials", func(t *testing.T) {
+		mockSvc.On("Login", mock.Anything, "wrong@test.com", "password123").
+			Return("", auth.ErrInvalidCredentials).Once()
+
+		body := map[string]string{"email": "wrong@test.com", "password": "password123"}
+		jsonBody, _ := json.Marshal(body)
+		req := httptest.NewRequest(http.MethodPost, "/login", bytes.NewBuffer(jsonBody))
+		req.Header.Set("Content-Type", "application/json")
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusUnauthorized, w.Code)
+	})
+
+	t.Run("validation error", func(t *testing.T) {
+		body := map[string]string{"email": "not-email", "password": ""}
+		jsonBody, _ := json.Marshal(body)
+		req := httptest.NewRequest(http.MethodPost, "/login", bytes.NewBuffer(jsonBody))
+		req.Header.Set("Content-Type", "application/json")
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusBadRequest, w.Code)
+	})
 }

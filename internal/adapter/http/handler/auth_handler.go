@@ -52,3 +52,32 @@ func (h *AuthHandler) Register(c *gin.Context) {
 		UpdatedAt: user.UpdatedAt.Format("2006-01-02T15:04:05Z07:00"),
 	})
 }
+
+// Login godoc
+// @Summary Login a user
+// @Description login with email and password to receive a JWT token
+// @Tags auth
+// @Accept  json
+// @Produce  json
+// @Param   request body dto.LoginRequest true "Login credentials"
+// @Success 200 {object} api.Response{data=dto.LoginResponse}
+// @Failure 400 {object} api.Response
+// @Failure 401 {object} api.Response
+// @Failure 500 {object} api.Response
+// @Router /v1/auth/login [post]
+func (h *AuthHandler) Login(c *gin.Context) {
+	var req dto.LoginRequest
+	if !api.BindAndValidate(c, &req) {
+		return
+	}
+
+	token, err := h.authService.Login(c.Request.Context(), req.Email, req.Password)
+	if err != nil {
+		MapError(c, err)
+		return
+	}
+
+	api.Success(c, dto.LoginResponse{
+		AccessToken: token,
+	})
+}

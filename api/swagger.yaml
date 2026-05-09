@@ -11,6 +11,21 @@ definitions:
         example: success
         type: string
     type: object
+  dto.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.LoginResponse:
+    properties:
+      accessToken:
+        type: string
+    type: object
   dto.RegisterRequest:
     properties:
       email:
@@ -75,6 +90,45 @@ paths:
       summary: API Root
       tags:
       - system
+  /v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: login with email and password to receive a JWT token
+      parameters:
+      - description: Login credentials
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/api.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.LoginResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Response'
+      summary: Login a user
+      tags:
+      - auth
   /v1/auth/register:
     post:
       consumes:

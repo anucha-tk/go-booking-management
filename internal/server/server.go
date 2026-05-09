@@ -16,6 +16,7 @@ import (
 	"go-booking-management-init/internal/application/auth"
 	"go-booking-management-init/internal/database"
 	sqlcDB "go-booking-management-init/internal/infrastructure/db/sqlc"
+	pkgAuth "go-booking-management-init/pkg/auth"
 )
 
 type Server struct {
@@ -43,8 +44,11 @@ func NewServer() (*http.Server, *adapterHttp.Router) {
 	// Initialize repositories
 	userRepo := sqlcDB.NewSQLCAuthRepository(db.DB())
 
+	// Initialize token manager
+	tokenManager := pkgAuth.NewJWTManager()
+
 	// Initialize services
-	authService := auth.NewService(userRepo)
+	authService := auth.NewService(userRepo, tokenManager)
 
 	// Initialize handlers
 	healthHandler := handler.NewHealthHandler(db)
