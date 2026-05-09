@@ -67,6 +67,12 @@ tasks:
       - sh: command -v gocov-html >/dev/null 2>&1
         msg: "gocov-html is not installed. Run 'task tools:install' to install it."
 
+  test:coverage:
+    desc: Run tests and ensure coverage is >= 80%
+    cmds:
+      - go test ./... -coverprofile=coverage.out
+      - go tool cover -func=coverage.out | grep total | awk '{print $3}' | sed 's/%//' | awk '{if($1 < 80) { print "Coverage " $1 "% is below 80%"; exit 1 } else { print "Coverage " $1 "% meets 80% threshold" }}'
+
   itest:
     desc: Run integration tests
     cmds:

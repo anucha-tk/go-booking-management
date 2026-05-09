@@ -90,6 +90,21 @@ paths:
       summary: API Root
       tags:
       - system
+  /v1/admin/users:
+    get:
+      description: get list of all registered users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Response'
+      security:
+      - Bearer: []
+      summary: List all users (Admin only)
+      tags:
+      - admin
   /v1/auth/login:
     post:
       consumes:

@@ -2,12 +2,14 @@
 # https://github.com/evilmartians/lefthook
 
 pre-commit:
-  parallel: true
+  parallel: false
   commands:
+    swagger:
+      run: export PATH="/opt/homebrew/bin:/Users/anucha-tk/go/bin:$PATH" && task swagger:generate && git add api/
     lint:
-      run: task lint
+      run: export PATH="/opt/homebrew/bin:/Users/anucha-tk/go/bin:$PATH" && task lint
     test:
-      run: task test
+      run: export PATH="/opt/homebrew/bin:/Users/anucha-tk/go/bin:$PATH" && task test:coverage
 
 commit-msg:
   commands:
