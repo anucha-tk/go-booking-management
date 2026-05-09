@@ -1,5 +1,9 @@
 version: '3'
 
+vars:
+  DB_URL: 'postgresql://melkey:password1234@localhost:5432/blueprint?sslmode=disable'
+  MIGRATIONS_PATH: './internal/infrastructure/db/migrations'
+
 tasks:
   default:
     desc: Build and test the application
@@ -49,6 +53,21 @@ tasks:
     desc: Restart DB container
     cmds:
       - docker compose restart
+
+  db:status:
+    desc: Check database migration status
+    cmds:
+      - migrate -path {{.MIGRATIONS_PATH}} -database "{{.DB_URL}}" version
+
+  db:migrate:up:
+    desc: Run database migrations up
+    cmds:
+      - migrate -path {{.MIGRATIONS_PATH}} -database "{{.DB_URL}}" up
+
+  db:migrate:down:
+    desc: Rollback database migrations
+    cmds:
+      - migrate -path {{.MIGRATIONS_PATH}} -database "{{.DB_URL}}" down 1
 
   test:
     desc: Run unit tests
