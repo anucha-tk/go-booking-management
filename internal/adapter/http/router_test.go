@@ -38,7 +38,7 @@ func TestRouter_HealthCheck(t *testing.T) {
 	router := NewRouter(Config{
 		AllowOrigins: []string{"*"},
 		SwaggerPath:  "./api/swagger.json",
-	})
+	}, nil, nil)
 	systemHandler := handler.NewSystemHandler(router.Engine())
 	h := router.RegisterRoutes(healthHandler, nil, systemHandler)
 
@@ -61,7 +61,7 @@ func TestRouter_RootRedirect(t *testing.T) {
 	router := NewRouter(Config{
 		AllowOrigins: []string{"*"},
 		SwaggerPath:  "./api/swagger.json",
-	})
+	}, nil, nil)
 	systemHandler := handler.NewSystemHandler(router.Engine())
 	h := router.RegisterRoutes(nil, nil, systemHandler)
 
@@ -78,7 +78,7 @@ func TestRouter_API_Index(t *testing.T) {
 	router := NewRouter(Config{
 		AllowOrigins: []string{"*"},
 		SwaggerPath:  "./api/swagger.json",
-	})
+	}, nil, nil)
 	systemHandler := handler.NewSystemHandler(router.Engine())
 	h := router.RegisterRoutes(nil, nil, systemHandler)
 
@@ -97,7 +97,7 @@ func TestRouter_DebugRoutes_DevMode(t *testing.T) {
 	router := NewRouter(Config{
 		AllowOrigins: []string{"*"},
 		SwaggerPath:  "./api/swagger.json",
-	})
+	}, nil, nil)
 	systemHandler := handler.NewSystemHandler(router.Engine())
 	h := router.RegisterRoutes(nil, nil, systemHandler)
 
@@ -116,7 +116,7 @@ func TestRouter_DebugRoutes_ProdMode(t *testing.T) {
 	router := NewRouter(Config{
 		AllowOrigins: []string{"*"},
 		SwaggerPath:  "./api/swagger.json",
-	})
+	}, nil, nil)
 	systemHandler := handler.NewSystemHandler(router.Engine())
 	h := router.RegisterRoutes(nil, nil, systemHandler)
 
@@ -133,7 +133,7 @@ func TestRouter_SwaggerDoc_NotFound(t *testing.T) {
 	router := NewRouter(Config{
 		AllowOrigins: []string{"*"},
 		SwaggerPath:  "./nonexistent-swagger.json",
-	})
+	}, nil, nil)
 	systemHandler := handler.NewSystemHandler(router.Engine())
 	h := router.RegisterRoutes(nil, nil, systemHandler)
 
@@ -150,7 +150,7 @@ func TestRouter_SwaggerDoc_Redirect(t *testing.T) {
 	router := NewRouter(Config{
 		AllowOrigins: []string{"*"},
 		SwaggerPath:  "./api/swagger.json",
-	})
+	}, nil, nil)
 	systemHandler := handler.NewSystemHandler(router.Engine())
 	h := router.RegisterRoutes(nil, nil, systemHandler)
 
@@ -175,7 +175,7 @@ func TestRouter_SwaggerDoc_Found(t *testing.T) {
 	router := NewRouter(Config{
 		AllowOrigins: []string{"*"},
 		SwaggerPath:  tmpFile.Name(),
-	})
+	}, nil, nil)
 	systemHandler := handler.NewSystemHandler(router.Engine())
 	h := router.RegisterRoutes(nil, nil, systemHandler)
 
@@ -199,7 +199,7 @@ func TestRouter_ScalarDoc(t *testing.T) {
 	router := NewRouter(Config{
 		AllowOrigins: []string{"*"},
 		SwaggerPath:  tmpFile.Name(),
-	})
+	}, nil, nil)
 	systemHandler := handler.NewSystemHandler(router.Engine())
 	h := router.RegisterRoutes(nil, nil, systemHandler)
 
@@ -217,7 +217,7 @@ func TestRouter_ScalarDoc_NotFound(t *testing.T) {
 	router := NewRouter(Config{
 		AllowOrigins: []string{"*"},
 		SwaggerPath:  "./nonexistent-scalar.json",
-	})
+	}, nil, nil)
 	systemHandler := handler.NewSystemHandler(router.Engine())
 	h := router.RegisterRoutes(nil, nil, systemHandler)
 

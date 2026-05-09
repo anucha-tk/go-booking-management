@@ -53,6 +53,7 @@ func NewServer() (*http.Server, *adapterHttp.Router) {
 	// Initialize handlers
 	healthHandler := handler.NewHealthHandler(db)
 	authHandler := handler.NewAuthHandler(authService)
+	userHandler := handler.NewUserHandler()
 
 	// Fetch router config from environment
 
@@ -71,7 +72,7 @@ func NewServer() (*http.Server, *adapterHttp.Router) {
 	router := adapterHttp.NewRouter(adapterHttp.Config{
 		AllowOrigins: allowOrigins,
 		SwaggerPath:  swaggerPath,
-	})
+	}, tokenManager, userHandler)
 
 	systemHandler := handler.NewSystemHandler(router.Engine())
 

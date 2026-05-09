@@ -7,7 +7,9 @@ import (
 
 	"go-booking-management-init/internal/adapter/http/handler"
 	"go-booking-management-init/internal/adapter/http/middleware"
+	"go-booking-management-init/internal/domain/auth"
 	"go-booking-management-init/pkg/api"
+	pkgAuth "go-booking-management-init/pkg/auth"
 
 	scalar "github.com/MarceloPetrucio/go-scalar-api-reference"
 	"github.com/gin-contrib/cors"
@@ -20,11 +22,13 @@ type Config struct {
 }
 
 type Router struct {
-	engine *gin.Engine
-	config Config
+	engine       *gin.Engine
+	config       Config
+	tokenManager pkgAuth.TokenManager
+	userHandler  *handler.UserHandler
 }
 
-func NewRouter(config Config) *Router {
+func NewRouter(config Config, tokenManager pkgAuth.TokenManager, userHandler *handler.UserHandler) *Router {
 	// Set Gin mode based on environment or default to release to keep it clean
 	env := os.Getenv("APP_ENV")
 	if env != "development" && env != "local" && os.Getenv("GIN_MODE") != "debug" {
@@ -45,8 +49,10 @@ func NewRouter(config Config) *Router {
 	}))
 
 	return &Router{
-		engine: r,
-		config: config,
+		engine:       r,
+		config:       config,
+		tokenManager: tokenManager,
+		userHandler:  userHandler,
 	}
 }
 
@@ -57,7 +63,7 @@ func (r *Router) Engine() *gin.Engine {
 func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandler *handler.AuthHandler, systemHandler *handler.SystemHandler) http.Handler {
 	v1 := r.engine.Group("/v1")
 	{
-		r.registerV1Routes(v1, healthHandler, authHandler, systemHandler)
+		r.registerV1Routes(v1, healthHandler, authHandler, systemHandler, r.userHandler)
 	}
 
 	// Redirect root to /v1
@@ -68,11 +74,26 @@ func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandle
 	return r.engine
 }
 
-func (r *Router) registerV1Routes(rg *gin.RouterGroup, healthHandler *handler.HealthHandler, authHandler *handler.AuthHandler, systemHandler *handler.SystemHandler) {
-	// Health & Auth
+func (r *Router) registerV1Routes(rg *gin.RouterGroup, healthHandler *handler.HealthHandler, authHandler *handler.AuthHandler, systemHandler *handler.SystemHandler, userHandler *handler.UserHandler) {
+	// Health & Auth (Public)
 	rg.GET("/health", healthHandler.HealthCheck)
 	rg.POST("/auth/register", authHandler.Register)
 	rg.POST("/auth/login", authHandler.Login)
+
+	// Protected routes
+	authRequired := rg.Group("/")
+	authRequired.Use(middleware.AuthMiddleware(r.tokenManager))
+	{
+		// Add future protected routes here
+		// Example: authRequired.GET("/profile", userHandler.Profile)
+
+		// Admin only routes
+		adminOnly := authRequired.Group("/admin")
+		adminOnly.Use(middleware.RolesAllowed(auth.RoleAdmin))
+		{
+			adminOnly.GET("/users", userHandler.ListUsers)
+		}
+	}
 
 	// Debug routes (Dev only)
 	env := os.Getenv("APP_ENV")
