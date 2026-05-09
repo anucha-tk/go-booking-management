@@ -27,6 +27,11 @@ func (m *mockQuerier) GetUserByEmail(ctx context.Context, email string) (User, e
 	return args.Get(0).(User), args.Error(1)
 }
 
+func (m *mockQuerier) GetUserByID(ctx context.Context, id int32) (User, error) {
+	args := m.Called(ctx, id)
+	return args.Get(0).(User), args.Error(1)
+}
+
 func TestSQLCAuthRepository_Create(t *testing.T) {
 	mq := new(mockQuerier)
 	repo := &SQLCAuthRepository{
@@ -51,8 +56,8 @@ func TestSQLCAuthRepository_Create(t *testing.T) {
 			Email:        user.Email,
 			PasswordHash: user.PasswordHash,
 			Role:         string(user.Role),
-			CreatedAt:    sql.NullTime{Time: now, Valid: true},
-			UpdatedAt:    sql.NullTime{Time: now, Valid: true},
+			CreatedAt:    now,
+			UpdatedAt:    now,
 		}, nil).Once()
 
 		res, err := repo.Create(ctx, user)
@@ -101,8 +106,8 @@ func TestSQLCAuthRepository_GetByEmail(t *testing.T) {
 			Email:        email,
 			PasswordHash: "hash",
 			Role:         "customer",
-			CreatedAt:    sql.NullTime{Time: now, Valid: true},
-			UpdatedAt:    sql.NullTime{Time: now, Valid: true},
+			CreatedAt:    now,
+			UpdatedAt:    now,
 		}, nil).Once()
 
 		res, err := repo.GetByEmail(ctx, email)
@@ -129,6 +134,43 @@ func TestSQLCAuthRepository_GetByEmail(t *testing.T) {
 
 		assert.Error(t, err)
 		assert.Contains(t, err.Error(), "db error")
+		assert.Nil(t, res)
+	})
+}
+
+func TestSQLCAuthRepository_GetByID(t *testing.T) {
+	mq := new(mockQuerier)
+	repo := &SQLCAuthRepository{
+		queries: mq,
+	}
+	ctx := context.Background()
+
+	t.Run("success", func(t *testing.T) {
+		id := int32(1)
+		now := time.Now()
+		mq.On("GetUserByID", ctx, id).Return(User{
+			ID:           id,
+			Email:        "test@test.com",
+			PasswordHash: "hash",
+			Role:         "customer",
+			CreatedAt:    now,
+			UpdatedAt:    now,
+		}, nil).Once()
+
+		res, err := repo.GetByID(ctx, id)
+
+		assert.NoError(t, err)
+		assert.Equal(t, id, res.ID)
+		mq.AssertExpectations(t)
+	})
+
+	t.Run("not found", func(t *testing.T) {
+		mq.On("GetUserByID", ctx, int32(999)).Return(User{}, sql.ErrNoRows).Once()
+
+		res, err := repo.GetByID(ctx, int32(999))
+
+		assert.Error(t, err)
+		assert.Equal(t, domain.ErrUserNotFound, err)
 		assert.Nil(t, res)
 	})
 }

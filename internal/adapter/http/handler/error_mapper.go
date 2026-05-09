@@ -37,7 +37,10 @@ func MapError(c *gin.Context, err error) {
 		api.Error(c, http.StatusNotFound, "USER_NOT_FOUND", "User not found")
 	case errors.Is(err, appAuth.ErrInvalidCredentials):
 		api.Error(c, http.StatusUnauthorized, "INVALID_CREDENTIALS", "Invalid email or password")
+	case errors.Is(err, appAuth.ErrInvalidRefreshToken):
+		api.Error(c, http.StatusUnauthorized, "INVALID_REFRESH_TOKEN", "Invalid or expired refresh token")
 	default:
+
 		api.Error(c, http.StatusInternalServerError, "SERVER_ERROR", "Internal server error")
 	}
 }

@@ -61,7 +61,9 @@ When `/bmad-full-cycle {{epic}}` is called, follow these steps strictly and auto
 - [ ] Status set to `done`.
 
 ## Workflow Rules
-- **Autonomy**: Do not ask for confirmation between steps.
-- **Strict Sequencing**: Follow Step 1 -> 6. No skipping to 6 from 2.
-- **Final Code Focus**: The user wants to see the final, polished code.
+- **Non-Stop Execution**: Execute Steps 1 through 6 in a single, continuous flow. Do NOT pause for feedback, status updates, or intermediate confirmations.
+- **Autonomy**: You have full authority to make technical decisions, fix bugs, and refactor code to meet the project's quality standards without asking.
+- **Final Result Priority**: The only response the user expects is the final, production-ready code that passes all gates (tests, lint, DoD).
+- **Strict Sequencing**: Follow Step 1 -> 6. No skipping to 6 from 2. You must satisfy the 'review' gate by performing the review yourself.
 - **Caveman Style**: Keep prose minimal. Focus on technical substance.
+

@@ -51,10 +51,21 @@ func TestJWTManager(t *testing.T) {
 		assert.Contains(t, err.Error(), "token is expired")
 	})
 
-	t.Run("Unexpected Signing Method", func(_ *testing.T) {
-		// This is hard to trigger with just the GenerateToken method because it always uses HS256.
-		// We could manually create a token with a different method.
-		// But let's just ensure we hit the line.
+	t.Run("Generate and Validate Refresh Token", func(t *testing.T) {
+		userID := int32(1)
+
+		token, err := manager.GenerateRefreshToken(userID)
+		assert.NoError(t, err)
+		assert.NotEmpty(t, token)
+
+		resID, err := manager.ValidateRefreshToken(token)
+		assert.NoError(t, err)
+		assert.Equal(t, userID, resID)
+	})
+
+	t.Run("Invalid Refresh Token", func(t *testing.T) {
+		_, err := manager.ValidateRefreshToken("invalid-token")
+		assert.Error(t, err)
 	})
 }
 
@@ -62,11 +73,14 @@ func TestNewJWTManager_Defaults(t *testing.T) {
 	// Clear env
 	origSecret := os.Getenv("JWT_SECRET")
 	origExpiry := os.Getenv("JWT_EXPIRY")
+	origRefreshExpiry := os.Getenv("JWT_REFRESH_EXPIRY")
 	os.Unsetenv("JWT_SECRET")
 	os.Unsetenv("JWT_EXPIRY")
+	os.Unsetenv("JWT_REFRESH_EXPIRY")
 	defer func() {
 		os.Setenv("JWT_SECRET", origSecret)
 		os.Setenv("JWT_EXPIRY", origExpiry)
+		os.Setenv("JWT_REFRESH_EXPIRY", origRefreshExpiry)
 	}()
 
 	t.Run("defaults", func(t *testing.T) {
@@ -74,11 +88,14 @@ func TestNewJWTManager_Defaults(t *testing.T) {
 		assert.NotNil(t, manager)
 		assert.Equal(t, []byte("default-secret"), manager.secretKey)
 		assert.Equal(t, time.Hour, manager.tokenDuration)
+		assert.Equal(t, 7*24*time.Hour, manager.refreshDuration)
 	})
 
 	t.Run("invalid expiry", func(t *testing.T) {
 		os.Setenv("JWT_EXPIRY", "invalid")
+		os.Setenv("JWT_REFRESH_EXPIRY", "invalid")
 		manager := NewJWTManager()
 		assert.Equal(t, time.Hour, manager.tokenDuration)
+		assert.Equal(t, 7*24*time.Hour, manager.refreshDuration)
 	})
 }

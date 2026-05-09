@@ -79,6 +79,7 @@ func (r *Router) registerV1Routes(rg *gin.RouterGroup, healthHandler *handler.He
 	rg.GET("/health", healthHandler.HealthCheck)
 	rg.POST("/auth/register", authHandler.Register)
 	rg.POST("/auth/login", authHandler.Login)
+	rg.POST("/auth/refresh", authHandler.Refresh)
 
 	// Protected routes
 	authRequired := rg.Group("/")

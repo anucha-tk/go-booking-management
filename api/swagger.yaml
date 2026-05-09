@@ -25,6 +25,15 @@ definitions:
     properties:
       accessToken:
         type: string
+      refreshToken:
+        type: string
+    type: object
+  dto.RefreshRequest:
+    properties:
+      refreshToken:
+        type: string
+    required:
+    - refreshToken
     type: object
   dto.RegisterRequest:
     properties:
@@ -109,7 +118,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: login with email and password to receive a JWT token
+      description: login with email and password to receive access and refresh tokens
       parameters:
       - description: Login credentials
         in: body
@@ -142,6 +151,45 @@ paths:
           schema:
             $ref: '#/definitions/api.Response'
       summary: Login a user
+      tags:
+      - auth
+  /v1/auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: get a new access token using a valid refresh token
+      parameters:
+      - description: Refresh token
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RefreshRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/api.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.LoginResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Response'
+      summary: Refresh access token
       tags:
       - auth
   /v1/auth/register:

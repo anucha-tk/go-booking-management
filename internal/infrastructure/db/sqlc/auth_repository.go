@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 	"go-booking-management-init/internal/domain/auth"
 	"strings"
 )
@@ -41,8 +42,8 @@ func (r *SQLCAuthRepository) Create(ctx context.Context, user *auth.User) (*auth
 		Email:        res.Email,
 		PasswordHash: res.PasswordHash,
 		Role:         auth.UserRole(res.Role),
-		CreatedAt:    res.CreatedAt.Time,
-		UpdatedAt:    res.UpdatedAt.Time,
+		CreatedAt:    res.CreatedAt,
+		UpdatedAt:    res.UpdatedAt,
 	}, nil
 }
 
@@ -60,7 +61,26 @@ func (r *SQLCAuthRepository) GetByEmail(ctx context.Context, email string) (*aut
 		Email:        res.Email,
 		PasswordHash: res.PasswordHash,
 		Role:         auth.UserRole(res.Role),
-		CreatedAt:    res.CreatedAt.Time,
-		UpdatedAt:    res.UpdatedAt.Time,
+		CreatedAt:    res.CreatedAt,
+		UpdatedAt:    res.UpdatedAt,
+	}, nil
+}
+
+func (r *SQLCAuthRepository) GetByID(ctx context.Context, id int32) (*auth.User, error) {
+	res, err := r.queries.GetUserByID(ctx, id)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, auth.ErrUserNotFound
+		}
+		return nil, fmt.Errorf("database error in GetByID: %w", err)
+	}
+
+	return &auth.User{
+		ID:           res.ID,
+		Email:        res.Email,
+		PasswordHash: res.PasswordHash,
+		Role:         auth.UserRole(res.Role),
+		CreatedAt:    res.CreatedAt,
+		UpdatedAt:    res.UpdatedAt,
 	}, nil
 }

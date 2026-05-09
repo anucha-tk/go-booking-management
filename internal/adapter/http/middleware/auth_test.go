@@ -22,12 +22,22 @@ func (m *MockTokenManager) GenerateToken(userID int32, email string, role string
 	return args.String(0), args.Error(1)
 }
 
+func (m *MockTokenManager) GenerateRefreshToken(userID int32) (string, error) {
+	args := m.Called(userID)
+	return args.String(0), args.Error(1)
+}
+
 func (m *MockTokenManager) ValidateToken(tokenStr string) (*pkgAuth.UserClaims, error) {
 	args := m.Called(tokenStr)
 	if args.Get(0) == nil {
 		return nil, args.Error(1)
 	}
 	return args.Get(0).(*pkgAuth.UserClaims), args.Error(1)
+}
+
+func (m *MockTokenManager) ValidateRefreshToken(tokenStr string) (int32, error) {
+	args := m.Called(tokenStr)
+	return int32(args.Int(0)), args.Error(1)
 }
 
 func TestAuthMiddleware(t *testing.T) {

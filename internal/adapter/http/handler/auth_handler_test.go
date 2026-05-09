@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+
 	"net/http/httptest"
 	"testing"
 	"time"
@@ -29,9 +30,14 @@ func (m *mockAuthService) Register(ctx context.Context, email, password string, 
 	return args.Get(0).(*domain.User), args.Error(1)
 }
 
-func (m *mockAuthService) Login(ctx context.Context, email, password string) (string, error) {
+func (m *mockAuthService) Login(ctx context.Context, email, password string) (string, string, error) {
 	args := m.Called(ctx, email, password)
-	return args.String(0), args.Error(1)
+	return args.String(0), args.String(1), args.Error(2)
+}
+
+func (m *mockAuthService) RefreshToken(ctx context.Context, refreshToken string) (string, string, error) {
+	args := m.Called(ctx, refreshToken)
+	return args.String(0), args.String(1), args.Error(2)
 }
 
 func TestAuthHandler_Register_Success(t *testing.T) {
@@ -123,7 +129,7 @@ func TestAuthHandler_Login_Success(t *testing.T) {
 	r.POST("/login", h.Login)
 
 	mockSvc.On("Login", mock.Anything, "test@example.com", "password123").
-		Return("mock-token", nil).Once()
+		Return("access-token", "refresh-token", nil).Once()
 
 	body := map[string]string{"email": "test@example.com", "password": "password123"}
 	jsonBody, _ := json.Marshal(body)
@@ -138,7 +144,8 @@ func TestAuthHandler_Login_Success(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "success", resp["status"])
 	data := resp["data"].(map[string]interface{})
-	assert.Equal(t, "mock-token", data["accessToken"])
+	assert.Equal(t, "access-token", data["accessToken"])
+	assert.Equal(t, "refresh-token", data["refreshToken"])
 	mockSvc.AssertExpectations(t)
 }
 
@@ -152,7 +159,7 @@ func TestAuthHandler_Login_Error(t *testing.T) {
 
 	t.Run("invalid credentials", func(t *testing.T) {
 		mockSvc.On("Login", mock.Anything, "wrong@test.com", "password123").
-			Return("", auth.ErrInvalidCredentials).Once()
+			Return("", "", auth.ErrInvalidCredentials).Once()
 
 		body := map[string]string{"email": "wrong@test.com", "password": "password123"}
 		jsonBody, _ := json.Marshal(body)
@@ -173,5 +180,57 @@ func TestAuthHandler_Login_Error(t *testing.T) {
 		r.ServeHTTP(w, req)
 
 		assert.Equal(t, http.StatusBadRequest, w.Code)
+	})
+}
+
+func TestAuthHandler_Refresh_Success(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	mockSvc := new(mockAuthService)
+	h := NewAuthHandler(mockSvc)
+
+	r := gin.New()
+	r.POST("/refresh", h.Refresh)
+
+	mockSvc.On("RefreshToken", mock.Anything, "old-refresh-token").
+		Return("new-access-token", "new-refresh-token", nil).Once()
+
+	body := map[string]string{"refreshToken": "old-refresh-token"}
+	jsonBody, _ := json.Marshal(body)
+	req := httptest.NewRequest(http.MethodPost, "/refresh", bytes.NewBuffer(jsonBody))
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	var resp map[string]interface{}
+	err := json.Unmarshal(w.Body.Bytes(), &resp)
+	assert.NoError(t, err)
+	assert.Equal(t, "success", resp["status"])
+	data := resp["data"].(map[string]interface{})
+	assert.Equal(t, "new-access-token", data["accessToken"])
+	assert.Equal(t, "new-refresh-token", data["refreshToken"])
+	mockSvc.AssertExpectations(t)
+}
+
+func TestAuthHandler_Refresh_Error(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	mockSvc := new(mockAuthService)
+	h := NewAuthHandler(mockSvc)
+
+	r := gin.New()
+	r.POST("/refresh", h.Refresh)
+
+	t.Run("invalid token", func(t *testing.T) {
+		mockSvc.On("RefreshToken", mock.Anything, "invalid-token").
+			Return("", "", auth.ErrInvalidRefreshToken).Once()
+
+		body := map[string]string{"refreshToken": "invalid-token"}
+		jsonBody, _ := json.Marshal(body)
+		req := httptest.NewRequest(http.MethodPost, "/refresh", bytes.NewBuffer(jsonBody))
+		req.Header.Set("Content-Type", "application/json")
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusUnauthorized, w.Code)
 	})
 }

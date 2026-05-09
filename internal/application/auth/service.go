@@ -14,16 +14,18 @@ import (
 )
 
 var (
-	ErrInvalidEmail       = errors.New("invalid email address")
-	ErrInvalidRole        = errors.New("invalid role")
-	ErrPasswordTooShort   = errors.New("password is too short (min 8 characters)")
-	ErrPasswordTooLong    = errors.New("password too long")
-	ErrInvalidCredentials = errors.New("invalid credentials")
+	ErrInvalidEmail        = errors.New("invalid email address")
+	ErrInvalidRole         = errors.New("invalid role")
+	ErrPasswordTooShort    = errors.New("password is too short (min 8 characters)")
+	ErrPasswordTooLong     = errors.New("password too long")
+	ErrInvalidCredentials  = errors.New("invalid credentials")
+	ErrInvalidRefreshToken = errors.New("invalid refresh token")
 )
 
 type Service interface {
 	Register(ctx context.Context, email, password string, role domain.UserRole) (*domain.User, error)
-	Login(ctx context.Context, email, password string) (string, error)
+	Login(ctx context.Context, email, password string) (string, string, error)
+	RefreshToken(ctx context.Context, refreshToken string) (string, string, error)
 }
 
 type service struct {
@@ -110,29 +112,69 @@ func (s *service) Register(ctx context.Context, email, password string, role dom
 	return createdUser, nil
 }
 
-func (s *service) Login(ctx context.Context, email, password string) (string, error) {
+func (s *service) Login(ctx context.Context, email, password string) (string, string, error) {
 	email = strings.ToLower(strings.TrimSpace(email))
 
 	user, err := s.userRepo.GetByEmail(ctx, email)
 	if err != nil {
 		if errors.Is(err, domain.ErrUserNotFound) {
-			return "", domain.ErrUserNotFound
+			return "", "", domain.ErrUserNotFound
 		}
 		slog.ErrorContext(ctx, "failed to get user by email", "email", email, "err", err)
-		return "", fmt.Errorf("failed to get user: %w", err)
+		return "", "", fmt.Errorf("failed to get user: %w", err)
 	}
 
 	if err := pkgAuth.ComparePassword(user.PasswordHash, password); err != nil {
 		slog.WarnContext(ctx, "invalid password login attempt", "email", email)
-		return "", ErrInvalidCredentials
+		return "", "", ErrInvalidCredentials
 	}
 
-	token, err := s.tokenManager.GenerateToken(user.ID, user.Email, string(user.Role))
+	accessToken, err := s.tokenManager.GenerateToken(user.ID, user.Email, string(user.Role))
 	if err != nil {
-		slog.ErrorContext(ctx, "failed to generate token", "user_id", user.ID, "err", err)
-		return "", fmt.Errorf("failed to generate token: %w", err)
+		slog.ErrorContext(ctx, "failed to generate access token", "user_id", user.ID, "err", err)
+		return "", "", fmt.Errorf("failed to generate access token: %w", err)
+	}
+
+	refreshToken, err := s.tokenManager.GenerateRefreshToken(user.ID)
+	if err != nil {
+		slog.ErrorContext(ctx, "failed to generate refresh token", "user_id", user.ID, "err", err)
+		return "", "", fmt.Errorf("failed to generate refresh token: %w", err)
 	}
 
 	slog.InfoContext(ctx, "user logged in successfully", "user_id", user.ID)
-	return token, nil
+	return accessToken, refreshToken, nil
+}
+
+func (s *service) RefreshToken(ctx context.Context, refreshToken string) (string, string, error) {
+	userID, err := s.tokenManager.ValidateRefreshToken(refreshToken)
+	if err != nil {
+		slog.WarnContext(ctx, "invalid refresh token attempt", "err", err)
+		return "", "", ErrInvalidRefreshToken
+	}
+
+	// Fetch user to get current email and role
+	user, err := s.userRepo.GetByID(ctx, userID)
+	if err != nil {
+		if errors.Is(err, domain.ErrUserNotFound) {
+			slog.WarnContext(ctx, "refresh token user not found", "user_id", userID)
+			return "", "", ErrInvalidRefreshToken
+		}
+		slog.ErrorContext(ctx, "failed to get user for token refresh", "user_id", userID, "err", err)
+		return "", "", fmt.Errorf("failed to get user: %w", err)
+	}
+
+	newAccessToken, err := s.tokenManager.GenerateToken(user.ID, user.Email, string(user.Role))
+	if err != nil {
+		slog.ErrorContext(ctx, "failed to generate new access token", "user_id", user.ID, "err", err)
+		return "", "", fmt.Errorf("failed to generate access token: %w", err)
+	}
+
+	newRefreshToken, err := s.tokenManager.GenerateRefreshToken(user.ID)
+	if err != nil {
+		slog.ErrorContext(ctx, "failed to generate new refresh token", "user_id", user.ID, "err", err)
+		return "", "", fmt.Errorf("failed to generate refresh token: %w", err)
+	}
+
+	slog.InfoContext(ctx, "token refreshed successfully", "user_id", user.ID)
+	return newAccessToken, newRefreshToken, nil
 }
