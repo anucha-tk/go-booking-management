@@ -20,6 +20,9 @@ func NewUserHandler() *UserHandler {
 // @Security Bearer
 // @Produce  json
 // @Success 200 {object} api.Response
+// @Failure 401 {object} api.UnauthorizedResponse "Token missing"
+// @Failure 401 {object} api.UnauthorizedFormatResponse "Invalid format (missing Bearer prefix)"
+// @Failure 403 {object} api.Response
 // @Router /v1/admin/users [get]
 func (h *UserHandler) ListUsers(c *gin.Context) {
 	// AC Requirement: Restricted endpoint example

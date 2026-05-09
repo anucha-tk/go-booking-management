@@ -13,6 +13,8 @@ func Logger() gin.HandlerFunc {
 		path := c.Request.URL.Path
 		query := c.Request.URL.RawQuery
 
+		requestID := c.GetString("request_id")
+
 		c.Next()
 
 		status := c.Writer.Status()
@@ -20,19 +22,22 @@ func Logger() gin.HandlerFunc {
 		ip := c.ClientIP()
 		latency := time.Since(start)
 
+		logAttrs := []any{
+			"status", status,
+			"method", method,
+			"path", path,
+			"query", query,
+			"ip", ip,
+			"latency", latency,
+			"request_id", requestID,
+		}
+
 		if len(c.Errors) > 0 {
-			for _, e := range c.Errors.Errors() {
-				slog.Error(e)
+			for _, e := range c.Errors {
+				slog.Error("request error", append(logAttrs, "error", e.Error())...)
 			}
 		} else {
-			slog.Info("request",
-				"status", status,
-				"method", method,
-				"path", path,
-				"query", query,
-				"ip", ip,
-				"latency", latency,
-			)
+			slog.Info("request", logAttrs...)
 		}
 	}
 }

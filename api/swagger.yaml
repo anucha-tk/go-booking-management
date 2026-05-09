@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   api.Response:
     properties:
@@ -7,8 +8,42 @@ definitions:
       errors: {}
       message:
         type: string
+      requestId:
+        type: string
       status:
         example: success
+        type: string
+    type: object
+  api.UnauthorizedFormatResponse:
+    description: Unauthorized error response (Invalid Format)
+    properties:
+      code:
+        example: UNAUTHORIZED
+        type: string
+      message:
+        example: Authorization header format must be Bearer <token>
+        type: string
+      requestId:
+        example: 4af3b007-7f7b-44bc-800c-12df8ae15a47
+        type: string
+      status:
+        example: error
+        type: string
+    type: object
+  api.UnauthorizedResponse:
+    description: Unauthorized error response
+    properties:
+      code:
+        example: UNAUTHORIZED
+        type: string
+      message:
+        example: Authorization header is required
+        type: string
+      requestId:
+        example: 66c6aa26-d246-44dd-8ecd-a39e15973d82
+        type: string
+      status:
+        example: error
         type: string
     type: object
   dto.LoginRequest:
@@ -83,8 +118,19 @@ definitions:
         example: success
         type: string
     type: object
+host: localhost:8088
 info:
-  contact: {}
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a booking management server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Booking Management API
+  version: "1.0"
 paths:
   /v1/:
     get:
@@ -107,6 +153,14 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/api.Response'
+        "401":
+          description: Invalid format (missing Bearer prefix)
+          schema:
+            $ref: '#/definitions/api.UnauthorizedFormatResponse'
+        "403":
+          description: Forbidden
           schema:
             $ref: '#/definitions/api.Response'
       security:
@@ -145,7 +199,7 @@ paths:
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/api.Response'
+            $ref: '#/definitions/api.UnauthorizedResponse'
         "500":
           description: Internal Server Error
           schema:
@@ -184,7 +238,7 @@ paths:
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/api.Response'
+            $ref: '#/definitions/api.UnauthorizedResponse'
         "500":
           description: Internal Server Error
           schema:
@@ -264,4 +318,11 @@ paths:
       summary: Health Check
       tags:
       - health
+securityDefinitions:
+  Bearer:
+    description: 'MANDATORY: Type "Bearer " followed by a space and your JWT token.
+      Example: "Bearer eyJhbGci..."'
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

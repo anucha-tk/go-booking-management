@@ -9,7 +9,16 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -53,6 +62,18 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid format (missing Bearer prefix)",
+                        "schema": {
+                            "$ref": "#/definitions/api.UnauthorizedFormatResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
                         "schema": {
                             "$ref": "#/definitions/api.Response"
                         }
@@ -112,7 +133,7 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/api.Response"
+                            "$ref": "#/definitions/api.UnauthorizedResponse"
                         }
                     },
                     "500": {
@@ -176,7 +197,7 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/api.Response"
+                            "$ref": "#/definitions/api.UnauthorizedResponse"
                         }
                     },
                     "500": {
@@ -315,9 +336,56 @@ const docTemplate = `{
                 "message": {
                     "type": "string"
                 },
+                "requestId": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "string",
                     "example": "success"
+                }
+            }
+        },
+        "api.UnauthorizedFormatResponse": {
+            "description": "Unauthorized error response (Invalid Format)",
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "UNAUTHORIZED"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Authorization header format must be Bearer \u003ctoken\u003e"
+                },
+                "requestId": {
+                    "type": "string",
+                    "example": "4af3b007-7f7b-44bc-800c-12df8ae15a47"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "error"
+                }
+            }
+        },
+        "api.UnauthorizedResponse": {
+            "description": "Unauthorized error response",
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "UNAUTHORIZED"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Authorization header is required"
+                },
+                "requestId": {
+                    "type": "string",
+                    "example": "66c6aa26-d246-44dd-8ecd-a39e15973d82"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "error"
                 }
             }
         },
@@ -429,17 +497,25 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "description": "MANDATORY: Type \"Bearer \" followed by a space and your JWT token. Example: \"Bearer eyJhbGci...\"",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
+	Version:          "1.0",
+	Host:             "localhost:8088",
+	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Booking Management API",
+	Description:      "This is a booking management server.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

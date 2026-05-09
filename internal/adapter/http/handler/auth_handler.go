@@ -64,7 +64,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 // @Param   request body dto.LoginRequest true "Login credentials"
 // @Success 200 {object} api.Response{data=dto.LoginResponse}
 // @Failure 400 {object} api.Response
-// @Failure 401 {object} api.Response
+// @Failure 401 {object} api.UnauthorizedResponse
 // @Failure 500 {object} api.Response
 // @Router /v1/auth/login [post]
 func (h *AuthHandler) Login(c *gin.Context) {
@@ -94,7 +94,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
 // @Param   request body dto.RefreshRequest true "Refresh token"
 // @Success 200 {object} api.Response{data=dto.LoginResponse}
 // @Failure 400 {object} api.Response
-// @Failure 401 {object} api.Response
+// @Failure 401 {object} api.UnauthorizedResponse
 // @Failure 500 {object} api.Response
 // @Router /v1/auth/refresh [post]
 func (h *AuthHandler) Refresh(c *gin.Context) {

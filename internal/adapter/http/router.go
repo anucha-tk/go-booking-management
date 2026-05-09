@@ -37,8 +37,14 @@ func NewRouter(config Config, tokenManager pkgAuth.TokenManager, userHandler *ha
 
 	r := gin.New()
 
-	// Default middlewares
-	r.Use(middleware.Logger(), gin.Recovery())
+	// Global middlewares
+	r.Use(
+		middleware.RequestID(),
+		middleware.Logger(),
+		middleware.SecurityHeaders(),
+		middleware.RateLimit(50, 100), // 50 req/s, 100 burst
+		gin.Recovery(),
+	)
 
 	// CORS configuration
 	r.Use(cors.New(cors.Config{
