@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"context"
 	"net/http"
 	"strings"
 
@@ -11,13 +12,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// RevocationChecker is an interface for checking if a token has been revoked.
+type RevocationChecker interface {
+	IsTokenRevoked(ctx context.Context, accessToken string) (bool, error)
+}
+
 const (
 	// UserContextKey is the key used to store user claims in the Gin context.
 	UserContextKey = "identity.claims"
 )
 
 // AuthMiddleware extracts the JWT from the Authorization header and validates it.
-func AuthMiddleware(tokenManager pkgAuth.TokenManager) gin.HandlerFunc {
+func AuthMiddleware(tokenManager pkgAuth.TokenManager, checker RevocationChecker) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
@@ -37,6 +43,22 @@ func AuthMiddleware(tokenManager pkgAuth.TokenManager) gin.HandlerFunc {
 		claims, err := tokenManager.ValidateToken(tokenStr)
 		if err != nil {
 			api.Error(c, http.StatusUnauthorized, "UNAUTHORIZED", "Invalid or expired token")
+			c.Abort()
+			return
+		}
+
+		// Check for revocation
+		revoked, err := checker.IsTokenRevoked(c.Request.Context(), tokenStr)
+		if err != nil {
+			// If we can't check revocation (DB down?), we might want to fail safe or fail closed.
+			// Let's fail closed for security.
+			api.Error(c, http.StatusUnauthorized, "UNAUTHORIZED", "Failed to verify token status")
+			c.Abort()
+			return
+		}
+
+		if revoked {
+			api.Error(c, http.StatusUnauthorized, "UNAUTHORIZED", "Token has been revoked")
 			c.Abort()
 			return
 		}

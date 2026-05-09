@@ -7,6 +7,9 @@ import (
 	"fmt"
 	"go-booking-management-init/internal/domain/auth"
 	"strings"
+	"time"
+
+	"github.com/google/uuid"
 )
 
 type SQLCAuthRepository struct {
@@ -45,6 +48,29 @@ func (r *SQLCAuthRepository) Create(ctx context.Context, user *auth.User) (*auth
 		CreatedAt:    res.CreatedAt,
 		UpdatedAt:    res.UpdatedAt,
 	}, nil
+}
+
+func (r *SQLCAuthRepository) RevokeToken(ctx context.Context, jti string, expiresAt time.Time) error {
+	u, err := uuid.Parse(jti)
+	if err != nil {
+		return fmt.Errorf("invalid jti format: %w", err)
+	}
+
+	params := RevokeTokenParams{
+		Jti:       u,
+		ExpiresAt: expiresAt,
+	}
+
+	return r.queries.RevokeToken(ctx, params)
+}
+
+func (r *SQLCAuthRepository) IsTokenRevoked(ctx context.Context, jti string) (bool, error) {
+	u, err := uuid.Parse(jti)
+	if err != nil {
+		return false, fmt.Errorf("invalid jti format: %w", err)
+	}
+
+	return r.queries.IsTokenRevoked(ctx, u)
 }
 
 func (r *SQLCAuthRepository) GetByEmail(ctx context.Context, email string) (*auth.User, error) {

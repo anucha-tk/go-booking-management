@@ -9,6 +9,7 @@ import (
 
 	domain "go-booking-management-init/internal/domain/auth"
 
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -30,6 +31,21 @@ func (m *mockQuerier) GetUserByEmail(ctx context.Context, email string) (User, e
 func (m *mockQuerier) GetUserByID(ctx context.Context, id int32) (User, error) {
 	args := m.Called(ctx, id)
 	return args.Get(0).(User), args.Error(1)
+}
+
+func (m *mockQuerier) RevokeToken(ctx context.Context, arg RevokeTokenParams) error {
+	args := m.Called(ctx, arg)
+	return args.Error(0)
+}
+
+func (m *mockQuerier) IsTokenRevoked(ctx context.Context, jti uuid.UUID) (bool, error) {
+	args := m.Called(ctx, jti)
+	return args.Bool(0), args.Error(1)
+}
+
+func (m *mockQuerier) CleanupExpiredTokens(ctx context.Context) error {
+	args := m.Called(ctx)
+	return args.Error(0)
 }
 
 func TestSQLCAuthRepository_Create(t *testing.T) {
@@ -173,4 +189,87 @@ func TestSQLCAuthRepository_GetByID(t *testing.T) {
 		assert.Equal(t, domain.ErrUserNotFound, err)
 		assert.Nil(t, res)
 	})
+}
+
+func TestSQLCAuthRepository_RevokeToken(t *testing.T) {
+	mq := new(mockQuerier)
+	repo := &SQLCAuthRepository{
+		queries: mq,
+	}
+	ctx := context.Background()
+	now := time.Now()
+
+	t.Run("success", func(t *testing.T) {
+		jti := uuid.New().String()
+		mq.On("RevokeToken", ctx, mock.Anything).Return(nil).Once()
+
+		err := repo.RevokeToken(ctx, jti, now)
+
+		assert.NoError(t, err)
+		mq.AssertExpectations(t)
+	})
+
+	t.Run("invalid jti format", func(t *testing.T) {
+		err := repo.RevokeToken(ctx, "not-a-uuid", now)
+
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "invalid jti format")
+	})
+}
+
+func TestSQLCAuthRepository_IsTokenRevoked(t *testing.T) {
+	mq := new(mockQuerier)
+	repo := &SQLCAuthRepository{
+		queries: mq,
+	}
+	ctx := context.Background()
+
+	t.Run("token revoked", func(t *testing.T) {
+		jti := uuid.New().String()
+		parsedUUID := uuid.MustParse(jti)
+		mq.On("IsTokenRevoked", ctx, parsedUUID).Return(true, nil).Once()
+
+		revoked, err := repo.IsTokenRevoked(ctx, jti)
+
+		assert.NoError(t, err)
+		assert.True(t, revoked)
+		mq.AssertExpectations(t)
+	})
+
+	t.Run("token not revoked", func(t *testing.T) {
+		jti := uuid.New().String()
+		parsedUUID := uuid.MustParse(jti)
+		mq.On("IsTokenRevoked", ctx, parsedUUID).Return(false, nil).Once()
+
+		revoked, err := repo.IsTokenRevoked(ctx, jti)
+
+		assert.NoError(t, err)
+		assert.False(t, revoked)
+		mq.AssertExpectations(t)
+	})
+
+	t.Run("invalid jti format", func(t *testing.T) {
+		revoked, err := repo.IsTokenRevoked(ctx, "not-a-uuid")
+
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "invalid jti format")
+		assert.False(t, revoked)
+	})
+}
+
+func TestSQLCAuthRepository_GetByID_GenericError(t *testing.T) {
+	mq := new(mockQuerier)
+	repo := &SQLCAuthRepository{
+		queries: mq,
+	}
+	ctx := context.Background()
+
+	mq.On("GetUserByID", ctx, int32(1)).Return(User{}, errors.New("db connection error")).Once()
+
+	res, err := repo.GetByID(ctx, int32(1))
+
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "database error in GetByID")
+	assert.Nil(t, res)
+	mq.AssertExpectations(t)
 }

@@ -7,6 +7,7 @@ import (
 
 	"go-booking-management-init/internal/adapter/http/handler"
 	"go-booking-management-init/internal/adapter/http/middleware"
+	applicationAuth "go-booking-management-init/internal/application/auth"
 	"go-booking-management-init/internal/domain/auth"
 	"go-booking-management-init/pkg/api"
 	pkgAuth "go-booking-management-init/pkg/auth"
@@ -25,10 +26,11 @@ type Router struct {
 	engine       *gin.Engine
 	config       Config
 	tokenManager pkgAuth.TokenManager
+	authService  applicationAuth.Service
 	userHandler  *handler.UserHandler
 }
 
-func NewRouter(config Config, tokenManager pkgAuth.TokenManager, userHandler *handler.UserHandler) *Router {
+func NewRouter(config Config, tokenManager pkgAuth.TokenManager, authService applicationAuth.Service, userHandler *handler.UserHandler) *Router {
 	// Set Gin mode based on environment or default to release to keep it clean
 	env := os.Getenv("APP_ENV")
 	if env != "development" && env != "local" && os.Getenv("GIN_MODE") != "debug" {
@@ -58,6 +60,7 @@ func NewRouter(config Config, tokenManager pkgAuth.TokenManager, userHandler *ha
 		engine:       r,
 		config:       config,
 		tokenManager: tokenManager,
+		authService:  authService,
 		userHandler:  userHandler,
 	}
 }
@@ -86,10 +89,11 @@ func (r *Router) registerV1Routes(rg *gin.RouterGroup, healthHandler *handler.He
 	rg.POST("/auth/register", authHandler.Register)
 	rg.POST("/auth/login", authHandler.Login)
 	rg.POST("/auth/refresh", authHandler.Refresh)
+	rg.POST("/auth/logout", authHandler.Logout)
 
 	// Protected routes
 	authRequired := rg.Group("/")
-	authRequired.Use(middleware.AuthMiddleware(r.tokenManager))
+	authRequired.Use(middleware.AuthMiddleware(r.tokenManager, r.authService))
 	{
 		// Add future protected routes here
 		// Example: authRequired.GET("/profile", userHandler.Profile)

@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"context"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -40,20 +41,31 @@ func (m *MockTokenManager) ValidateRefreshToken(tokenStr string) (int32, error) 
 	return int32(args.Int(0)), args.Error(1)
 }
 
+type MockRevocationChecker struct {
+	mock.Mock
+}
+
+func (m *MockRevocationChecker) IsTokenRevoked(ctx context.Context, accessToken string) (bool, error) {
+	args := m.Called(ctx, accessToken)
+	return args.Bool(0), args.Error(1)
+}
+
 func TestAuthMiddleware(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	t.Run("Valid Token", func(t *testing.T) {
 		mockTM := new(MockTokenManager)
+		mockRC := new(MockRevocationChecker)
 		claims := &pkgAuth.UserClaims{
 			UserID: 1,
 			Email:  "test@example.com",
 			Role:   string(auth.RoleAdmin),
 		}
 		mockTM.On("ValidateToken", "valid-token").Return(claims, nil)
+		mockRC.On("IsTokenRevoked", mock.Anything, "valid-token").Return(false, nil)
 
 		r := gin.New()
-		r.Use(AuthMiddleware(mockTM))
+		r.Use(AuthMiddleware(mockTM, mockRC))
 		r.GET("/test", func(c *gin.Context) {
 			user, exists := c.Get(UserContextKey)
 			assert.True(t, exists)
@@ -68,12 +80,40 @@ func TestAuthMiddleware(t *testing.T) {
 
 		assert.Equal(t, http.StatusOK, w.Code)
 		mockTM.AssertExpectations(t)
+		mockRC.AssertExpectations(t)
+	})
+
+	t.Run("Revoked Token", func(t *testing.T) {
+		mockTM := new(MockTokenManager)
+		mockRC := new(MockRevocationChecker)
+		claims := &pkgAuth.UserClaims{
+			UserID: 1,
+			Email:  "test@example.com",
+			Role:   string(auth.RoleAdmin),
+		}
+		mockTM.On("ValidateToken", "revoked-token").Return(claims, nil)
+		mockRC.On("IsTokenRevoked", mock.Anything, "revoked-token").Return(true, nil)
+
+		r := gin.New()
+		r.Use(AuthMiddleware(mockTM, mockRC))
+		r.GET("/test", func(c *gin.Context) {
+			c.Status(http.StatusOK)
+		})
+
+		req, _ := http.NewRequest(http.MethodGet, "/test", nil)
+		req.Header.Set("Authorization", "Bearer revoked-token")
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusUnauthorized, w.Code)
+		assert.Contains(t, w.Body.String(), "Token has been revoked")
 	})
 
 	t.Run("Missing Authorization Header", func(t *testing.T) {
 		mockTM := new(MockTokenManager)
+		mockRC := new(MockRevocationChecker)
 		r := gin.New()
-		r.Use(AuthMiddleware(mockTM))
+		r.Use(AuthMiddleware(mockTM, mockRC))
 		r.GET("/test", func(c *gin.Context) {
 			c.Status(http.StatusOK)
 		})
@@ -87,8 +127,9 @@ func TestAuthMiddleware(t *testing.T) {
 
 	t.Run("Invalid Authorization Format", func(t *testing.T) {
 		mockTM := new(MockTokenManager)
+		mockRC := new(MockRevocationChecker)
 		r := gin.New()
-		r.Use(AuthMiddleware(mockTM))
+		r.Use(AuthMiddleware(mockTM, mockRC))
 		r.GET("/test", func(c *gin.Context) {
 			c.Status(http.StatusOK)
 		})
@@ -103,10 +144,11 @@ func TestAuthMiddleware(t *testing.T) {
 
 	t.Run("Invalid Token", func(t *testing.T) {
 		mockTM := new(MockTokenManager)
+		mockRC := new(MockRevocationChecker)
 		mockTM.On("ValidateToken", "invalid-token").Return(nil, assert.AnError)
 
 		r := gin.New()
-		r.Use(AuthMiddleware(mockTM))
+		r.Use(AuthMiddleware(mockTM, mockRC))
 		r.GET("/test", func(c *gin.Context) {
 			c.Status(http.StatusOK)
 		})
@@ -122,6 +164,7 @@ func TestAuthMiddleware(t *testing.T) {
 
 	t.Run("Valid Token with Multiple Spaces", func(t *testing.T) {
 		mockTM := new(MockTokenManager)
+		mockRC := new(MockRevocationChecker)
 		claims := &pkgAuth.UserClaims{
 			UserID: 1,
 			Email:  "test@example.com",
@@ -130,7 +173,7 @@ func TestAuthMiddleware(t *testing.T) {
 		mockTM.On("ValidateToken", "valid-token").Return(claims, nil)
 
 		r := gin.New()
-		r.Use(AuthMiddleware(mockTM))
+		r.Use(AuthMiddleware(mockTM, mockRC))
 		r.GET("/test", func(c *gin.Context) {
 			c.Status(http.StatusOK)
 		})
@@ -218,4 +261,31 @@ func TestRolesAllowed(t *testing.T) {
 
 		assert.Equal(t, http.StatusUnauthorized, w.Code)
 	})
+}
+
+func TestAuthMiddleware_RevocationCheckError(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	mockTM := new(MockTokenManager)
+	mockRC := new(MockRevocationChecker)
+	claims := &pkgAuth.UserClaims{
+		UserID: 1,
+		Email:  "test@example.com",
+		Role:   string(auth.RoleAdmin),
+	}
+	mockTM.On("ValidateToken", "valid-token").Return(claims, nil)
+	mockRC.On("IsTokenRevoked", mock.Anything, "valid-token").Return(false, assert.AnError)
+
+	r := gin.New()
+	r.Use(AuthMiddleware(mockTM, mockRC))
+	r.GET("/test", func(c *gin.Context) {
+		c.Status(http.StatusOK)
+	})
+
+	req, _ := http.NewRequest(http.MethodGet, "/test", nil)
+	req.Header.Set("Authorization", "Bearer valid-token")
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusUnauthorized, w.Code)
+	assert.Contains(t, w.Body.String(), "Failed to verify token status")
 }

@@ -6,12 +6,17 @@ package db
 
 import (
 	"context"
+
+	"github.com/google/uuid"
 )
 
 type Querier interface {
+	CleanupExpiredTokens(ctx context.Context) error
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	GetUserByEmail(ctx context.Context, email string) (User, error)
 	GetUserByID(ctx context.Context, id int32) (User, error)
+	IsTokenRevoked(ctx context.Context, jti uuid.UUID) (bool, error)
+	RevokeToken(ctx context.Context, arg RevokeTokenParams) error
 }
 
 var _ Querier = (*Queries)(nil)

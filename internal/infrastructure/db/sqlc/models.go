@@ -6,7 +6,15 @@ package db
 
 import (
 	"time"
+
+	"github.com/google/uuid"
 )
+
+type RevokedToken struct {
+	Jti       uuid.UUID `json:"jti"`
+	ExpiresAt time.Time `json:"expires_at"`
+	CreatedAt time.Time `json:"created_at"`
+}
 
 type User struct {
 	ID           int32     `json:"id"`

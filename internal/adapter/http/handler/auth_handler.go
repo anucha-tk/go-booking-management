@@ -7,6 +7,7 @@ import (
 	"go-booking-management-init/pkg/api"
 	"log/slog"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -115,4 +116,38 @@ func (h *AuthHandler) Refresh(c *gin.Context) {
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	})
+}
+
+// Logout godoc
+// @Summary Logout a user
+// @Description revoke the access token
+// @Tags auth
+// @Accept  json
+// @Produce  json
+// @Security Bearer
+// @Success 200 {object} api.Response
+// @Failure 401 {object} api.UnauthorizedResponse
+// @Failure 500 {object} api.Response
+// @Router /v1/auth/logout [post]
+func (h *AuthHandler) Logout(c *gin.Context) {
+	authHeader := c.GetHeader("Authorization")
+	if authHeader == "" {
+		api.Error(c, http.StatusUnauthorized, "UNAUTHORIZED", "Authorization header is required")
+		return
+	}
+
+	parts := strings.Split(authHeader, " ")
+	if len(parts) != 2 || strings.ToLower(parts[0]) != "bearer" {
+		api.Error(c, http.StatusUnauthorized, "UNAUTHORIZED", "Invalid token format")
+		return
+	}
+
+	tokenStr := parts[1]
+	err := h.authService.Logout(c.Request.Context(), tokenStr)
+	if err != nil {
+		MapError(c, err)
+		return
+	}
+
+	api.Success(c, nil)
 }

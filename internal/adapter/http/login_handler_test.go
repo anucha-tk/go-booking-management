@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -160,9 +159,6 @@ func TestRefreshToken_Integration(t *testing.T) {
 	var loginResp map[string]interface{}
 	_ = json.Unmarshal(wLog.Body.Bytes(), &loginResp)
 	oldRefreshToken := loginResp["data"].(map[string]interface{})["refreshToken"].(string)
-
-	// Sleep to ensure different iat
-	time.Sleep(time.Second)
 
 	t.Run("success", func(t *testing.T) {
 

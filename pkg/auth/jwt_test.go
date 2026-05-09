@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -97,5 +98,42 @@ func TestNewJWTManager_Defaults(t *testing.T) {
 		manager := NewJWTManager()
 		assert.Equal(t, time.Hour, manager.tokenDuration)
 		assert.Equal(t, 7*24*time.Hour, manager.refreshDuration)
+	})
+}
+
+func TestJWTManager_SigningMethodErrors(t *testing.T) {
+	os.Setenv("JWT_SECRET", "test-secret")
+	manager := NewJWTManager()
+
+	t.Run("ValidateToken wrong signing method", func(t *testing.T) {
+		// Create token signed with RSA instead of HMAC
+		token := jwt.NewWithClaims(jwt.SigningMethodNone, jwt.RegisteredClaims{
+			Subject: "1",
+		})
+		tokenStr, _ := token.SignedString(jwt.UnsafeAllowNoneSignatureType)
+
+		_, err := manager.ValidateToken(tokenStr)
+		assert.Error(t, err)
+	})
+
+	t.Run("ValidateRefreshToken wrong signing method", func(t *testing.T) {
+		token := jwt.NewWithClaims(jwt.SigningMethodNone, jwt.RegisteredClaims{
+			Subject: "1",
+		})
+		tokenStr, _ := token.SignedString(jwt.UnsafeAllowNoneSignatureType)
+
+		_, err := manager.ValidateRefreshToken(tokenStr)
+		assert.Error(t, err)
+	})
+
+	t.Run("ValidateRefreshToken invalid subject", func(t *testing.T) {
+		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.RegisteredClaims{
+			Subject: "not-a-number",
+		})
+		tokenStr, _ := token.SignedString([]byte("test-secret"))
+
+		_, err := manager.ValidateRefreshToken(tokenStr)
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "invalid subject")
 	})
 }

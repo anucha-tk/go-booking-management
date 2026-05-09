@@ -207,6 +207,31 @@ paths:
       summary: Login a user
       tags:
       - auth
+  /v1/auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: revoke the access token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api.UnauthorizedResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Response'
+      security:
+      - Bearer: []
+      summary: Logout a user
+      tags:
+      - auth
   /v1/auth/refresh:
     post:
       consumes:

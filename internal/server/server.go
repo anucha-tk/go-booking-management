@@ -72,7 +72,7 @@ func NewServer() (*http.Server, *adapterHttp.Router) {
 	router := adapterHttp.NewRouter(adapterHttp.Config{
 		AllowOrigins: allowOrigins,
 		SwaggerPath:  swaggerPath,
-	}, tokenManager, userHandler)
+	}, tokenManager, authService, userHandler)
 
 	systemHandler := handler.NewSystemHandler(router.Engine())
 

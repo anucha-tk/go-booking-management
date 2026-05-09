@@ -7,7 +7,19 @@ package db
 
 import (
 	"context"
+	"time"
+
+	"github.com/google/uuid"
 )
+
+const cleanupExpiredTokens = `-- name: CleanupExpiredTokens :exec
+DELETE FROM revoked_tokens WHERE expires_at < NOW()
+`
+
+func (q *Queries) CleanupExpiredTokens(ctx context.Context) error {
+	_, err := q.db.ExecContext(ctx, cleanupExpiredTokens)
+	return err
+}
 
 const createUser = `-- name: CreateUser :one
 INSERT INTO users (
@@ -76,4 +88,35 @@ func (q *Queries) GetUserByID(ctx context.Context, id int32) (User, error) {
 		&i.UpdatedAt,
 	)
 	return i, err
+}
+
+const isTokenRevoked = `-- name: IsTokenRevoked :one
+SELECT EXISTS (
+    SELECT 1 FROM revoked_tokens WHERE jti = $1
+)
+`
+
+func (q *Queries) IsTokenRevoked(ctx context.Context, jti uuid.UUID) (bool, error) {
+	row := q.db.QueryRowContext(ctx, isTokenRevoked, jti)
+	var exists bool
+	err := row.Scan(&exists)
+	return exists, err
+}
+
+const revokeToken = `-- name: RevokeToken :exec
+INSERT INTO revoked_tokens (
+    jti, expires_at
+) VALUES (
+    $1, $2
+)
+`
+
+type RevokeTokenParams struct {
+	Jti       uuid.UUID `json:"jti"`
+	ExpiresAt time.Time `json:"expires_at"`
+}
+
+func (q *Queries) RevokeToken(ctx context.Context, arg RevokeTokenParams) error {
+	_, err := q.db.ExecContext(ctx, revokeToken, arg.Jti, arg.ExpiresAt)
+	return err
 }

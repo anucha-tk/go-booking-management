@@ -26,6 +26,8 @@ type Service interface {
 	Register(ctx context.Context, email, password string, role domain.UserRole) (*domain.User, error)
 	Login(ctx context.Context, email, password string) (string, string, error)
 	RefreshToken(ctx context.Context, refreshToken string) (string, string, error)
+	Logout(ctx context.Context, accessToken string) error
+	IsTokenRevoked(ctx context.Context, accessToken string) (bool, error)
 }
 
 type service struct {
@@ -177,4 +179,38 @@ func (s *service) RefreshToken(ctx context.Context, refreshToken string) (string
 
 	slog.InfoContext(ctx, "token refreshed successfully", "user_id", user.ID)
 	return newAccessToken, newRefreshToken, nil
+}
+
+func (s *service) Logout(ctx context.Context, accessToken string) error {
+	claims, err := s.tokenManager.ValidateToken(accessToken)
+	if err != nil {
+		slog.WarnContext(ctx, "failed to validate token for logout", "err", err)
+		return err
+	}
+
+	if claims.ID == "" {
+		return errors.New("token missing jti")
+	}
+
+	err = s.userRepo.RevokeToken(ctx, claims.ID, claims.ExpiresAt.Time)
+	if err != nil {
+		slog.ErrorContext(ctx, "failed to revoke token", "jti", claims.ID, "err", err)
+		return fmt.Errorf("failed to revoke token: %w", err)
+	}
+
+	slog.InfoContext(ctx, "token revoked successfully", "jti", claims.ID, "user_id", claims.UserID)
+	return nil
+}
+
+func (s *service) IsTokenRevoked(ctx context.Context, accessToken string) (bool, error) {
+	claims, err := s.tokenManager.ValidateToken(accessToken)
+	if err != nil {
+		return false, err
+	}
+
+	if claims.ID == "" {
+		return false, errors.New("token missing jti")
+	}
+
+	return s.userRepo.IsTokenRevoked(ctx, claims.ID)
 }

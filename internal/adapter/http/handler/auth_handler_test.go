@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	"errors"
 	"go-booking-management-init/internal/application/auth"
 	domain "go-booking-management-init/internal/domain/auth"
 
@@ -38,6 +39,16 @@ func (m *mockAuthService) Login(ctx context.Context, email, password string) (st
 func (m *mockAuthService) RefreshToken(ctx context.Context, refreshToken string) (string, string, error) {
 	args := m.Called(ctx, refreshToken)
 	return args.String(0), args.String(1), args.Error(2)
+}
+
+func (m *mockAuthService) Logout(ctx context.Context, accessToken string) error {
+	args := m.Called(ctx, accessToken)
+	return args.Error(0)
+}
+
+func (m *mockAuthService) IsTokenRevoked(ctx context.Context, accessToken string) (bool, error) {
+	args := m.Called(ctx, accessToken)
+	return args.Bool(0), args.Error(1)
 }
 
 func TestAuthHandler_Register_Success(t *testing.T) {
@@ -232,5 +243,86 @@ func TestAuthHandler_Refresh_Error(t *testing.T) {
 		r.ServeHTTP(w, req)
 
 		assert.Equal(t, http.StatusUnauthorized, w.Code)
+	})
+}
+
+func TestAuthHandler_Refresh_InvalidBody(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	h := NewAuthHandler(nil)
+	r := gin.New()
+	r.POST("/refresh", h.Refresh)
+
+	req := httptest.NewRequest(http.MethodPost, "/refresh", bytes.NewBufferString("not-json"))
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+}
+
+func TestAuthHandler_Logout(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	t.Run("success", func(t *testing.T) {
+		mockSvc := new(mockAuthService)
+		h := NewAuthHandler(mockSvc)
+		r := gin.New()
+		r.POST("/logout", h.Logout)
+
+		mockSvc.On("Logout", mock.Anything, "valid-token").Return(nil).Once()
+
+		req := httptest.NewRequest(http.MethodPost, "/logout", nil)
+		req.Header.Set("Authorization", "Bearer valid-token")
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusOK, w.Code)
+		var resp map[string]interface{}
+		err := json.Unmarshal(w.Body.Bytes(), &resp)
+		assert.NoError(t, err)
+		assert.Equal(t, "success", resp["status"])
+		mockSvc.AssertExpectations(t)
+	})
+
+	t.Run("missing authorization header", func(t *testing.T) {
+		h := NewAuthHandler(nil)
+		r := gin.New()
+		r.POST("/logout", h.Logout)
+
+		req := httptest.NewRequest(http.MethodPost, "/logout", nil)
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusUnauthorized, w.Code)
+	})
+
+	t.Run("invalid token format", func(t *testing.T) {
+		h := NewAuthHandler(nil)
+		r := gin.New()
+		r.POST("/logout", h.Logout)
+
+		req := httptest.NewRequest(http.MethodPost, "/logout", nil)
+		req.Header.Set("Authorization", "InvalidHeader")
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusUnauthorized, w.Code)
+	})
+
+	t.Run("service error", func(t *testing.T) {
+		mockSvc := new(mockAuthService)
+		h := NewAuthHandler(mockSvc)
+		r := gin.New()
+		r.POST("/logout", h.Logout)
+
+		mockSvc.On("Logout", mock.Anything, "bad-token").Return(errors.New("service error")).Once()
+
+		req := httptest.NewRequest(http.MethodPost, "/logout", nil)
+		req.Header.Set("Authorization", "Bearer bad-token")
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusInternalServerError, w.Code)
+		mockSvc.AssertExpectations(t)
 	})
 }

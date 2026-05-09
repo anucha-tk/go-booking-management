@@ -6,7 +6,9 @@ import (
 	domain "go-booking-management-init/internal/domain/auth"
 	pkgAuth "go-booking-management-init/pkg/auth"
 	"testing"
+	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -37,6 +39,16 @@ func (m *MockUserRepository) GetByID(ctx context.Context, id int32) (*domain.Use
 		return nil, args.Error(1)
 	}
 	return args.Get(0).(*domain.User), args.Error(1)
+}
+
+func (m *MockUserRepository) RevokeToken(ctx context.Context, jti string, expiresAt time.Time) error {
+	args := m.Called(ctx, jti, expiresAt)
+	return args.Error(0)
+}
+
+func (m *MockUserRepository) IsTokenRevoked(ctx context.Context, jti string) (bool, error) {
+	args := m.Called(ctx, jti)
+	return args.Bool(0), args.Error(1)
 }
 
 type MockTokenManager struct {
@@ -290,6 +302,200 @@ func TestService_RefreshToken(t *testing.T) {
 		assert.Error(t, err)
 		assert.Equal(t, ErrInvalidRefreshToken, err)
 
+		assert.Empty(t, newAccessToken)
+		assert.Empty(t, newRefreshToken)
+		mockRepo.AssertExpectations(t)
+		mockToken.AssertExpectations(t)
+	})
+}
+
+func TestService_Logout(t *testing.T) {
+	mockRepo := new(MockUserRepository)
+	mockToken := new(MockTokenManager)
+	service := NewService(mockRepo, mockToken)
+	ctx := context.Background()
+
+	t.Run("success", func(t *testing.T) {
+		claims := &pkgAuth.UserClaims{
+			RegisteredClaims: jwt.RegisteredClaims{
+				ID:        "jti-123",
+				ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
+			},
+		}
+		mockToken.On("ValidateToken", "valid-token").Return(claims, nil).Once()
+		mockRepo.On("RevokeToken", ctx, "jti-123", mock.Anything).Return(nil).Once()
+
+		err := service.Logout(ctx, "valid-token")
+
+		assert.NoError(t, err)
+		mockRepo.AssertExpectations(t)
+		mockToken.AssertExpectations(t)
+	})
+
+	t.Run("invalid token", func(t *testing.T) {
+		mockToken.On("ValidateToken", "bad-token").Return(nil, errors.New("invalid token")).Once()
+
+		err := service.Logout(ctx, "bad-token")
+
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "invalid token")
+		mockToken.AssertExpectations(t)
+	})
+
+	t.Run("missing jti", func(t *testing.T) {
+		claims := &pkgAuth.UserClaims{
+			RegisteredClaims: jwt.RegisteredClaims{
+				ID: "",
+			},
+		}
+		mockToken.On("ValidateToken", "no-jti-token").Return(claims, nil).Once()
+
+		err := service.Logout(ctx, "no-jti-token")
+
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "token missing jti")
+		mockToken.AssertExpectations(t)
+	})
+
+	t.Run("revoke token error", func(t *testing.T) {
+		claims := &pkgAuth.UserClaims{
+			RegisteredClaims: jwt.RegisteredClaims{
+				ID:        "jti-456",
+				ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
+			},
+		}
+		mockToken.On("ValidateToken", "revoke-fail-token").Return(claims, nil).Once()
+		mockRepo.On("RevokeToken", ctx, "jti-456", mock.Anything).Return(errors.New("db error")).Once()
+
+		err := service.Logout(ctx, "revoke-fail-token")
+
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "failed to revoke token")
+		mockRepo.AssertExpectations(t)
+		mockToken.AssertExpectations(t)
+	})
+}
+
+func TestService_IsTokenRevoked(t *testing.T) {
+	mockRepo := new(MockUserRepository)
+	mockToken := new(MockTokenManager)
+	service := NewService(mockRepo, mockToken)
+	ctx := context.Background()
+
+	t.Run("token not revoked", func(t *testing.T) {
+		claims := &pkgAuth.UserClaims{
+			RegisteredClaims: jwt.RegisteredClaims{
+				ID: "jti-123",
+			},
+		}
+		mockToken.On("ValidateToken", "valid-token").Return(claims, nil).Once()
+		mockRepo.On("IsTokenRevoked", ctx, "jti-123").Return(false, nil).Once()
+
+		revoked, err := service.IsTokenRevoked(ctx, "valid-token")
+
+		assert.NoError(t, err)
+		assert.False(t, revoked)
+		mockRepo.AssertExpectations(t)
+		mockToken.AssertExpectations(t)
+	})
+
+	t.Run("token revoked", func(t *testing.T) {
+		claims := &pkgAuth.UserClaims{
+			RegisteredClaims: jwt.RegisteredClaims{
+				ID: "jti-456",
+			},
+		}
+		mockToken.On("ValidateToken", "revoked-token").Return(claims, nil).Once()
+		mockRepo.On("IsTokenRevoked", ctx, "jti-456").Return(true, nil).Once()
+
+		revoked, err := service.IsTokenRevoked(ctx, "revoked-token")
+
+		assert.NoError(t, err)
+		assert.True(t, revoked)
+		mockRepo.AssertExpectations(t)
+		mockToken.AssertExpectations(t)
+	})
+
+	t.Run("invalid token", func(t *testing.T) {
+		mockToken.On("ValidateToken", "bad-token").Return(nil, errors.New("invalid token")).Once()
+
+		revoked, err := service.IsTokenRevoked(ctx, "bad-token")
+
+		assert.Error(t, err)
+		assert.False(t, revoked)
+		mockToken.AssertExpectations(t)
+	})
+
+	t.Run("missing jti", func(t *testing.T) {
+		claims := &pkgAuth.UserClaims{
+			RegisteredClaims: jwt.RegisteredClaims{
+				ID: "",
+			},
+		}
+		mockToken.On("ValidateToken", "no-jti-token").Return(claims, nil).Once()
+
+		revoked, err := service.IsTokenRevoked(ctx, "no-jti-token")
+
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "token missing jti")
+		assert.False(t, revoked)
+		mockToken.AssertExpectations(t)
+	})
+}
+
+func TestService_RefreshToken_AdditionalErrors(t *testing.T) {
+	mockRepo := new(MockUserRepository)
+	mockToken := new(MockTokenManager)
+	service := NewService(mockRepo, mockToken)
+	ctx := context.Background()
+
+	t.Run("get by id generic error", func(t *testing.T) {
+		refreshToken := "some-token"
+		userID := int32(1)
+		mockToken.On("ValidateRefreshToken", refreshToken).Return(int(userID), nil).Once()
+		mockRepo.On("GetByID", ctx, userID).Return(nil, errors.New("connection error")).Once()
+
+		newAccessToken, newRefreshToken, err := service.RefreshToken(ctx, refreshToken)
+
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "failed to get user")
+		assert.Empty(t, newAccessToken)
+		assert.Empty(t, newRefreshToken)
+		mockRepo.AssertExpectations(t)
+		mockToken.AssertExpectations(t)
+	})
+
+	t.Run("generate access token fails", func(t *testing.T) {
+		refreshToken := "some-token"
+		userID := int32(1)
+		user := &domain.User{ID: userID, Email: "test@example.com", Role: domain.RoleCustomer}
+		mockToken.On("ValidateRefreshToken", refreshToken).Return(int(userID), nil).Once()
+		mockRepo.On("GetByID", ctx, userID).Return(user, nil).Once()
+		mockToken.On("GenerateToken", user.ID, user.Email, string(user.Role)).Return("", errors.New("gen error")).Once()
+
+		newAccessToken, newRefreshToken, err := service.RefreshToken(ctx, refreshToken)
+
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "failed to generate access token")
+		assert.Empty(t, newAccessToken)
+		assert.Empty(t, newRefreshToken)
+		mockRepo.AssertExpectations(t)
+		mockToken.AssertExpectations(t)
+	})
+
+	t.Run("generate refresh token fails", func(t *testing.T) {
+		refreshToken := "some-token"
+		userID := int32(1)
+		user := &domain.User{ID: userID, Email: "test@example.com", Role: domain.RoleCustomer}
+		mockToken.On("ValidateRefreshToken", refreshToken).Return(int(userID), nil).Once()
+		mockRepo.On("GetByID", ctx, userID).Return(user, nil).Once()
+		mockToken.On("GenerateToken", user.ID, user.Email, string(user.Role)).Return("new-access", nil).Once()
+		mockToken.On("GenerateRefreshToken", user.ID).Return("", errors.New("gen error")).Once()
+
+		newAccessToken, newRefreshToken, err := service.RefreshToken(ctx, refreshToken)
+
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "failed to generate refresh token")
 		assert.Empty(t, newAccessToken)
 		assert.Empty(t, newRefreshToken)
 		mockRepo.AssertExpectations(t)

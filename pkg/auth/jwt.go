@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 )
 
 type UserClaims struct {
@@ -71,6 +72,7 @@ func (m *JWTManager) GenerateToken(userID int32, email string, role string) (str
 		Email:  email,
 		Role:   role,
 		RegisteredClaims: jwt.RegisteredClaims{
+			ID:        uuid.New().String(),
 			Subject:   fmt.Sprintf("%d", userID),
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(m.tokenDuration)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
@@ -83,6 +85,7 @@ func (m *JWTManager) GenerateToken(userID int32, email string, role string) (str
 
 func (m *JWTManager) GenerateRefreshToken(userID int32) (string, error) {
 	claims := jwt.RegisteredClaims{
+		ID:        uuid.New().String(),
 		Subject:   fmt.Sprintf("%d", userID),
 		ExpiresAt: jwt.NewNumericDate(time.Now().Add(m.refreshDuration)),
 		IssuedAt:  jwt.NewNumericDate(time.Now()),
