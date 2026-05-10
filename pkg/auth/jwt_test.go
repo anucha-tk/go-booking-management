@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"os"
 	"testing"
 	"time"
@@ -59,9 +60,9 @@ func TestJWTManager(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotEmpty(t, token)
 
-		resID, err := manager.ValidateRefreshToken(token)
+		claims, err := manager.ValidateRefreshToken(token)
 		assert.NoError(t, err)
-		assert.Equal(t, userID, resID)
+		assert.Equal(t, fmt.Sprintf("%d", userID), claims.Subject)
 	})
 
 	t.Run("Invalid Refresh Token", func(t *testing.T) {
@@ -124,16 +125,5 @@ func TestJWTManager_SigningMethodErrors(t *testing.T) {
 
 		_, err := manager.ValidateRefreshToken(tokenStr)
 		assert.Error(t, err)
-	})
-
-	t.Run("ValidateRefreshToken invalid subject", func(t *testing.T) {
-		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.RegisteredClaims{
-			Subject: "not-a-number",
-		})
-		tokenStr, _ := token.SignedString([]byte("test-secret"))
-
-		_, err := manager.ValidateRefreshToken(tokenStr)
-		assert.Error(t, err)
-		assert.Contains(t, err.Error(), "invalid subject")
 	})
 }

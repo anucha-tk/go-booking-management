@@ -110,3 +110,7 @@ func (r *SQLCAuthRepository) GetByID(ctx context.Context, id int32) (*auth.User,
 		UpdatedAt:    res.UpdatedAt,
 	}, nil
 }
+
+func (r *SQLCAuthRepository) CleanupExpiredTokens(ctx context.Context) error {
+	return r.queries.CleanupExpiredTokens(ctx)
+}

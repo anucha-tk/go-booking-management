@@ -9,7 +9,7 @@ import (
 func TestUserRole_Constants(t *testing.T) {
 	assert.Equal(t, UserRole("admin"), RoleAdmin)
 	assert.Equal(t, UserRole("customer"), RoleCustomer)
-	assert.Equal(t, UserRole("staff"), RoleStaff)
+	assert.Equal(t, UserRole("officer"), RoleOfficer)
 	assert.Equal(t, UserRole("guest"), RoleGuest)
 }
 

@@ -10,6 +10,7 @@ import (
 	pkgAuth "go-booking-management-init/pkg/auth"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -36,9 +37,12 @@ func (m *MockTokenManager) ValidateToken(tokenStr string) (*pkgAuth.UserClaims, 
 	return args.Get(0).(*pkgAuth.UserClaims), args.Error(1)
 }
 
-func (m *MockTokenManager) ValidateRefreshToken(tokenStr string) (int32, error) {
+func (m *MockTokenManager) ValidateRefreshToken(tokenStr string) (*jwt.RegisteredClaims, error) {
 	args := m.Called(tokenStr)
-	return int32(args.Int(0)), args.Error(1)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*jwt.RegisteredClaims), args.Error(1)
 }
 
 type MockRevocationChecker struct {
@@ -226,7 +230,7 @@ func TestRolesAllowed(t *testing.T) {
 	})
 
 	t.Run("Multiple Allowed Roles", func(t *testing.T) {
-		r := setupRouter(auth.RoleAdmin, auth.RoleStaff)
+		r := setupRouter(auth.RoleAdmin, auth.RoleOfficer)
 
 		// Admin allowed
 		req1, _ := http.NewRequest(http.MethodGet, "/admin", nil)
@@ -237,7 +241,7 @@ func TestRolesAllowed(t *testing.T) {
 
 		// Staff allowed
 		req2, _ := http.NewRequest(http.MethodGet, "/admin", nil)
-		req2.Header.Set("X-Role", string(auth.RoleStaff))
+		req2.Header.Set("X-Role", string(auth.RoleOfficer))
 		w2 := httptest.NewRecorder()
 		r.ServeHTTP(w2, req2)
 		assert.Equal(t, http.StatusOK, w2.Code)

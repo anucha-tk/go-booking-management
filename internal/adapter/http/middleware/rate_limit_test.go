@@ -69,7 +69,7 @@ func TestRateLimit(t *testing.T) {
 		assert.Equal(t, http.StatusOK, w1.Code)
 
 		// Wait for token to replenish (0.5s for 2 req/s)
-		time.Sleep(600 * time.Millisecond)
+		time.Sleep(510 * time.Millisecond)
 
 		w2 := httptest.NewRecorder()
 		req2, _ := http.NewRequest(http.MethodGet, "/test", nil)

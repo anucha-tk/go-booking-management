@@ -6,6 +6,7 @@ import (
 
 	appAuth "go-booking-management-init/internal/application/auth"
 	domainAuth "go-booking-management-init/internal/domain/auth"
+	domainRoom "go-booking-management-init/internal/domain/room"
 	"go-booking-management-init/pkg/api"
 
 	"github.com/gin-gonic/gin"
@@ -39,6 +40,15 @@ func MapError(c *gin.Context, err error) {
 		api.Error(c, http.StatusUnauthorized, "INVALID_CREDENTIALS", "Invalid email or password")
 	case errors.Is(err, appAuth.ErrInvalidRefreshToken):
 		api.Error(c, http.StatusUnauthorized, "INVALID_REFRESH_TOKEN", "Invalid or expired refresh token")
+	case errors.Is(err, domainRoom.ErrRoomNotFound):
+		api.Error(c, http.StatusNotFound, "ROOM_NOT_FOUND", "Room not found")
+	case errors.Is(err, domainRoom.ErrRoomNumberExists):
+		api.Error(c, http.StatusConflict, "ROOM_EXISTS", "Room number already exists")
+	case errors.Is(err, domainRoom.ErrInvalidRoomStatus),
+		errors.Is(err, domainRoom.ErrInvalidDateRange),
+		errors.Is(err, domainRoom.ErrPastDate),
+		errors.Is(err, domainRoom.ErrMissingDates):
+		api.Error(c, http.StatusBadRequest, "VALIDATION_ERROR", err.Error())
 	default:
 
 		api.Error(c, http.StatusInternalServerError, "SERVER_ERROR", "Internal server error")

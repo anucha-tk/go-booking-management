@@ -7,6 +7,9 @@ import (
 	"fmt"
 	"os"
 	"testing"
+	"time"
+
+	"github.com/google/uuid"
 
 	"go-booking-management-init/internal/domain/auth"
 
@@ -168,4 +171,71 @@ func TestWithTx(t *testing.T) {
 	_, err = repo.GetByEmail(ctx, email)
 	assert.Error(t, err)
 	assert.True(t, errors.Is(err, auth.ErrUserNotFound))
+}
+
+func TestAuthRepository_Tokens(t *testing.T) {
+	db, teardown := setupTestDB(t)
+	defer teardown()
+
+	repo := NewSQLCAuthRepository(db)
+	ctx := context.Background()
+
+	t.Run("Revoke and Check Token", func(t *testing.T) {
+		jti := uuid.NewString()
+		expiresAt := time.Now().Add(1 * time.Hour)
+
+		// Not revoked initially
+		revoked, err := repo.IsTokenRevoked(ctx, jti)
+		assert.NoError(t, err)
+		assert.False(t, revoked)
+
+		// Revoke
+		err = repo.RevokeToken(ctx, jti, expiresAt)
+		assert.NoError(t, err)
+
+		// Now should be revoked
+		revoked, err = repo.IsTokenRevoked(ctx, jti)
+		assert.NoError(t, err)
+		assert.True(t, revoked)
+	})
+
+	t.Run("Cleanup Expired Tokens", func(t *testing.T) {
+		// Revoke a token that is already expired
+		jti := uuid.NewString()
+		past := time.Now().Add(-1 * time.Hour)
+		_ = repo.RevokeToken(ctx, jti, past)
+
+		// Cleanup
+		err := repo.CleanupExpiredTokens(ctx)
+		assert.NoError(t, err)
+
+		// Should no longer be in DB (so IsTokenRevoked returns false)
+		revoked, _ := repo.IsTokenRevoked(ctx, jti)
+		assert.False(t, revoked)
+	})
+}
+
+func TestAuthRepository_GetByID(t *testing.T) {
+	db, teardown := setupTestDB(t)
+	defer teardown()
+
+	repo := NewSQLCAuthRepository(db)
+	ctx := context.Background()
+
+	email := uniqueEmail(t)
+	user := &auth.User{
+		Email:        email,
+		PasswordHash: "hash",
+		Role:         auth.RoleCustomer,
+	}
+
+	created, _ := repo.Create(ctx, user)
+
+	found, err := repo.GetByID(ctx, created.ID)
+	assert.NoError(t, err)
+	assert.Equal(t, created.ID, found.ID)
+	assert.Equal(t, email, found.Email)
+
+	// Cleanup
+	_, _ = db.Exec("DELETE FROM users WHERE id = $1", created.ID)
 }

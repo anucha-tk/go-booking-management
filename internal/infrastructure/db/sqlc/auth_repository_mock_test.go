@@ -48,6 +48,60 @@ func (m *mockQuerier) CleanupExpiredTokens(ctx context.Context) error {
 	return args.Error(0)
 }
 
+func (m *mockQuerier) CreateRoom(ctx context.Context, arg CreateRoomParams) (Room, error) {
+	args := m.Called(ctx, arg)
+	return args.Get(0).(Room), args.Error(1)
+}
+
+func (m *mockQuerier) DeleteRoom(ctx context.Context, id int32) error {
+	args := m.Called(ctx, id)
+	return args.Error(0)
+}
+
+func (m *mockQuerier) GetRoom(ctx context.Context, id int32) (Room, error) {
+	args := m.Called(ctx, id)
+	return args.Get(0).(Room), args.Error(1)
+}
+
+func (m *mockQuerier) GetRoomByNumber(ctx context.Context, roomNumber string) (Room, error) {
+	args := m.Called(ctx, roomNumber)
+	return args.Get(0).(Room), args.Error(1)
+}
+
+func (m *mockQuerier) ListAvailableRooms(ctx context.Context, arg ListAvailableRoomsParams) ([]Room, error) {
+	args := m.Called(ctx, arg)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).([]Room), args.Error(1)
+}
+
+func (m *mockQuerier) ListRooms(ctx context.Context, arg ListRoomsParams) ([]Room, error) {
+	args := m.Called(ctx, arg)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).([]Room), args.Error(1)
+}
+
+func (m *mockQuerier) UpdateRoom(ctx context.Context, arg UpdateRoomParams) (Room, error) {
+	args := m.Called(ctx, arg)
+	return args.Get(0).(Room), args.Error(1)
+}
+
+func (m *mockQuerier) UpdateRoomStatus(ctx context.Context, arg UpdateRoomStatusParams) (Room, error) {
+	args := m.Called(ctx, arg)
+	return args.Get(0).(Room), args.Error(1)
+}
+
+func (m *mockQuerier) ListBookingsByRoom(ctx context.Context, arg ListBookingsByRoomParams) ([]ListBookingsByRoomRow, error) {
+	args := m.Called(ctx, arg)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).([]ListBookingsByRoomRow), args.Error(1)
+}
+
 func TestSQLCAuthRepository_Create(t *testing.T) {
 	mq := new(mockQuerier)
 	repo := &SQLCAuthRepository{

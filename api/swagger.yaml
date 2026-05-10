@@ -46,6 +46,19 @@ definitions:
         example: error
         type: string
     type: object
+  dto.CreateRoomRequest:
+    properties:
+      price:
+        type: integer
+      roomNumber:
+        type: string
+      type:
+        type: string
+    required:
+    - price
+    - roomNumber
+    - type
+    type: object
   dto.LoginRequest:
     properties:
       email:
@@ -97,6 +110,46 @@ definitions:
       updatedAt:
         type: string
     type: object
+  dto.RoomResponse:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      price:
+        type: integer
+      roomNumber:
+        type: string
+      status:
+        type: string
+      type:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  dto.UpdateRoomRequest:
+    properties:
+      price:
+        type: integer
+      roomNumber:
+        type: string
+      status:
+        type: string
+      type:
+        type: string
+    required:
+    - price
+    - roomNumber
+    - status
+    - type
+    type: object
+  dto.UpdateRoomStatusRequest:
+    properties:
+      status:
+        type: string
+    required:
+    - status
+    type: object
   handler.HealthData:
     properties:
       database:
@@ -116,6 +169,40 @@ definitions:
         $ref: '#/definitions/handler.HealthData'
       status:
         example: success
+        type: string
+    type: object
+  room.Booking:
+    properties:
+      endDate:
+        type: string
+      id:
+        type: integer
+      roomId:
+        type: integer
+      startDate:
+        type: string
+      status:
+        type: string
+    type: object
+  room.Detail:
+    properties:
+      bookings:
+        items:
+          $ref: '#/definitions/room.Booking'
+        type: array
+      createdAt:
+        type: string
+      id:
+        type: integer
+      price:
+        type: integer
+      roomNumber:
+        type: string
+      status:
+        type: string
+      type:
+        type: string
+      updatedAt:
         type: string
     type: object
 host: localhost:8088
@@ -310,6 +397,57 @@ paths:
       summary: Register a new user
       tags:
       - auth
+  /v1/availability:
+    get:
+      description: get a list of available rooms for specific dates
+      parameters:
+      - description: Start date (YYYY-MM-DD)
+        in: query
+        name: start_date
+        required: true
+        type: string
+      - description: End date (YYYY-MM-DD)
+        in: query
+        name: end_date
+        required: true
+        type: string
+      - description: Filter by room type
+        in: query
+        name: type
+        type: string
+      - description: Filter by minimum price
+        in: query
+        name: price_min
+        type: integer
+      - description: Filter by maximum price
+        in: query
+        name: price_max
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/api.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.RoomResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Response'
+      summary: Search available rooms
+      tags:
+      - availability
   /v1/debug/routes:
     get:
       description: get all registered routes (Dev only)
@@ -343,6 +481,230 @@ paths:
       summary: Health Check
       tags:
       - health
+  /v1/rooms:
+    get:
+      description: get a list of all rooms with optional filtering
+      parameters:
+      - description: Filter by room type
+        in: query
+        name: type
+        type: string
+      - description: Filter by minimum price
+        in: query
+        name: price_min
+        type: integer
+      - description: Filter by maximum price
+        in: query
+        name: price_max
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/api.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.RoomResponse'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Response'
+      summary: List all rooms
+      tags:
+      - rooms
+    post:
+      consumes:
+      - application/json
+      description: add a new room to the system (Admin only)
+      parameters:
+      - description: Room details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateRoomRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/api.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.RoomResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/api.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Response'
+      security:
+      - Bearer: []
+      summary: Create a new room
+      tags:
+      - rooms
+  /v1/rooms/{id}:
+    delete:
+      description: remove a room from the system (Admin only)
+      parameters:
+      - description: Room ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/api.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Response'
+      security:
+      - Bearer: []
+      summary: Delete a room
+      tags:
+      - rooms
+    get:
+      description: get full details of a specific room including booking history
+      parameters:
+      - description: Room ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/api.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/room.Detail'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Response'
+      summary: Get room details
+      tags:
+      - rooms
+    put:
+      consumes:
+      - application/json
+      description: update an existing room (Admin only)
+      parameters:
+      - description: Room ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Room details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateRoomRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/api.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.RoomResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/api.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Response'
+      security:
+      - Bearer: []
+      summary: Update room details
+      tags:
+      - rooms
+  /v1/rooms/{id}/status:
+    patch:
+      consumes:
+      - application/json
+      description: update the status of a specific room (Admin/Officer)
+      parameters:
+      - description: Room ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Status details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateRoomStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/api.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.RoomResponse'
+              type: object
+      security:
+      - Bearer: []
+      summary: Update room status
+      tags:
+      - rooms
 securityDefinitions:
   Bearer:
     description: 'MANDATORY: Type "Bearer " followed by a space and your JWT token.

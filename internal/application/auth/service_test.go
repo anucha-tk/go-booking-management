@@ -73,9 +73,12 @@ func (m *MockTokenManager) ValidateToken(tokenStr string) (*pkgAuth.UserClaims, 
 	return args.Get(0).(*pkgAuth.UserClaims), args.Error(1)
 }
 
-func (m *MockTokenManager) ValidateRefreshToken(tokenStr string) (int32, error) {
+func (m *MockTokenManager) ValidateRefreshToken(tokenStr string) (*jwt.RegisteredClaims, error) {
 	args := m.Called(tokenStr)
-	return int32(args.Int(0)), args.Error(1)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*jwt.RegisteredClaims), args.Error(1)
 }
 
 func TestService_Register(t *testing.T) {
@@ -263,11 +266,18 @@ func TestService_RefreshToken(t *testing.T) {
 		refreshToken := "valid-refresh-token"
 		userID := int32(1)
 		user := &domain.User{ID: userID, Email: "test@example.com", Role: domain.RoleCustomer}
+		jti := "old-jti-123"
 
-		mockToken.On("ValidateRefreshToken", refreshToken).Return(int(userID), nil).Once()
+		mockToken.On("ValidateRefreshToken", refreshToken).Return(&jwt.RegisteredClaims{
+			ID:        jti,
+			Subject:   "1",
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
+		}, nil).Once()
+		mockRepo.On("IsTokenRevoked", ctx, jti).Return(false, nil).Once()
 		mockRepo.On("GetByID", ctx, userID).Return(user, nil).Once()
 		mockToken.On("GenerateToken", user.ID, user.Email, string(user.Role)).Return("new-access-token", nil).Once()
 		mockToken.On("GenerateRefreshToken", user.ID).Return("new-refresh-token", nil).Once()
+		mockRepo.On("RevokeToken", ctx, jti, mock.Anything).Return(nil).Once()
 
 		newAccessToken, newRefreshToken, err := service.RefreshToken(ctx, refreshToken)
 
@@ -280,7 +290,7 @@ func TestService_RefreshToken(t *testing.T) {
 
 	t.Run("invalid refresh token", func(t *testing.T) {
 		refreshToken := "invalid-token"
-		mockToken.On("ValidateRefreshToken", refreshToken).Return(0, errors.New("invalid")).Once()
+		mockToken.On("ValidateRefreshToken", refreshToken).Return(nil, errors.New("invalid")).Once()
 
 		newAccessToken, newRefreshToken, err := service.RefreshToken(ctx, refreshToken)
 
@@ -294,7 +304,13 @@ func TestService_RefreshToken(t *testing.T) {
 	t.Run("user not found", func(t *testing.T) {
 		refreshToken := "valid-token"
 		userID := int32(1)
-		mockToken.On("ValidateRefreshToken", refreshToken).Return(int(userID), nil).Once()
+		jti := "jti-user-not-found"
+
+		mockToken.On("ValidateRefreshToken", refreshToken).Return(&jwt.RegisteredClaims{
+			ID:      jti,
+			Subject: "1",
+		}, nil).Once()
+		mockRepo.On("IsTokenRevoked", ctx, jti).Return(false, nil).Once()
 		mockRepo.On("GetByID", ctx, userID).Return(nil, domain.ErrUserNotFound).Once()
 
 		newAccessToken, newRefreshToken, err := service.RefreshToken(ctx, refreshToken)
@@ -452,7 +468,13 @@ func TestService_RefreshToken_AdditionalErrors(t *testing.T) {
 	t.Run("get by id generic error", func(t *testing.T) {
 		refreshToken := "some-token"
 		userID := int32(1)
-		mockToken.On("ValidateRefreshToken", refreshToken).Return(int(userID), nil).Once()
+		jti := "jti-db-error"
+
+		mockToken.On("ValidateRefreshToken", refreshToken).Return(&jwt.RegisteredClaims{
+			ID:      jti,
+			Subject: "1",
+		}, nil).Once()
+		mockRepo.On("IsTokenRevoked", ctx, jti).Return(false, nil).Once()
 		mockRepo.On("GetByID", ctx, userID).Return(nil, errors.New("connection error")).Once()
 
 		newAccessToken, newRefreshToken, err := service.RefreshToken(ctx, refreshToken)
@@ -469,7 +491,13 @@ func TestService_RefreshToken_AdditionalErrors(t *testing.T) {
 		refreshToken := "some-token"
 		userID := int32(1)
 		user := &domain.User{ID: userID, Email: "test@example.com", Role: domain.RoleCustomer}
-		mockToken.On("ValidateRefreshToken", refreshToken).Return(int(userID), nil).Once()
+		jti := "jti-gen-access-fail"
+
+		mockToken.On("ValidateRefreshToken", refreshToken).Return(&jwt.RegisteredClaims{
+			ID:      jti,
+			Subject: "1",
+		}, nil).Once()
+		mockRepo.On("IsTokenRevoked", ctx, jti).Return(false, nil).Once()
 		mockRepo.On("GetByID", ctx, userID).Return(user, nil).Once()
 		mockToken.On("GenerateToken", user.ID, user.Email, string(user.Role)).Return("", errors.New("gen error")).Once()
 
@@ -487,7 +515,13 @@ func TestService_RefreshToken_AdditionalErrors(t *testing.T) {
 		refreshToken := "some-token"
 		userID := int32(1)
 		user := &domain.User{ID: userID, Email: "test@example.com", Role: domain.RoleCustomer}
-		mockToken.On("ValidateRefreshToken", refreshToken).Return(int(userID), nil).Once()
+		jti := "jti-gen-refresh-fail"
+
+		mockToken.On("ValidateRefreshToken", refreshToken).Return(&jwt.RegisteredClaims{
+			ID:      jti,
+			Subject: "1",
+		}, nil).Once()
+		mockRepo.On("IsTokenRevoked", ctx, jti).Return(false, nil).Once()
 		mockRepo.On("GetByID", ctx, userID).Return(user, nil).Once()
 		mockToken.On("GenerateToken", user.ID, user.Email, string(user.Role)).Return("new-access", nil).Once()
 		mockToken.On("GenerateRefreshToken", user.ID).Return("", errors.New("gen error")).Once()
@@ -496,6 +530,25 @@ func TestService_RefreshToken_AdditionalErrors(t *testing.T) {
 
 		assert.Error(t, err)
 		assert.Contains(t, err.Error(), "failed to generate refresh token")
+		assert.Empty(t, newAccessToken)
+		assert.Empty(t, newRefreshToken)
+		mockRepo.AssertExpectations(t)
+		mockToken.AssertExpectations(t)
+	})
+
+	t.Run("revoked token", func(t *testing.T) {
+		refreshToken := "revoked-token"
+		jti := "jti-revoked"
+
+		mockToken.On("ValidateRefreshToken", refreshToken).Return(&jwt.RegisteredClaims{
+			ID: jti,
+		}, nil).Once()
+		mockRepo.On("IsTokenRevoked", ctx, jti).Return(true, nil).Once()
+
+		newAccessToken, newRefreshToken, err := service.RefreshToken(ctx, refreshToken)
+
+		assert.Error(t, err)
+		assert.Equal(t, ErrInvalidRefreshToken, err)
 		assert.Empty(t, newAccessToken)
 		assert.Empty(t, newRefreshToken)
 		mockRepo.AssertExpectations(t)

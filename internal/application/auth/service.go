@@ -8,6 +8,7 @@ import (
 	"go-booking-management-init/pkg/api"
 	pkgAuth "go-booking-management-init/pkg/auth"
 	"log/slog"
+	"strconv"
 	"strings"
 
 	"github.com/go-playground/validator/v10"
@@ -148,11 +149,28 @@ func (s *service) Login(ctx context.Context, email, password string) (string, st
 }
 
 func (s *service) RefreshToken(ctx context.Context, refreshToken string) (string, string, error) {
-	userID, err := s.tokenManager.ValidateRefreshToken(refreshToken)
+	claims, err := s.tokenManager.ValidateRefreshToken(refreshToken)
 	if err != nil {
 		slog.WarnContext(ctx, "invalid refresh token attempt", "err", err)
 		return "", "", ErrInvalidRefreshToken
 	}
+
+	// Check if refresh token is revoked
+	revoked, err := s.userRepo.IsTokenRevoked(ctx, claims.ID)
+	if err != nil {
+		slog.ErrorContext(ctx, "failed to check if refresh token is revoked", "jti", claims.ID, "err", err)
+		return "", "", fmt.Errorf("failed to check revocation: %w", err)
+	}
+	if revoked {
+		slog.WarnContext(ctx, "attempted use of revoked refresh token", "jti", claims.ID)
+		return "", "", ErrInvalidRefreshToken
+	}
+
+	userID64, err := strconv.ParseInt(claims.Subject, 10, 32)
+	if err != nil {
+		return "", "", ErrInvalidRefreshToken
+	}
+	userID := int32(userID64)
 
 	// Fetch user to get current email and role
 	user, err := s.userRepo.GetByID(ctx, userID)
@@ -177,7 +195,13 @@ func (s *service) RefreshToken(ctx context.Context, refreshToken string) (string
 		return "", "", fmt.Errorf("failed to generate refresh token: %w", err)
 	}
 
-	slog.InfoContext(ctx, "token refreshed successfully", "user_id", user.ID)
+	// Revoke the old refresh token to prevent reuse (rolling refresh strategy)
+	if err := s.userRepo.RevokeToken(ctx, claims.ID, claims.ExpiresAt.Time); err != nil {
+		slog.ErrorContext(ctx, "failed to revoke old refresh token during refresh", "jti", claims.ID, "err", err)
+		// We don't return error here because the new tokens are already generated and valid
+	}
+
+	slog.InfoContext(ctx, "token refreshed successfully", "user_id", user.ID, "old_jti", claims.ID)
 	return newAccessToken, newRefreshToken, nil
 }
 

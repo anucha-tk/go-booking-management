@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -22,7 +21,7 @@ type TokenManager interface {
 	GenerateToken(userID int32, email string, role string) (string, error)
 	GenerateRefreshToken(userID int32) (string, error)
 	ValidateToken(tokenStr string) (*UserClaims, error)
-	ValidateRefreshToken(tokenStr string) (int32, error)
+	ValidateRefreshToken(tokenStr string) (*jwt.RegisteredClaims, error)
 }
 
 type JWTManager struct {
@@ -34,7 +33,7 @@ type JWTManager struct {
 func NewJWTManager() *JWTManager {
 	secretKey := os.Getenv("JWT_SECRET")
 	if secretKey == "" {
-		// Log warning and use fallback for dev; in production this should be a fatal configuration error
+		// Log warning and use fallback for dev; in production this should be a fallback for dev; in production this should be a fatal configuration error
 		fmt.Println("WARNING: JWT_SECRET not set, using insecure default-secret")
 		secretKey = "default-secret"
 	}
@@ -114,7 +113,7 @@ func (m *JWTManager) ValidateToken(tokenStr string) (*UserClaims, error) {
 	return nil, errors.New("invalid token")
 }
 
-func (m *JWTManager) ValidateRefreshToken(tokenStr string) (int32, error) {
+func (m *JWTManager) ValidateRefreshToken(tokenStr string) (*jwt.RegisteredClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenStr, &jwt.RegisteredClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("unexpected signing method")
@@ -123,16 +122,12 @@ func (m *JWTManager) ValidateRefreshToken(tokenStr string) (int32, error) {
 	})
 
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 
 	if claims, ok := token.Claims.(*jwt.RegisteredClaims); ok && token.Valid {
-		id, err := strconv.ParseInt(claims.Subject, 10, 32)
-		if err != nil {
-			return 0, errors.New("invalid subject in refresh token")
-		}
-		return int32(id), nil
+		return claims, nil
 	}
 
-	return 0, errors.New("invalid refresh token")
+	return nil, errors.New("invalid refresh token")
 }

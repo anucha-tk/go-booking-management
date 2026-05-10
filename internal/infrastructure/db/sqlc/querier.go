@@ -12,11 +12,20 @@ import (
 
 type Querier interface {
 	CleanupExpiredTokens(ctx context.Context) error
+	CreateRoom(ctx context.Context, arg CreateRoomParams) (Room, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
+	DeleteRoom(ctx context.Context, id int32) error
+	GetRoom(ctx context.Context, id int32) (Room, error)
+	GetRoomByNumber(ctx context.Context, roomNumber string) (Room, error)
 	GetUserByEmail(ctx context.Context, email string) (User, error)
 	GetUserByID(ctx context.Context, id int32) (User, error)
 	IsTokenRevoked(ctx context.Context, jti uuid.UUID) (bool, error)
+	ListAvailableRooms(ctx context.Context, arg ListAvailableRoomsParams) ([]Room, error)
+	ListBookingsByRoom(ctx context.Context, arg ListBookingsByRoomParams) ([]ListBookingsByRoomRow, error)
+	ListRooms(ctx context.Context, arg ListRoomsParams) ([]Room, error)
 	RevokeToken(ctx context.Context, arg RevokeTokenParams) error
+	UpdateRoom(ctx context.Context, arg UpdateRoomParams) (Room, error)
+	UpdateRoomStatus(ctx context.Context, arg UpdateRoomStatusParams) (Room, error)
 }
 
 var _ Querier = (*Queries)(nil)

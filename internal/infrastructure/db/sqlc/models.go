@@ -10,10 +10,32 @@ import (
 	"github.com/google/uuid"
 )
 
+type Booking struct {
+	ID         int32     `json:"id"`
+	UserID     int32     `json:"user_id"`
+	RoomID     int32     `json:"room_id"`
+	StartDate  time.Time `json:"start_date"`
+	EndDate    time.Time `json:"end_date"`
+	TotalPrice int64     `json:"total_price"`
+	Status     string    `json:"status"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
+}
+
 type RevokedToken struct {
 	Jti       uuid.UUID `json:"jti"`
 	ExpiresAt time.Time `json:"expires_at"`
 	CreatedAt time.Time `json:"created_at"`
+}
+
+type Room struct {
+	ID         int32     `json:"id"`
+	RoomNumber string    `json:"room_number"`
+	Type       string    `json:"type"`
+	Price      int64     `json:"price"`
+	Status     string    `json:"status"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
 }
 
 type User struct {

@@ -28,9 +28,10 @@ type Router struct {
 	tokenManager pkgAuth.TokenManager
 	authService  applicationAuth.Service
 	userHandler  *handler.UserHandler
+	roomHandler  *handler.RoomHandler
 }
 
-func NewRouter(config Config, tokenManager pkgAuth.TokenManager, authService applicationAuth.Service, userHandler *handler.UserHandler) *Router {
+func NewRouter(config Config, tokenManager pkgAuth.TokenManager, authService applicationAuth.Service, userHandler *handler.UserHandler, roomHandler *handler.RoomHandler) *Router {
 	// Set Gin mode based on environment or default to release to keep it clean
 	env := os.Getenv("APP_ENV")
 	if env != "development" && env != "local" && os.Getenv("GIN_MODE") != "debug" {
@@ -62,6 +63,7 @@ func NewRouter(config Config, tokenManager pkgAuth.TokenManager, authService app
 		tokenManager: tokenManager,
 		authService:  authService,
 		userHandler:  userHandler,
+		roomHandler:  roomHandler,
 	}
 }
 
@@ -72,7 +74,7 @@ func (r *Router) Engine() *gin.Engine {
 func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandler *handler.AuthHandler, systemHandler *handler.SystemHandler) http.Handler {
 	v1 := r.engine.Group("/v1")
 	{
-		r.registerV1Routes(v1, healthHandler, authHandler, systemHandler, r.userHandler)
+		r.registerV1Routes(v1, healthHandler, authHandler, systemHandler, r.userHandler, r.roomHandler)
 	}
 
 	// Redirect root to /v1
@@ -83,7 +85,7 @@ func (r *Router) RegisterRoutes(healthHandler *handler.HealthHandler, authHandle
 	return r.engine
 }
 
-func (r *Router) registerV1Routes(rg *gin.RouterGroup, healthHandler *handler.HealthHandler, authHandler *handler.AuthHandler, systemHandler *handler.SystemHandler, userHandler *handler.UserHandler) {
+func (r *Router) registerV1Routes(rg *gin.RouterGroup, healthHandler *handler.HealthHandler, authHandler *handler.AuthHandler, systemHandler *handler.SystemHandler, userHandler *handler.UserHandler, roomHandler *handler.RoomHandler) {
 	// Health & Auth (Public)
 	rg.GET("/health", healthHandler.HealthCheck)
 	rg.POST("/auth/register", authHandler.Register)
@@ -103,8 +105,23 @@ func (r *Router) registerV1Routes(rg *gin.RouterGroup, healthHandler *handler.He
 		adminOnly.Use(middleware.RolesAllowed(auth.RoleAdmin))
 		{
 			adminOnly.GET("/users", userHandler.ListUsers)
+			adminOnly.POST("/rooms", roomHandler.CreateRoom)
+			adminOnly.PUT("/rooms/:id", roomHandler.UpdateRoom)
+			adminOnly.DELETE("/rooms/:id", roomHandler.DeleteRoom)
+		}
+
+		// Admin & Staff routes
+		staffRoutes := authRequired.Group("/rooms")
+		staffRoutes.Use(middleware.RolesAllowed(auth.RoleAdmin, auth.RoleOfficer))
+		{
+			staffRoutes.PATCH("/:id/status", roomHandler.UpdateRoomStatus)
 		}
 	}
+
+	// Public Room Routes
+	rg.GET("/rooms", roomHandler.ListRooms)
+	rg.GET("/rooms/:id", roomHandler.GetRoom)
+	rg.GET("/availability", roomHandler.SearchAvailability)
 
 	// Debug routes (Dev only)
 	env := os.Getenv("APP_ENV")
