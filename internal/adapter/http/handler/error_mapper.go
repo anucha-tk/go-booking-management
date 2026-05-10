@@ -6,6 +6,7 @@ import (
 
 	appAuth "go-booking-management-init/internal/application/auth"
 	domainAuth "go-booking-management-init/internal/domain/auth"
+	domainBooking "go-booking-management-init/internal/domain/booking"
 	domainRoom "go-booking-management-init/internal/domain/room"
 	"go-booking-management-init/pkg/api"
 
@@ -44,13 +45,22 @@ func MapError(c *gin.Context, err error) {
 		api.Error(c, http.StatusNotFound, "ROOM_NOT_FOUND", "Room not found")
 	case errors.Is(err, domainRoom.ErrRoomNumberExists):
 		api.Error(c, http.StatusConflict, "ROOM_EXISTS", "Room number already exists")
+	case errors.Is(err, domainBooking.ErrBookingNotFound):
+		api.Error(c, http.StatusNotFound, "BOOKING_NOT_FOUND", "Booking not found")
+	case errors.Is(err, domainBooking.ErrBookingConflict):
+		api.Error(c, http.StatusConflict, "BOOKING_CONFLICT", "Booking conflict")
+	case errors.Is(err, domainBooking.ErrRoomNotAvailable):
+		api.Error(c, http.StatusConflict, "ROOM_NOT_AVAILABLE", "Room is not available for the selected dates")
+	case errors.Is(err, domainBooking.ErrInvalidBookingDates):
+		api.Error(c, http.StatusBadRequest, "INVALID_DATES", "Invalid booking dates")
+	case errors.Is(err, domainBooking.ErrUnauthorized):
+		api.Error(c, http.StatusForbidden, "UNAUTHORIZED", "Unauthorized to access this booking")
 	case errors.Is(err, domainRoom.ErrInvalidRoomStatus),
 		errors.Is(err, domainRoom.ErrInvalidDateRange),
 		errors.Is(err, domainRoom.ErrPastDate),
 		errors.Is(err, domainRoom.ErrMissingDates):
 		api.Error(c, http.StatusBadRequest, "VALIDATION_ERROR", err.Error())
 	default:
-
 		api.Error(c, http.StatusInternalServerError, "SERVER_ERROR", "Internal server error")
 	}
 }

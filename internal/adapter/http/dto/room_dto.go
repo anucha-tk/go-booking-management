@@ -50,7 +50,7 @@ type RoomResponse struct {
 	UpdatedAt  string `json:"updatedAt"`
 }
 
-type BookingResponse struct {
+type RoomBookingResponse struct {
 	ID        int32  `json:"id"`
 	RoomID    int32  `json:"roomId"`
 	StartDate string `json:"startDate"`
@@ -60,7 +60,7 @@ type BookingResponse struct {
 
 type RoomDetailResponse struct {
 	RoomResponse
-	Bookings []BookingResponse `json:"bookings"`
+	Bookings []RoomBookingResponse `json:"bookings"`
 }
 
 func ToRoomResponse(rm *room.Room) *RoomResponse {
@@ -90,9 +90,9 @@ func ToRoomDetailResponse(detail *room.Detail) *RoomDetailResponse {
 	if detail == nil {
 		return nil
 	}
-	bookings := make([]BookingResponse, len(detail.Bookings))
+	bookings := make([]RoomBookingResponse, len(detail.Bookings))
 	for i, b := range detail.Bookings {
-		bookings[i] = BookingResponse{
+		bookings[i] = RoomBookingResponse{
 			ID:        b.ID,
 			RoomID:    b.RoomID,
 			StartDate: b.StartDate.Format("2006-01-02"),

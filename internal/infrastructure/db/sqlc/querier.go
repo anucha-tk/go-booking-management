@@ -12,18 +12,24 @@ import (
 
 type Querier interface {
 	CleanupExpiredTokens(ctx context.Context) error
+	CreateBooking(ctx context.Context, arg CreateBookingParams) (Booking, error)
+	CreateBookingSafe(ctx context.Context, arg CreateBookingSafeParams) (Booking, error)
 	CreateRoom(ctx context.Context, arg CreateRoomParams) (Room, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	DeleteRoom(ctx context.Context, id int32) error
+	GetBooking(ctx context.Context, id int32) (Booking, error)
 	GetRoom(ctx context.Context, id int32) (Room, error)
 	GetRoomByNumber(ctx context.Context, roomNumber string) (Room, error)
 	GetUserByEmail(ctx context.Context, email string) (User, error)
 	GetUserByID(ctx context.Context, id int32) (User, error)
 	IsTokenRevoked(ctx context.Context, jti uuid.UUID) (bool, error)
+	ListAllBookings(ctx context.Context) ([]ListAllBookingsRow, error)
 	ListAvailableRooms(ctx context.Context, arg ListAvailableRoomsParams) ([]Room, error)
 	ListBookingsByRoom(ctx context.Context, arg ListBookingsByRoomParams) ([]ListBookingsByRoomRow, error)
+	ListBookingsByUser(ctx context.Context, userID int32) ([]Booking, error)
 	ListRooms(ctx context.Context, arg ListRoomsParams) ([]Room, error)
 	RevokeToken(ctx context.Context, arg RevokeTokenParams) error
+	UpdateBookingStatus(ctx context.Context, arg UpdateBookingStatusParams) (Booking, error)
 	UpdateRoom(ctx context.Context, arg UpdateRoomParams) (Room, error)
 	UpdateRoomStatus(ctx context.Context, arg UpdateRoomStatusParams) (Room, error)
 }

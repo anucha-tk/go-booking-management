@@ -14,6 +14,7 @@ import (
 	adapterHttp "go-booking-management-init/internal/adapter/http"
 	"go-booking-management-init/internal/adapter/http/handler"
 	"go-booking-management-init/internal/application/auth"
+	bookingApp "go-booking-management-init/internal/application/booking"
 	roomApp "go-booking-management-init/internal/application/room"
 	"go-booking-management-init/internal/database"
 	"go-booking-management-init/internal/domain/room"
@@ -46,6 +47,7 @@ func NewServer() (*http.Server, *adapterHttp.Router) {
 	// Initialize repositories
 	userRepo := sqlcDB.NewSQLCAuthRepository(db.DB())
 	roomRepo := sqlcDB.NewSQLCRoomRepository(db.DB())
+	bookingRepo := sqlcDB.NewSQLCBookingRepository(db.DB())
 
 	// Initialize token manager
 	tokenManager := pkgAuth.NewJWTManager()
@@ -61,12 +63,14 @@ func NewServer() (*http.Server, *adapterHttp.Router) {
 			{ID: 2001, RoomNumber: "PB-201", Type: "Suite", Price: 3000, Status: room.StatusAvailable},
 		}),
 	})
+	bookingService := bookingApp.NewService(bookingRepo, roomRepo)
 
 	// Initialize handlers
 	healthHandler := handler.NewHealthHandler(db)
 	authHandler := handler.NewAuthHandler(authService)
 	userHandler := handler.NewUserHandler()
 	roomHandler := handler.NewRoomHandler(roomService)
+	bookingHandler := handler.NewBookingHandler(bookingService)
 
 	// Fetch router config from environment
 
@@ -85,7 +89,7 @@ func NewServer() (*http.Server, *adapterHttp.Router) {
 	router := adapterHttp.NewRouter(adapterHttp.Config{
 		AllowOrigins: allowOrigins,
 		SwaggerPath:  swaggerPath,
-	}, tokenManager, authService, userHandler, roomHandler)
+	}, tokenManager, authService, userHandler, roomHandler, bookingHandler)
 
 	systemHandler := handler.NewSystemHandler(router.Engine())
 

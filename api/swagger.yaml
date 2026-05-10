@@ -46,6 +46,63 @@ definitions:
         example: error
         type: string
     type: object
+  dto.AdminBookingResponse:
+    properties:
+      createdAt:
+        type: string
+      endDate:
+        type: string
+      id:
+        type: integer
+      roomId:
+        type: integer
+      roomNumber:
+        type: string
+      roomType:
+        type: string
+      startDate:
+        type: string
+      status:
+        type: string
+      totalPrice:
+        type: integer
+      userEmail:
+        type: string
+      userId:
+        type: integer
+    type: object
+  dto.BookingResponse:
+    properties:
+      createdAt:
+        type: string
+      endDate:
+        type: string
+      id:
+        type: integer
+      roomId:
+        type: integer
+      startDate:
+        type: string
+      status:
+        type: string
+      totalPrice:
+        type: integer
+      userId:
+        type: integer
+    type: object
+  dto.CreateBookingRequest:
+    properties:
+      endDate:
+        type: string
+      roomId:
+        type: integer
+      startDate:
+        type: string
+    required:
+    - endDate
+    - roomId
+    - startDate
+    type: object
   dto.CreateRoomRequest:
     properties:
       price:
@@ -149,6 +206,29 @@ definitions:
         type: string
     required:
     - status
+    type: object
+  dto.UserBookingResponse:
+    properties:
+      createdAt:
+        type: string
+      endDate:
+        type: string
+      id:
+        type: integer
+      roomId:
+        type: integer
+      roomNumber:
+        type: string
+      roomType:
+        type: string
+      startDate:
+        type: string
+      status:
+        type: string
+      totalPrice:
+        type: integer
+      userId:
+        type: integer
     type: object
   handler.HealthData:
     properties:
@@ -448,6 +528,121 @@ paths:
       summary: Search available rooms
       tags:
       - availability
+  /v1/bookings:
+    get:
+      description: get a complete list of all bookings in the system (Admin/Officer
+        only)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/api.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.AdminBookingResponse'
+                  type: array
+              type: object
+      security:
+      - Bearer: []
+      summary: List all bookings
+      tags:
+      - bookings
+    post:
+      consumes:
+      - application/json
+      description: create a new booking for the authenticated user
+      parameters:
+      - description: Booking details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateBookingRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/api.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.BookingResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api.Response'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/api.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Response'
+      security:
+      - Bearer: []
+      summary: Submit a booking request
+      tags:
+      - bookings
+  /v1/bookings/{id}/cancel:
+    post:
+      description: cancel an existing booking for the authenticated user
+      parameters:
+      - description: Booking ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/api.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.BookingResponse'
+              type: object
+      security:
+      - Bearer: []
+      summary: Cancel a booking
+      tags:
+      - bookings
+  /v1/bookings/me:
+    get:
+      description: get a list of bookings for the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/api.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.UserBookingResponse'
+                  type: array
+              type: object
+      security:
+      - Bearer: []
+      summary: Get current user's bookings
+      tags:
+      - bookings
   /v1/debug/routes:
     get:
       description: get all registered routes (Dev only)

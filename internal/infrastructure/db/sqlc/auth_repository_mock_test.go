@@ -102,6 +102,42 @@ func (m *mockQuerier) ListBookingsByRoom(ctx context.Context, arg ListBookingsBy
 	return args.Get(0).([]ListBookingsByRoomRow), args.Error(1)
 }
 
+func (m *mockQuerier) CreateBooking(ctx context.Context, arg CreateBookingParams) (Booking, error) {
+	args := m.Called(ctx, arg)
+	return args.Get(0).(Booking), args.Error(1)
+}
+
+func (m *mockQuerier) CreateBookingSafe(ctx context.Context, arg CreateBookingSafeParams) (Booking, error) {
+	args := m.Called(ctx, arg)
+	return args.Get(0).(Booking), args.Error(1)
+}
+
+func (m *mockQuerier) GetBooking(ctx context.Context, id int32) (Booking, error) {
+	args := m.Called(ctx, id)
+	return args.Get(0).(Booking), args.Error(1)
+}
+
+func (m *mockQuerier) ListAllBookings(ctx context.Context) ([]ListAllBookingsRow, error) {
+	args := m.Called(ctx)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).([]ListAllBookingsRow), args.Error(1)
+}
+
+func (m *mockQuerier) ListBookingsByUser(ctx context.Context, userID int32) ([]Booking, error) {
+	args := m.Called(ctx, userID)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).([]Booking), args.Error(1)
+}
+
+func (m *mockQuerier) UpdateBookingStatus(ctx context.Context, arg UpdateBookingStatusParams) (Booking, error) {
+	args := m.Called(ctx, arg)
+	return args.Get(0).(Booking), args.Error(1)
+}
+
 func TestSQLCAuthRepository_Create(t *testing.T) {
 	mq := new(mockQuerier)
 	repo := &SQLCAuthRepository{

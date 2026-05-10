@@ -10,6 +10,177 @@ import (
 	"time"
 )
 
+const createBooking = `-- name: CreateBooking :one
+INSERT INTO bookings (
+    user_id, room_id, start_date, end_date, total_price, status
+) VALUES (
+    $1, $2, $3, $4, $5, $6
+) RETURNING id, user_id, room_id, start_date, end_date, total_price, status, created_at, updated_at
+`
+
+type CreateBookingParams struct {
+	UserID     int32     `json:"user_id"`
+	RoomID     int32     `json:"room_id"`
+	StartDate  time.Time `json:"start_date"`
+	EndDate    time.Time `json:"end_date"`
+	TotalPrice int64     `json:"total_price"`
+	Status     string    `json:"status"`
+}
+
+func (q *Queries) CreateBooking(ctx context.Context, arg CreateBookingParams) (Booking, error) {
+	row := q.db.QueryRowContext(ctx, createBooking,
+		arg.UserID,
+		arg.RoomID,
+		arg.StartDate,
+		arg.EndDate,
+		arg.TotalPrice,
+		arg.Status,
+	)
+	var i Booking
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.RoomID,
+		&i.StartDate,
+		&i.EndDate,
+		&i.TotalPrice,
+		&i.Status,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
+const createBookingSafe = `-- name: CreateBookingSafe :one
+INSERT INTO bookings (
+    user_id, room_id, start_date, end_date, total_price, status
+)
+SELECT $1, $2, $3, $4, $5, $6
+WHERE NOT EXISTS (
+    SELECT 1 FROM bookings
+    WHERE room_id = $2
+    AND status = 'confirmed'
+    AND (
+        (start_date, end_date) OVERLAPS ($3, $4)
+    )
+)
+RETURNING id, user_id, room_id, start_date, end_date, total_price, status, created_at, updated_at
+`
+
+type CreateBookingSafeParams struct {
+	UserID     int32     `json:"user_id"`
+	RoomID     int32     `json:"room_id"`
+	StartDate  time.Time `json:"start_date"`
+	EndDate    time.Time `json:"end_date"`
+	TotalPrice int64     `json:"total_price"`
+	Status     string    `json:"status"`
+}
+
+func (q *Queries) CreateBookingSafe(ctx context.Context, arg CreateBookingSafeParams) (Booking, error) {
+	row := q.db.QueryRowContext(ctx, createBookingSafe,
+		arg.UserID,
+		arg.RoomID,
+		arg.StartDate,
+		arg.EndDate,
+		arg.TotalPrice,
+		arg.Status,
+	)
+	var i Booking
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.RoomID,
+		&i.StartDate,
+		&i.EndDate,
+		&i.TotalPrice,
+		&i.Status,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
+const getBooking = `-- name: GetBooking :one
+SELECT id, user_id, room_id, start_date, end_date, total_price, status, created_at, updated_at FROM bookings
+WHERE id = $1
+`
+
+func (q *Queries) GetBooking(ctx context.Context, id int32) (Booking, error) {
+	row := q.db.QueryRowContext(ctx, getBooking, id)
+	var i Booking
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.RoomID,
+		&i.StartDate,
+		&i.EndDate,
+		&i.TotalPrice,
+		&i.Status,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
+const listAllBookings = `-- name: ListAllBookings :many
+SELECT b.id, b.user_id, b.room_id, b.start_date, b.end_date, b.total_price, b.status, b.created_at, b.updated_at, u.email as user_email, r.room_number, r.type as room_type
+FROM bookings b
+JOIN users u ON b.user_id = u.id
+JOIN rooms r ON b.room_id = r.id
+ORDER BY b.created_at DESC
+`
+
+type ListAllBookingsRow struct {
+	ID         int32     `json:"id"`
+	UserID     int32     `json:"user_id"`
+	RoomID     int32     `json:"room_id"`
+	StartDate  time.Time `json:"start_date"`
+	EndDate    time.Time `json:"end_date"`
+	TotalPrice int64     `json:"total_price"`
+	Status     string    `json:"status"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
+	UserEmail  string    `json:"user_email"`
+	RoomNumber string    `json:"room_number"`
+	RoomType   string    `json:"room_type"`
+}
+
+func (q *Queries) ListAllBookings(ctx context.Context) ([]ListAllBookingsRow, error) {
+	rows, err := q.db.QueryContext(ctx, listAllBookings)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ListAllBookingsRow
+	for rows.Next() {
+		var i ListAllBookingsRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.RoomID,
+			&i.StartDate,
+			&i.EndDate,
+			&i.TotalPrice,
+			&i.Status,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.UserEmail,
+			&i.RoomNumber,
+			&i.RoomType,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listBookingsByRoom = `-- name: ListBookingsByRoom :many
 SELECT id, room_id, start_date, end_date, status
 FROM bookings
@@ -58,4 +229,72 @@ func (q *Queries) ListBookingsByRoom(ctx context.Context, arg ListBookingsByRoom
 		return nil, err
 	}
 	return items, nil
+}
+
+const listBookingsByUser = `-- name: ListBookingsByUser :many
+SELECT id, user_id, room_id, start_date, end_date, total_price, status, created_at, updated_at FROM bookings
+WHERE user_id = $1
+ORDER BY created_at DESC
+`
+
+func (q *Queries) ListBookingsByUser(ctx context.Context, userID int32) ([]Booking, error) {
+	rows, err := q.db.QueryContext(ctx, listBookingsByUser, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Booking
+	for rows.Next() {
+		var i Booking
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.RoomID,
+			&i.StartDate,
+			&i.EndDate,
+			&i.TotalPrice,
+			&i.Status,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const updateBookingStatus = `-- name: UpdateBookingStatus :one
+UPDATE bookings
+SET status = $2, updated_at = CURRENT_TIMESTAMP
+WHERE id = $1
+RETURNING id, user_id, room_id, start_date, end_date, total_price, status, created_at, updated_at
+`
+
+type UpdateBookingStatusParams struct {
+	ID     int32  `json:"id"`
+	Status string `json:"status"`
+}
+
+func (q *Queries) UpdateBookingStatus(ctx context.Context, arg UpdateBookingStatusParams) (Booking, error) {
+	row := q.db.QueryRowContext(ctx, updateBookingStatus, arg.ID, arg.Status)
+	var i Booking
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.RoomID,
+		&i.StartDate,
+		&i.EndDate,
+		&i.TotalPrice,
+		&i.Status,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
 }
