@@ -187,6 +187,14 @@ func TestRoomHandler_GetRoom(t *testing.T) {
 
 		assert.Equal(t, http.StatusNotFound, w.Code)
 	})
+
+	t.Run("invalid id", func(t *testing.T) {
+		req := httptest.NewRequest(http.MethodGet, "/rooms/abc", nil)
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusBadRequest, w.Code)
+	})
 }
 
 func TestRoomHandler_ListRooms(t *testing.T) {
@@ -206,6 +214,14 @@ func TestRoomHandler_ListRooms(t *testing.T) {
 		r.ServeHTTP(w, req)
 
 		assert.Equal(t, http.StatusOK, w.Code)
+	})
+
+	t.Run("binding error", func(t *testing.T) {
+		req := httptest.NewRequest(http.MethodGet, "/rooms?limit=abc", nil)
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusBadRequest, w.Code)
 	})
 }
 
@@ -238,6 +254,44 @@ func TestRoomHandler_UpdateRoom(t *testing.T) {
 
 		assert.Equal(t, http.StatusOK, w.Code)
 	})
+
+	t.Run("invalid id", func(t *testing.T) {
+		req := httptest.NewRequest(http.MethodPut, "/rooms/abc", nil)
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusBadRequest, w.Code)
+	})
+
+	t.Run("validation error", func(t *testing.T) {
+		reqBody := dto.UpdateRoomRequest{
+			RoomNumber: "", // Required
+		}
+		jsonBody, _ := json.Marshal(reqBody)
+		req := httptest.NewRequest(http.MethodPut, "/rooms/1", bytes.NewBuffer(jsonBody))
+		req.Header.Set("Content-Type", "application/json")
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusBadRequest, w.Code)
+	})
+
+	t.Run("not found", func(t *testing.T) {
+		mockRepo.On("Update", mock.Anything, mock.Anything).Return(nil, room.ErrRoomNotFound).Once()
+		reqBody := dto.UpdateRoomRequest{
+			RoomNumber: "102",
+			Type:       "Suite",
+			Price:      2000,
+			Status:     "available",
+		}
+		jsonBody, _ := json.Marshal(reqBody)
+		req := httptest.NewRequest(http.MethodPut, "/rooms/99", bytes.NewBuffer(jsonBody))
+		req.Header.Set("Content-Type", "application/json")
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusNotFound, w.Code)
+	})
 }
 
 func TestRoomHandler_DeleteRoom(t *testing.T) {
@@ -257,6 +311,24 @@ func TestRoomHandler_DeleteRoom(t *testing.T) {
 		r.ServeHTTP(w, req)
 
 		assert.Equal(t, http.StatusOK, w.Code)
+	})
+
+	t.Run("invalid id", func(t *testing.T) {
+		req := httptest.NewRequest(http.MethodDelete, "/rooms/abc", nil)
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusBadRequest, w.Code)
+	})
+
+	t.Run("not found", func(t *testing.T) {
+		mockRepo.On("Delete", mock.Anything, int32(99)).Return(room.ErrRoomNotFound).Once()
+
+		req := httptest.NewRequest(http.MethodDelete, "/rooms/99", nil)
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+
+		assert.Equal(t, http.StatusNotFound, w.Code)
 	})
 }
 

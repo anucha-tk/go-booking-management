@@ -2,6 +2,8 @@ package db
 
 import (
 	"context"
+	"go-booking-management-init/internal/domain/auth"
+	"go-booking-management-init/internal/domain/booking"
 	"go-booking-management-init/internal/domain/room"
 	"testing"
 	"time"
@@ -128,5 +130,26 @@ func TestRoomRepository_Integration(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, "A-1", detail.Room.RoomNumber)
 		assert.Empty(t, detail.Bookings)
+
+		// GetDetail with bookings
+		bookingRepo := NewSQLCBookingRepository(db)
+		authRepo := NewSQLCAuthRepository(db)
+		u, _ := authRepo.Create(ctx, &auth.User{Email: "detail@example.com", PasswordHash: "h", Role: "customer"})
+		defer func() { _, _ = db.Exec("DELETE FROM users WHERE id = $1", u.ID) }()
+
+		b, _ := bookingRepo.Create(ctx, &booking.Booking{
+			UserID:     u.ID,
+			RoomID:     r1.ID,
+			StartDate:  time.Now().Add(2000 * time.Hour),
+			EndDate:    time.Now().Add(2001 * time.Hour),
+			TotalPrice: 100,
+			Status:     booking.StatusConfirmed,
+		})
+		defer func() { _, _ = db.Exec("DELETE FROM bookings WHERE id = $1", b.ID) }()
+
+		detailWithB, err := repo.GetDetail(ctx, r1.ID)
+		assert.NoError(t, err)
+		assert.NotEmpty(t, detailWithB.Bookings)
+		assert.Equal(t, b.ID, detailWithB.Bookings[0].ID)
 	})
 }

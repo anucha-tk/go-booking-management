@@ -69,6 +69,11 @@ tasks:
     cmds:
       - migrate -path {{.MIGRATIONS_PATH}} -database "{{.DB_URL}}" down 1
 
+  db:seed:
+    desc: Seed database with initial data
+    cmds:
+      - go run cmd/seed/main.go
+
   test:
     desc: Run unit tests
     cmds:

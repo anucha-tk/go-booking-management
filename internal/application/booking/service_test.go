@@ -39,6 +39,14 @@ func (m *mockBookingRepo) ListByUser(ctx context.Context, userID int32) ([]*book
 	return args.Get(0).([]*booking.UserBookingInfo), args.Error(1)
 }
 
+func (m *mockBookingRepo) ListByRoom(ctx context.Context, roomID int32) ([]*booking.Booking, error) {
+	args := m.Called(ctx, roomID)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).([]*booking.Booking), args.Error(1)
+}
+
 func (m *mockBookingRepo) ListAll(ctx context.Context) ([]*booking.AdminBookingInfo, error) {
 	args := m.Called(ctx)
 	if args.Get(0) == nil {

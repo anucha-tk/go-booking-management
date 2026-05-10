@@ -125,4 +125,63 @@ func TestBookingRepository_Integration(t *testing.T) {
 		assert.NotNil(t, created2)
 		defer func() { _, _ = db.Exec("DELETE FROM bookings WHERE id = $1", created2.ID) }()
 	})
+
+	t.Run("ListByRoom", func(t *testing.T) {
+		b := &booking.Booking{
+			UserID:     u.ID,
+			RoomID:     rm.ID,
+			StartDate:  time.Now().Add(1000 * time.Hour),
+			EndDate:    time.Now().Add(1001 * time.Hour),
+			TotalPrice: 100,
+			Status:     booking.StatusConfirmed,
+		}
+		created, err := repo.Create(ctx, b)
+		assert.NoError(t, err)
+		defer func() { _, _ = db.Exec("DELETE FROM bookings WHERE id = $1", created.ID) }()
+
+		list, err := repo.ListByRoom(ctx, rm.ID)
+		assert.NoError(t, err)
+		assert.GreaterOrEqual(t, len(list), 1)
+		found := false
+		for _, bl := range list {
+			if bl.ID == created.ID {
+				found = true
+				break
+			}
+		}
+		assert.True(t, found)
+	})
+
+	t.Run("GetByID", func(t *testing.T) {
+		b := &booking.Booking{
+			UserID:     u.ID,
+			RoomID:     rm.ID,
+			StartDate:  time.Now().Add(2000 * time.Hour),
+			EndDate:    time.Now().Add(2001 * time.Hour),
+			TotalPrice: 100,
+			Status:     booking.StatusConfirmed,
+		}
+		created, err := repo.Create(ctx, b)
+		assert.NoError(t, err)
+		defer func() { _, _ = db.Exec("DELETE FROM bookings WHERE id = $1", created.ID) }()
+
+		found, err := repo.GetByID(ctx, created.ID)
+		assert.NoError(t, err)
+		assert.Equal(t, created.ID, found.ID)
+
+		_, err = repo.GetByID(ctx, 999999)
+		assert.ErrorIs(t, err, booking.ErrBookingNotFound)
+	})
+
+	t.Run("ListByUser", func(t *testing.T) {
+		list, err := repo.ListByUser(ctx, u.ID)
+		assert.NoError(t, err)
+		assert.GreaterOrEqual(t, len(list), 0)
+	})
+
+	t.Run("ListAll", func(t *testing.T) {
+		list, err := repo.ListAll(ctx)
+		assert.NoError(t, err)
+		assert.GreaterOrEqual(t, len(list), 0)
+	})
 }
