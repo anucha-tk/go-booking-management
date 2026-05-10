@@ -51,7 +51,6 @@ func (r *SQLCBookingRepository) GetByID(ctx context.Context, id int32) (*booking
 
 	return mapToDomainBooking(res), nil
 }
-
 func (r *SQLCBookingRepository) ListByUser(ctx context.Context, userID int32) ([]*booking.UserBookingInfo, error) {
 	res, err := r.queries.ListBookingsByUser(ctx, userID)
 	if err != nil {
@@ -62,6 +61,28 @@ func (r *SQLCBookingRepository) ListByUser(ctx context.Context, userID int32) ([
 	for i, v := range res {
 		bookings[i] = &booking.UserBookingInfo{
 			Booking: *mapToDomainBooking(v),
+		}
+	}
+	return bookings, nil
+}
+
+func (r *SQLCBookingRepository) ListByRoom(ctx context.Context, roomID int32) ([]*booking.Booking, error) {
+	res, err := r.queries.ListBookingsByRoom(ctx, ListBookingsByRoomParams{
+		RoomID: roomID,
+		Limit:  100,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	bookings := make([]*booking.Booking, len(res))
+	for i, v := range res {
+		bookings[i] = &booking.Booking{
+			ID:        v.ID,
+			RoomID:    v.RoomID,
+			StartDate: v.StartDate,
+			EndDate:   v.EndDate,
+			Status:    v.Status,
 		}
 	}
 	return bookings, nil
