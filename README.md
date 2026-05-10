@@ -5,6 +5,7 @@ A robust, enterprise-grade booking management system built with Go, focusing on 
 ## 🚀 Overview
 
 This system provides a comprehensive set of APIs for managing room bookings, featuring:
+
 - **JWT-based Authentication** with token revocation (JTI).
 - **Role-Based Access Control (RBAC)** for users and administrative officers.
 - **Room Management** with detailed views and booking history.
@@ -71,16 +72,16 @@ Detailed documentation is available in the `docs/` directory:
 
 We use `Taskfile` for common development operations:
 
-| Task | Description |
-| :--- | :--- |
-| `task run` | Run the API server |
-| `task watch` | Run with live reload (Air) |
-| `task build` | Build the binary |
-| `task test` | Run all unit tests |
-| `task test:coverage` | Run tests and verify 80% threshold |
-| `task lint` | Run golangci-lint |
-| `task swagger:generate` | Update API documentation |
-| `task docker:up` / `down` | Manage DB container |
+| Task                      | Description                        |
+| :------------------------ | :--------------------------------- |
+| `task run`                | Run the API server                 |
+| `task watch`              | Run with live reload (Air)         |
+| `task build`              | Build the binary                   |
+| `task test`               | Run all unit tests                 |
+| `task test:coverage`      | Run tests and verify 80% threshold |
+| `task lint`               | Run golangci-lint                  |
+| `task swagger:generate`   | Update API documentation           |
+| `task docker:up` / `down` | Manage DB container                |
 
 ## 🧪 Testing
 
